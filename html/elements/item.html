@@ -1,0 +1,45 @@
+<div class="fforge_item flexcolumn flex">
+    <div class="iMain flexrow">
+        <div class="handle">&nbsp;</div>
+        <img src="traverse{info.img.current}" class="iImage">
+        <div class="flex iName">traverse{info.name.current}
+            <click dui_cond="@expanded == 1">
+                <setAttr dui_name="expanded" dui_value="0"></setAttr>
+            </click>
+            <click dui_cond="@expanded == 0">
+                <setAttr dui_name="expanded" dui_value="1"></setAttr>
+            </click>
+        </div>
+        <div class="iQuantity" dui_edit="attributes.quantity"></div>
+        <div>&nbsp;x&nbsp;</div>
+        <div class="iWeight" dui_edit="attributes.weight"></div>
+        <div>&nbsp;lb</div>
+        <div class="iButtons">
+            <span class="glyphicon glyphicon-comment printElement"></span>
+            <span class="glyphicon glyphicon-edit editElement"></span>
+            <span class="glyphicon glyphicon-trash removeElement"></span>
+
+        </div>
+    </div>
+    <div class="iExpandable flexrow" dui_cond="@expanded == 1">
+    </div>
+</div>
+<style>
+    .editElement, .removeElement {
+        cursor:pointer;
+    }
+    .fforge_item{
+        margin-top:5px;
+    }
+    .iMain:hover .iButtons
+    {
+        display:block;
+    }
+    .iMain .iButtons{
+        display:none;
+    }
+    .iImage
+    {
+        margin-right:5px;
+    }
+</style>

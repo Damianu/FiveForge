@@ -1,0 +1,32 @@
+<div class="flex flexrow flexaround">
+    <div class="dice rolltraverse{roll.dices.0.roll}" dui_tooltip="traverse{roll.diceOnly}">
+        traverse{roll.total}    
+    </div>
+</div>
+<style>
+.roll1
+{
+    color: #c0392b !important;
+}
+.roll20
+{
+    color: #2ecc71 !important;
+}
+.dice
+{
+    @size: 48px;
+    height:@size;
+    width:@size;
+    line-height:@size;
+    text-align:center;
+    background: url(/content/d20.svg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color:white;
+    margin-top:5px;
+    margin-bottom:5px;
+    font-size:1.5em;
+    font-family: "mr._eaves_small_capsregular";
+    font-weight: 700;
+}
+</style>

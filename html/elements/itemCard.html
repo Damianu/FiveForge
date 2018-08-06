@@ -1,0 +1,168 @@
+<div class="eMain flexcolumn flex">
+    <div class="eTop flexrow">
+        <img class="eIcon" src="traverse{itemIcon}">
+        <div class="eName">
+            traverse{itemName}
+        </div>
+    </div>
+
+    <div class="eDetails">
+           traverse{itemDescription}
+    </div>
+    <div class="eRolls flexrow">
+        <loop dui_key="target" dui_lookup="rolls">
+            <div class="flexcolumn eRollGroup flex">
+                <div class="flex flexcenter flexrow">
+                    <div class="eAttackDice" dui_tooltip="traverse{%target%.attack.diceOnly}"><div class="rolltraverse{%target%.attack.dices.0.roll}">traverse{%target%.attack.total}</div></div>
+                    <loop dui_key="bonus" dui_lookup="%target%.attackBonuses">
+                        <div class="eAttackBonus" dui_tooltip="traverse{%bonus%.value.diceOnly}<br>traverse{%bonus%.name}"><span dui_cond="@%bonus%.value.total >= 0">+</span>traverse{%bonus%.value.total}</div>
+                    </loop>
+                </div>
+                <div class="eDamage flex flexcolumn">
+                    <div class="flex"><span dui_tooltip="traverse{%target%.damage.diceOnly}">traverse{%target%.damage.total}</span> <span class="eDMGBonus" dui_cond="@%target%.attack.dices.0.roll == 20" dui_tooltip="traverse{%target%.critBonus.diceOnly}"> + traverse{%target%.critBonus.total}</span></div>
+                    <div class="smallText">traverse{%target%.damageType}</div>
+                </div>
+                <loop dui_key="bonus" dui_lookup="%target%.damageBonuses">
+                    <div class="eDamage flex flexcolumn">
+                        <div class="flex"><span dui_tooltip="traverse{%bonus%.value.diceOnly}">traverse{%bonus%.value.total}</span></div>
+                        <div class="smallText">traverse{%bonus%.name}</div>
+                    </div>
+                </loop>
+            </div>
+        </loop>
+    </div>
+</div>
+<style>
+
+/*
+    <div class="eRoll flexrow">
+        <div class="flex rightborder flexcenter">
+            <div class="eAttackDice" dui_tooltip="traverse{attack1.diceOnly}"><div class="rolltraverse{attack1.dices.0.roll}">traverse{attack1.total}</div></div>
+        </div>
+        <div class="flex flexcenter">
+                <div class="eAttackDice" dui_tooltip="traverse{attack2.diceOnly}"><div class="rolltraverse{attack2.dices.0.roll}">traverse{attack2.total}</div></div>
+        </div>
+    </div>
+    <div class="eDamage flexrow">
+        <div class="flex rightborder flexcolumn">
+            <div class="flex"><span dui_tooltip="traverse{damage1.diceOnly}">traverse{damage1.total}</span> <span class="eDMGBonus" dui_cond="@attack1.dices.0.roll == 20" dui_tooltip="traverse{critBonus1.diceOnly}"> + traverse{critBonus1.total}</span></div>
+            <div class="smallText">traverse{damageType}</div>
+        </div>
+        <div class="flex flexcolumn">
+            <div class="flex"><span dui_tooltip="traverse{damage2.diceOnly}">traverse{damage2.total}</span> <span class="eDMGBonus" dui_cond="@attack2.dices.0.roll == 20" dui_tooltip="traverse{critBonus2.diceOnly}"> + traverse{critBonus2.total}</span></div>
+            <div class="smallText">traverse{damageType}</div>
+        </div>
+    </div>
+    <div class="eDamage flexrow" dui_cond="@hasAddDamage">
+            <div class="flex rightborder flexcolumn">
+                <div class="flex"><span dui_tooltip="traverse{damage1_add.diceOnly}">traverse{damage1_add.total}</span> <span class="eDMGBonus" dui_cond="@attack1.dices.0.roll == 20" dui_tooltip="traverse{critBonus1_add.diceOnly}"> + traverse{critBonus1_add.total}</span></div>
+                <div class="smallText">traverse{damageType_add}</div>
+            </div>
+            <div class="flex flexcolumn">
+                <div class="flex"><span dui_tooltip="traverse{damage2_add.diceOnly}">traverse{damage2_add.total}</span> <span class="eDMGBonus" dui_cond="@attack2.dices.0.roll == 20" dui_tooltip="traverse{critBonus2_add.diceOnly}"> + traverse{critBonus2_add.total}</span></div>
+                <div class="smallText">traverse{damageType_add}</div>
+            </div>
+    </div>
+*/
+    .eRolls
+    {
+        margin-top:10px;
+    }
+    .eDamage{
+        border-top: 1px solid rgba(30, 30, 30, 0.1);
+    }
+    .eRollGroup:nth-child(1)
+    {
+        border-right: 1px solid rgba(30, 30, 30, 0.1);
+    }
+    .eIcon
+    {
+        width:32px;
+        height:32px;
+        margin-right:5px;
+    }
+    .eMain
+    {
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        margin:10px;
+        border-radius:5px;
+        padding:10px;
+    }
+    .eName
+    {
+        font-family: "Nodesto Caps Condensed";
+        font-size:2em;
+    }
+    .eRoll
+    {
+        border-bottom: 1px solid rgba(30, 30, 30, 0.1);
+        border-top: 1px solid rgba(30, 30, 30, 0.1);
+        padding:10px;
+        margin-top:10px;
+        display:flex;
+        flex-direction:row;
+        justify-content:center;
+        justify-items:center;
+    }
+    .eAttackBonus
+    {
+        font-size:1.8em;
+        line-height:48px;
+        font-weight: 700;
+        font-family: "mr._eaves_small_capsregular";
+        margin-left:5px;
+    }
+    .eAttackDice
+    {
+        background: url(/content/d20.svg);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        font-family: "mr._eaves_small_capsregular";
+        font-weight: 700;
+        width:48px;
+        height:48px;
+        display:flex;
+        flex-direction:row;
+        justify-content:center;
+        justify-items:center;
+        line-height:48px;
+        font-size:1.8em;
+        color:white;
+    }
+    .eDamage
+    {
+        text-align:center;
+        font-weight: 700;
+        font-size: 1.5em;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+    .rightborder
+    {
+        border-right: 1px solid rgba(30, 30, 30, 0.1);
+    }
+    .smallText
+    {
+        font-size:0.5em;
+        color:rgb(40,40,40);
+    }
+    .eIcons
+    {
+        display:flex;
+        flex-direction:row-reverse;
+    }
+    .eIcons > *
+    {
+        width:16px;
+        height:16px;
+    }
+    .roll20, .eDMGBonus
+    {
+        color:#2ecc71;
+    }
+    .roll1
+    {
+        color:#c0392b;
+    }
+</style>

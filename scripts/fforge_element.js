@@ -1,0 +1,215 @@
+"use strict";
+
+
+FiveForge.DamageTypes = [
+    "Acid",
+    "Bludgeoning",
+    "Cold",
+    "Fire",
+    "Force",
+    "Lightning",
+    "Necrotic",
+    "Piercing",
+    "Poison",
+    "Psychic",
+    "Radiant",
+    "Slashing",
+    "Thunder",
+]
+FiveForge.ItemTypes = [
+    "Generic",
+    "Weapon",
+    "Armor",
+    "Container",
+    "Spellcasting",
+]
+FiveForge.ItemEditableAttributes = {}
+FiveForge.ElementTemplates = {}
+
+
+class FFElement
+{
+    constructor(data)
+    {
+        if(data)
+        {
+            if(data instanceof FFElement)
+            {
+                return data;
+            }
+            if(FFElement.types[data._type] === undefined)
+            {
+                data._type = "Item";
+            }
+            var type = FFElement.types[data._type]
+            var element = new type();
+            for(var k in data.attributes)
+            {
+                data.attributes[k].editType = undefined;
+            }
+            element._data = $.extend(true, {}, type.dataTemplate, data);
+            console.log(element._data);
+            return new Proxy(element, element);
+        }
+    }
+    get (target, prop) {
+        var p = this[prop]
+        if(p!==undefined)
+        {
+            return p;
+        }
+        this.calcData();
+        return this._data[prop];
+    }
+    set (target, prop, val) {
+        if(this[prop]!==undefined)
+        {
+            this[prop] = val;
+            return true;
+        }
+        this._data[prop] = val;
+        return true;
+    }
+    getProp(name)
+    {
+        //console.log(name);
+        return this._data.attributes[name].current;
+    }
+
+    calcData()
+    {
+
+    }
+    get template()
+    {
+        return "invalid";
+    }
+    get cardTemplate()
+    {
+        return "invalid";
+    }
+
+
+    get type()
+    {
+        return this._data._type;
+    }
+
+    renderCard(obj)
+    {
+        return FiveForge.renderTemplate("elements/"+this.cardTemplate, obj, this._data)
+    }
+    render(obj)
+    {
+        return FiveForge.renderTemplate("elements/"+this.template, obj, this._data)
+    }
+    getEditableAttributes()
+    {
+        return this.attributes;
+    }
+
+    static setupType(name, t)
+    {
+        t = t || this;
+        FFElement.types = FFElement.types || {}
+        FiveForge.Compendium[name] = FiveForge.Compendium[name] || {};
+        FFElement.types[name] = t;
+        t._class = name;
+        t.dataTemplate = {
+            _t: "i",
+            _type: name,
+            info:
+            {
+                name:{
+                    name:"Name",
+                    current:"Name",
+                    editType:"text",
+                },
+                notes:
+                {
+                    name:"Notes",
+                    current:"",
+                    editType:"longText"
+                },
+                img:
+                {
+                    name:"Icon",
+                    current:"/content/FiveForge/icons/swap-bag.svg",
+                    editType:"iconPicker",
+                }
+            },
+            attributes:
+            {
+            }
+        }
+    }
+    static registerAttribute(name, fancyName, type, def)
+    {
+        this.dataTemplate.attributes[name] =
+        {
+            name: fancyName,
+            editType: type,
+            current: def,
+        }
+    }
+}
+FFElement.prototype.toJSON = function()
+{
+    return this._data;
+}
+
+
+FiveForge.registerUI("elementCard", function(obj,app,scope)
+{
+    return FiveForge.renderTemplate("elements/itemCard", obj, obj)
+//    var element = new FFElement(obj.element);
+});
+
+FiveForge.registerUI("elementList", function(obj,app,scope)
+{
+
+    var list = $("<div class='flexcolumn'>");
+
+    scope.type = scope.type || "Item";
+    scope.path = scope.path || "elements."+scope.type;
+    var elements = sync.traverse(obj.data, scope.path);
+    console.log(scope.path, "<elements", elements);
+    for(var i = 0; i<elements.length;i++)
+    {
+        let e = elements[i];
+        e._type = e._type || "Item";
+        e = new FFElement(e);
+        elements[i] = e;
+        e.expanded = e.expanded||{name:"",current:0}
+        var render = e.render(obj);
+        list.append(render);
+        render.data("element", e);
+        render.find(".editElement").click(function(){
+            FiveForge.createElementEditor(e, function(newData){
+                e._data = newData;
+                obj.sync("updateAsset");
+            })
+        });
+        render.find(".removeElement").click(function(){
+            elements.splice(elements.indexOf(e),1)
+            obj.sync("updateAsset");
+        });
+    }
+    var spacer = $("<div class='flex' style='margin-top:15px'>").appendTo(list)
+    var addDiv = $("<div class='flexrow'>").appendTo(list)
+    var addName = $("<input class='flex' list= 'fforge_"+scope.type+"'>").appendTo(addDiv)
+    var addButton = $("<button class='cAddElement'>+</button>").appendTo(addDiv);
+    addButton.click(function(){
+        var name = addName.val();
+        var compItem = FiveForge.Compendium[scope.type][name]||{};
+        compItem._type = scope.type;
+        console.log("HERE >>",compItem);
+        var item = new FFElement(compItem);
+        console.log("HERE >>",item);
+        item.info.name.current = name;
+        elements.push(item);
+        obj.sync("updateAsset");
+    });
+
+    return list;
+});
