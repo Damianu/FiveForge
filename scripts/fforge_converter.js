@@ -513,6 +513,61 @@ let parseTraits = function(json)
     console.log(elements);
     return elements;
 }
+/*
+    Spell Parser
+
+*/
+let schoolMap = 
+{
+    "A": "Abjuration",
+    "C": "Conjuration",
+    "D": "Divination",
+    "EN": "Enchantment",
+    "EV": "Evocation",
+    "I": "Illusion",
+    "N": "Necromancy",
+    "T": "Transmutation",
+}
+
+let parseSpells = function(json)
+{
+    let elements = {};
+    let rawElements = json.spell;
+    for(let raw in rawElements)
+    {
+        raw = rawElements[raw];
+        if(!Array.isArray(raw.text))
+        {
+            raw.text = [raw.text];
+        }
+        raw.text =  raw.text.join("<br>")+"<br>";
+        let element = new FFElement({_type:"Spell"});
+        
+        element.info.name.current = raw.name;
+        element.info.notes.current = parseNotes(raw.text);
+
+        
+        raw.components = raw.components.replace(/\(.+\)/g,function(m){
+            raw.materials = /\((.+)\)/.exec(m)[1];
+            return "";
+        })
+
+        element.attributes.level.current = raw.level;
+        element.attributes.school.current = schoolMap[raw.school];
+        element.attributes.materials.current = raw.materials;
+        element.attributes.components.current = raw.components;
+        element.attributes.duration.current = raw.duration;
+        element.attributes.range.current = raw.range;
+        element.attributes.time.current = raw.time;
+        element.attributes.classes.current = raw.classes;
+        element.attributes.ritual.current = (raw.ritual == "YES");
+
+
+        elements[element.info.name.current] = element;
+    }
+    return elements;
+}
+
 
 /*
     Converter UI
@@ -545,6 +600,7 @@ FiveForge.registerUI("xmlConverter", function(obj, app, scope)
         dropZone.text(scope.outputText);
         createConverter("Trait", parseTraits, json)
         createConverter("Item", parseItems, json)
+        createConverter("Spell", parseSpells, json)
     });
 
 

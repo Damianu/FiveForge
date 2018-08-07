@@ -20,11 +20,43 @@ FiveForge.SpellLevels[7] = "7";
 FiveForge.SpellLevels[8] = "8";
 FiveForge.SpellLevels[9] = "9";
 FiveForge.SpellLevels[10] = "10";
+
+FiveForge.SpellTypes = [
+    "Cast", //Illusion
+    "Attack + Damage", //Firebolt
+    "Damage Only", //Sleep
+    "Attack + Save + Damage", // Fireball
+]
+
+FiveForge.SpellSchools = [
+    "Abjuration",
+    "Enchantment",
+    "Conjuration",
+    "Illusion",
+    "Transmutation",
+    "Divination",
+    "Necromancy",
+    "Evocation",
+]
+
 /*
     >>> SETUP <<<
 */
 FFSpell.setupType("Spell");
-FFSpell.registerAttribute("classes","Classes","text")
+FFSpell.registerAttribute("spellType","Type",FiveForge.SpellTypes, "Cast")
+FFSpell.registerAttribute("school","School",FiveForge.SpellSchools, "Abjuration")
 FFSpell.registerAttribute("level","Level",FiveForge.SpellLevels, 1)
-FFSpell.registerAttribute("components","Components","text","V, S, M")
-FFSpell.registerAttribute("materials","Materials","text","spider web")
+FFSpell.registerAttribute("components","Components","text","")
+FFSpell.registerAttribute("materials","Materials","text","")
+FFSpell.registerAttribute("classes","Classes","text")
+FFSpell.registerAttribute("failedSave","On Failed Save","text", "")
+FFSpell.registerAttribute("time","Cast Time","text", "1 action")
+FFSpell.registerAttribute("duration","Duration","text", "")
+FFSpell.registerAttribute("range","Range","text", "0")
+FFSpell.registerAttribute("saveAbility","Save Ability","text", "Dexterity")
+FFSpell.registerAttribute("damage","Damage","text", "0")
+FFSpell.registerAttribute("damagePerLevel","Damage added on higher levels","text", "")
+
+
+FFSpell.registerAttribute("ritual","Ritual","checkbox", "0")
+FFSpell.registerAttribute("prepared","Prepared","checkbox", "0")

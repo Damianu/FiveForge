@@ -203,7 +203,7 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
     var spacer = $("<div class='flex' style='margin-top:15px'>").appendTo(list)
     var addDiv = $("<div class='flexrow'>").appendTo(list)
     var addName = $("<input class='flex' list= 'fforge_"+scope.type+"'>").appendTo(addDiv)
-    var addButton = $("<button class='cAddElement'>+</button>").appendTo(addDiv);
+    var addButton = $("<button class='cAddElement'>+"+scope.type+"</button>").appendTo(addDiv);
     addButton.click(function(){
         var name = addName.val();
         var compItem = FiveForge.Compendium[scope.type][name]||{};

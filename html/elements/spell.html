@@ -1,8 +1,9 @@
 <div class="fforge_item flexcolumn flex">
     <div class="iMain flexrow">
-        <div class="handle flexcolumn">
+        <div class="handle flexcolumn schooltraverse{attributes.school.current}">
             <div class="spellLevel">
-                C
+                <span dui_cond="@attributes.level == 0">C</span>
+                <span dui_cond="@attributes.level != 0">traverse{attributes.level.current}</span>
             </div>
         </div>
         <img src="traverse{info.img.current}" class="iImage">
@@ -14,7 +15,7 @@
                 <setAttr dui_name="expanded" dui_value="1"></setAttr>
             </click>
         </div>
-        <div class="iQuantity">traverse{attributes.components.current}<span dui_cond="@attributes.materials">(traverse{attributes.materials.current})</span></div>
+        <div class="iQuantity">traverse{attributes.components.current}</div>
         <div class="iButtons">
             <span class="glyphicon glyphicon-comment printElement"></span>
             <span class="glyphicon glyphicon-edit editElement"></span>
@@ -23,9 +24,56 @@
         </div>
     </div>
     <div class="iExpandable flexrow" dui_cond="@expanded == 1">
+        <span dui_cond="@attributes.materials" class="noBold"><b>Materials:&nbsp;</b>traverse{attributes.materials.current}</span>
     </div>
 </div>
 <style>
+    .noBold
+    {
+        font-weight:normal;
+    }
+    .iExpandable
+    {
+        padding-left:15px;
+    }
+    .schoolAbjuration{
+        background:#6DC3D3 !important;
+        color:black  !important;
+    }
+    .schoolEnchantment{
+        background:#B34485  !important;
+        color:white  !important;
+    }
+    .schoolEnchantment{
+        background:#B34485  !important;
+        color:white  !important;
+    }
+    .schoolConjuration{
+        background:#59326C  !important;
+        color:white  !important;
+    }
+    .schoolIllusion{
+        background:#59326C  !important;
+        color:white  !important;
+    }
+    .schoolTransmutation{
+        background:#7EBF5D  !important;
+        color:black  !important;
+    }
+    .schoolDivination{
+        background:#D7CB42  !important;
+        color:black  !important;
+    }
+    .schoolNecromancy{
+        background:#804539  !important;
+        color:white  !important;
+    }
+    .schoolEvocation{
+        background:#377C54  !important;
+        color:white  !important;
+    }
+
+
     .iImage
     {
         margin-left:10px;
