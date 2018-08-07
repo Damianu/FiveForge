@@ -23,7 +23,7 @@
 
         </div>
     </div>
-    <div class="iExpandable flexrow" dui_cond="@expanded == 1">
+    <div class="iExpandable flexcolumn" dui_cond="@expanded == 1">
         <span dui_cond="@attributes.materials" class="noBold"><b>Materials:&nbsp;</b>traverse{attributes.materials.current}</span>
     </div>
 </div>
@@ -139,11 +139,6 @@
     .iButtons
     {
         margin-left:15px;
-    }
-    .iActions
-    {
-        margin-left:5px;
-        margin-top:5px;
     }
     .iActions > button
     {

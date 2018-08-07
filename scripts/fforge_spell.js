@@ -7,6 +7,85 @@ class FFSpell extends FFElement
     {
         return "spell"
     }
+    get cardTemplate()
+    {
+        return "spellCard";
+    }
+    getActions(obj)
+    {
+        let actions = [];
+        var attack = {
+            name:"Cast",
+            roll: "",
+        }
+        var prof = obj.data.counters.proficiency.current;
+        var spellAb = obj.data.info.spellcastingAbility.current;
+        var statBonus = obj.data.stats[spellAb].bonus;
+
+        if(this._data.attributes.spellType.current.indexOf("Attack") >= 0)
+        {
+            attack.roll = "d20 + " + statBonus + "["+spellAb+"] + " + prof + "[Proficiency]";
+        }
+        actions.push(attack);
+        let damages = this._data.attributes.damage.current;
+        for(let i = 0; i< damages.length; i++)
+        {
+            let damage = damages[i];
+            actions.push({
+                name: damage.name,
+                roll: damage.value,
+            })
+        }
+        return actions;
+    }
+    render(obj)
+    {
+        let render = super.render(obj);
+        let detailDiv = render.find(".iExpandable");
+        let actions = this.getActions(obj);
+        let spell = this;
+        if(actions.length > 0)
+        {
+            let actionDiv = $("<div class='iActions'>").appendTo(detailDiv);
+            for(let i =0; i < actions.length; i++)
+            {
+                let button = $("<button>").appendTo(actionDiv);
+                let action = actions[i];
+                button.text(action.name);
+                button.tooltip({title:action.roll, container: 'body'});
+                var uid = getCookie("UserID");
+                let spellData =  duplicate(spell._data);
+                spellData.attributes.classes.current = spellData.attributes.classes.current.replace(/,/g,",<br>");
+                button.click(function(){
+                    if(action.name == "Cast")
+                    {
+                        let rolls = false;
+                        if(action.roll)
+                        {
+                            rolls = [];
+                            for(let i=0; i < 2; i++)
+                            {
+                                rolls.push(FiveForge.simpleEval(action.roll));
+                            }
+                        }
+                            runCommand("chatEvent",{
+                                ui:"fforge_elementCard",
+                                rolls: rolls,
+                                element: spellData,
+                                person : obj.data.info.name.current,
+                                icon : obj.data.info.img.current,
+                                user : game.players.data[uid].displayName,
+                            })
+                    }
+                    else
+                    {
+                        FiveForge.sendCharacterRoll(obj, action.roll, "Rolls damage for " + spellData.info.name.current);
+                    }
+                })
+            }
+        }
+        return render;
+    }
 }
 FiveForge.SpellLevels = {}
 FiveForge.SpellLevels[0] = "Cantrip";
@@ -25,7 +104,7 @@ FiveForge.SpellTypes = [
     "Cast", //Illusion
     "Attack + Damage", //Firebolt
     "Damage Only", //Sleep
-    "Attack + Save + Damage", // Fireball
+    "Save + Damage", // Fireball
 ]
 
 FiveForge.SpellSchools = [
@@ -58,3 +137,4 @@ FFSpell.registerAttribute("damage","Damage","modifierEdit", [])
 
 FFSpell.registerAttribute("ritual","Ritual","checkbox", "0")
 FFSpell.registerAttribute("prepared","Prepared","checkbox", "0")
+

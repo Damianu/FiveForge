@@ -564,7 +564,10 @@ let parseSpells = function(json)
         element.attributes.spellType.current = "Cast"
 
         element.tags[schoolMap[raw.school]] = true;
-        element.tags.Ritual = (raw.ritual == "YES");
+        if(raw.ritual == "YES")
+        {
+            element.tags.Ritual = true;
+        }
 
         var classes = raw.classes.split(",");
         for(let i = 0; i< classes.length; i++)
@@ -605,9 +608,13 @@ let parseSpells = function(json)
             }
 
             raw.text.replace(/([a-zA-Z]+) saving throw/g, function(_, m){
-                element.attributes.spellType.current =  "Attack + Save + Damage"
+                element.attributes.spellType.current =  "Save + Damage"
                 element.attributes.saveAbility.current = m;
             });
+            if(raw.text.indexOf("ranged spell attack") >= 0 )
+            {
+                element.attributes.spellType.current = "Attack + Damage"
+            }
 
         }
         if(raw.text.indexOf("Higher Levels") >= 0)

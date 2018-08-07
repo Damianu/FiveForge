@@ -205,7 +205,7 @@ class FFItem extends FFElement
                 let button = $("<button>").appendTo(actionDiv);
                 let action = actions[i];
                 button.text(action.name);
-                button.tooltip({title:action.attack.replace(/ /g, "&nbsp;"),html:true});
+                button.tooltip({title:action.attack.replace(/ /g, "&nbsp;"),html:true, container: 'body'});
                 button.click(function(){
 
                     var rolls = [];
@@ -262,6 +262,7 @@ class FFItem extends FFElement
                         itemDescription: item._data.info.notes.current,
                         itemIcon: item._data.info.img.current,
                         itemName: item._data.info.name.current,
+                        element: duplicate(item._data),
                         audio:FiveForge.getSound("sword"),
                         person : obj.data.info.name.current,
                         icon : obj.data.info.img.current,

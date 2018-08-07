@@ -271,6 +271,7 @@ FiveForge.includeTemplate("elements/trait");
 FiveForge.includeTemplate("elements/spell");
 
 FiveForge.includeTemplate("elements/itemCard");
+FiveForge.includeTemplate("elements/spellCard");
 
 //Global styles
 FiveForge.includeStyle("fforge_fonts.less");

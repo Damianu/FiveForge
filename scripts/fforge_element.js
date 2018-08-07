@@ -97,7 +97,7 @@ class FFElement
 
     renderCard(obj)
     {
-        return FiveForge.renderTemplate("elements/"+this.cardTemplate, obj, this._data)
+        return FiveForge.renderTemplate("elements/"+this.cardTemplate, obj, obj)
     }
     render(obj)
     {
@@ -166,7 +166,8 @@ FFElement.prototype.toJSON = function()
 
 FiveForge.registerUI("elementCard", function(obj,app,scope)
 {
-    return FiveForge.renderTemplate("elements/itemCard", obj, obj)
+    let elem = new FFElement(obj.element);
+    return elem.renderCard(obj)
 //    var element = new FFElement(obj.element);
 });
 
