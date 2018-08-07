@@ -13,7 +13,7 @@ FiveForge.createElementEditor = function(data, callback)
         id : "edit-item",
         maximize : true,
         minimize : true,
-        title: "Element Editor:"+data._type,
+        title: "Element Editor: "+data._type,
         style : {"width" : "500px", "height" : "700px"}
       }, newApp);
     game.locals["fforge_elementEditor"].popout = pop;
@@ -157,7 +157,11 @@ FiveForge.registerHTMLUI("elementEditor", "elementEditor", function(handle, obj,
             $(this).click();
         }
     })
-
+    handle.find(".eTagAdd").click(function(){
+        var name = handle.find(".eTagAddInput").val();
+        obj.data.tags[name] = true;
+        obj.sync("updateAsset");
+    })
     var confirm = handle.find("#confirm");
     confirm.click(function(){
         obj.popout.remove();

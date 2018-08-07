@@ -70,7 +70,22 @@ function buildEvent(obj, app, scope, context, main)
         var val = $(this).data("dvalue");
         var tgtval = $(this).data("dtgtval")||"current";
         funcArray.push(function(){
-            sync.traverse(context,name)[tgtval] = val;
+            if(tgtval=="direct")
+            {
+                sync.traverse(context,name) = val;
+            }
+            else
+            {
+                sync.traverse(context,name)[tgtval] = val;
+            }
+            obj.sync("updateAsset");
+        });
+    });
+    main.children("deleteAttr").each(function(){
+        var name = $(this).data("dname");
+        var tgtval = $(this).data("dtgtval")||"current";
+        funcArray.push(function(){
+            delete sync.traverse(context,name)[tgtval];
             obj.sync("updateAsset");
         });
     });
@@ -225,6 +240,7 @@ function processHTML(obj, app, scope, context, html,main)
         var entryHTML = element.html();
 
         var key = $(this).data("dkey")
+        var keyonly = $(this).data("dkeyonly")
         var count = $(this).data("dcount");
         var target = $(this).data("dlookup")
         if(count)
@@ -249,6 +265,11 @@ function processHTML(obj, app, scope, context, html,main)
             {
                 var re = new RegExp(escapeRegExp("%"+key+"%"), "g");
                 var newHTML = entryHTML.replace(re,target+"."+k);
+
+                re = new RegExp(escapeRegExp("%"+keyonly+"%"), "g");
+                newHTML = newHTML.replace(re,k);
+
+
                 var newElement = $(newHTML).appendTo(parent);
                 newHTML = newElement.html();
                 processHTML(obj, app, scope, context, newHTML,newElement);

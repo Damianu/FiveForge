@@ -140,6 +140,9 @@ class FFElement
             },
             attributes:
             {
+            },
+            tags:
+            {
             }
         }
     }
