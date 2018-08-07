@@ -338,7 +338,7 @@ FiveForge.buildDUI = function(html, obj, context, app)
         {
             text = text.replace(/ /g,"&nbsp;");
         }
-        $(this).tooltip({title:text,html:true});
+        $(this).tooltip({title:text,html:true,container: 'body'});
     })
     main.find("[data-dscroll]").each(function(){
         var uid = obj._uid;
