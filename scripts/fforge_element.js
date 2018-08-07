@@ -48,7 +48,7 @@ class FFElement
                 data.attributes[k].editType = undefined;
             }
             element._data = $.extend(true, {}, type.dataTemplate, data);
-            console.log(element._data);
+            //console.log(element._data);
             return new Proxy(element, element);
         }
     }

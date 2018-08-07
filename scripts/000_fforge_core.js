@@ -45,8 +45,8 @@ const FiveForge = {
         })
     },
     renderUI:function(name,obj,app,scope)
-    { 
-        return sync.render(FiveForge.PREFIX+name,obj,app,scope);
+    {
+        return sync.render(FiveForge.PREFIX+name)(obj,app,scope);
     },
     newApp:function(name,...args)
     {
@@ -176,9 +176,7 @@ const FiveForge = {
     }
 }
 $('<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.7.1/less.min.js" ></script>').appendTo($("head"))
-FiveForge.includeStyle("fforge_fonts.less");
-FiveForge.includeStyle("fforge_main.less");
-FiveForge.includeStyle("characterSheet.less");
+
 FiveForge.registerHTMLUI("core","manager",function(handle, obj,app,scope) {
     FiveForge.init();
     var buttonMenu = handle.find("#buttons");
@@ -273,3 +271,6 @@ FiveForge.includeTemplate("elements/trait");
 FiveForge.includeTemplate("elements/spell");
 
 FiveForge.includeTemplate("elements/itemCard");
+
+//Global styles
+FiveForge.includeStyle("fforge_fonts.less");
