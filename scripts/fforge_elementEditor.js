@@ -159,8 +159,11 @@ FiveForge.registerHTMLUI("elementEditor", "elementEditor", function(handle, obj,
     })
     handle.find(".eTagAdd").click(function(){
         var name = handle.find(".eTagAddInput").val();
-        obj.data.tags[name] = true;
-        obj.sync("updateAsset");
+        if(name&&name.length > 0)
+        {
+            obj.data.tags[name] = true;
+            obj.sync("updateAsset");
+        }
     })
     var confirm = handle.find("#confirm");
     confirm.click(function(){
