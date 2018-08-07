@@ -17,8 +17,8 @@ FiveForge.createElementEditor = function(data, callback)
         style : {"width" : "500px", "height" : "700px"}
       }, newApp);
     game.locals["fforge_elementEditor"].popout = pop;
+    game.locals["fforge_elementEditor"].update();
     pop.resizable();
-      console.log(game.locals["fforge_elementEditor"].data)
 }
 var EditFields = {
     number: function(target, obj)
