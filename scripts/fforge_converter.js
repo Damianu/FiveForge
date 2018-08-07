@@ -542,11 +542,11 @@ let parseSpells = function(json)
         }
         raw.text =  raw.text.join("<br>")+"<br>";
         let element = new FFElement({_type:"Spell"});
-        
+
         element.info.name.current = raw.name;
         element.info.notes.current = parseNotes(raw.text);
 
-        
+
         raw.components = raw.components.replace(/\(.+\)/g,function(m){
             raw.materials = /\((.+)\)/.exec(m)[1];
             return "";
@@ -561,7 +561,54 @@ let parseSpells = function(json)
         element.attributes.time.current = raw.time;
         element.attributes.classes.current = raw.classes;
         element.attributes.ritual.current = (raw.ritual == "YES");
+        element.attributes.spellType.current = "Cast"
+        if(raw.roll)
+        {
+            if(!Array.isArray(raw.roll))
+            {
+                raw.roll = [raw.roll]
+            }
 
+            let hasRoll = false;
+            for(let i = 0; i < raw.roll.length; i++)
+            {
+                let roll = raw.roll[i];
+                if(roll.indexOf("SPELL") >= 0)
+                {
+                    element.attributes.spellType.current = "Attack + Damage"
+                }
+                else
+                {
+                    hasRoll = true;
+                    element.attributes.damage.current.push({
+                        enabled:1,
+                        name: roll,
+                        value: roll,
+                    })
+                }
+
+            }
+            if(element.attributes.spellType.current == "Cast" && hasRoll)
+            {
+                element.attributes.spellType.current = "Damage Only"
+            }
+
+            raw.text.replace(/([a-zA-Z]+) saving throw/g, function(_, m){
+                element.attributes.spellType.current =  "Attack + Save + Damage"
+                element.attributes.saveAbility.current = m;
+            });
+
+        }
+        if(raw.text.indexOf("Higher Levels") >= 0)
+        {
+            raw.text.replace(/damage increase[s]* by ([^\s]+) for each slot/g, function(_, m){
+                element.attributes.damage.current.push({
+                    enabled:1,
+                    name: "Per level",
+                    value: m,
+                })
+            });
+        }
 
         elements[element.info.name.current] = element;
     }
