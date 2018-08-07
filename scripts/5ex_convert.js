@@ -316,11 +316,7 @@ function genProp(name, current)
     }
     return {name:name,current:current};
 }
-var DamageMap = {
-    "P": "Piercing",
-    "B": "Bludgeoning",
-    "S": "Slashing",
-}
+
 /*
 var TypeMap = {
     "$":"Valuable",
@@ -341,35 +337,6 @@ var TypeMap = {
     "RG":"Ring",
 }*/
 
-var TypeMap = {
-    "$":"Generic",
-    "G":"Generic",
-    "A":"Generic",
-    "R":"Weapon",
-    "M":"Weapon",
-    "S":"Shield",
-    "HA":"Armor",
-    "LA":"Armor",
-    "MA":"Armor",
-    "P":"Generic",
-    "WD":"Spellcasting",
-    "RD":"Spellcasting",
-    "ST":"Spellcasting",
-    "SC":"Spellcasting",
-    "W":"Generic",
-    "RG":"Generic",
-}
-var PropertyMap = {
-    "2H": "twohanded",
-    "LD": "loading",
-    "H": "heavy",
-    "R": "range",
-    "L": "light",
-    "T": "thrown",
-    "F": "finesse",
-    "V": "versatile",
-    "A": "ammunition",
-}
 
 function convert_I(game, DATA, name, content, scope) {
     scope.itemCount = 0;
@@ -481,7 +448,8 @@ function convert_I(game, DATA, name, content, scope) {
                 if(item.attributes.damage2.current)
                 {
                     item.attributes.damage2.current += mod.replace("ranged damage","");
-                }            }
+                }
+            }
         }
 
 

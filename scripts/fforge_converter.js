@@ -106,10 +106,316 @@ function fileDrop(element, callback)
 
 }
 
+function removeMultiBreaks(text)
+{
+    return text.replace(/<br>(\s*<br>)+/g,"<br>")
+    .replace(/^<br>/,"")
+    .replace(/<br>$/,"");
+}
+function boldColon(text)
+{
+    return text
+    .replace(/(<br>[a-zA-Z0-9\s]+):/g,"<b>$1:</b>") //After linebreak
+    .replace(/^([a-zA-Z0-9\s]+):/g,"<b>$1:</b>") //First line
+}
+
+function parseNotes(text)
+{
+    text = boldColon(text);
+    text = removeMultiBreaks(text);
+    return text;
+}
+
 /*
     Item Parser
 */
 
+var itemToIcon = {
+    "sword of":"piercing-sword",
+    "armor":"armor-vest",
+    "crossbow":"crossbow",
+    "bow":"high-shot",
+    "warhammer":"thor-hammer",
+    "necklace":"pearl-necklace",
+    "greatsword":"croc-sword",
+    "dagger":"plain-dagger",
+    "shortsword":"stiletto",
+    "sling bullets":"stone-stack",
+    "sling":"slingshot",
+    "backpack":"backpack",
+    "alchemy":"bubbling-flask",
+    "flask":"fizzing-flask",
+    "cannon":"cannon-shot",
+    "wand":"crystal-wand",
+    "hat":"pointy-hat",
+    "gauntlet":"gauntlet",
+    "glove":"gloves",
+    "gem":"gems",
+    "eye":"eyeball",
+    "bottle":"square-bottle",
+    "potion":"drink-me",
+    "cloak":"cloak",
+    "cape":"cape",
+    "robe":"robe",
+    "pouch":"swap-bag",
+    "horn":"hunting-horn",
+    "quiver":"quiver",
+    "arrow":"quiver",
+    "amulet":"necklace",
+    "needle":"needle-drill",
+    "blowgun":"lead-pipe",
+    "flute":"flute",
+    "bucket":"empty-wood-bucket",
+    "book":"book",
+    "spellbook":"spell-book",
+    "tome of":"book-cover",
+    "clothes":"t-shirt",
+    "crystal ball":"crystal-ball",
+    "orb":"crystal-ball",
+    "crown":"crown",
+    "manual":"bookmarklet",
+    "cube":"cube",
+    "stone":"rune-stone",
+    "ointment":"covered-jar",
+    "mask":"architect-mask",
+    "key":"key",
+    "mirror":"mirror-mirror",
+    "perfume":"perfume-bottle",
+    "periapt":"prayer-beads",
+    "piwafwi":"cloak-dagger",
+    "ring":"ring",
+    "rod":"lunar-wand",
+    "scroll":"scroll-unfurled",
+    "staff":"wizard-staff",
+    "bag":"bindle",
+    "brace":"bracers",
+    "broom":"broom",
+    "candle":"candle-light",
+    "carpet":"rolled-cloth",
+    "die":"dice-twenty-faces-twenty",
+    "dice":"dice-twenty-faces-twenty",
+    "claw":"claw-string",
+    "deck":"card-burn",
+    'whistle':"whistle",
+    'helm':"visored-helm",
+    "hand":"hand",
+    "horseshoe":"horseshoe",
+    "pigments":"palette",
+    "stone":"stone-tablet",
+    "boots":"boots",
+    "wing":"curly-wing",
+    'rune':"rune-stone",
+    "throne":"stone-throne",
+    "snatchel":"knapsack",
+    "poison":"poison-bottle",
+    "nail":"nails",
+    "piton":"nails",
+    "club":"wood-club",
+    "shovel":"spade",
+    "spyglass":"spyglass",
+    "flail":"flail",
+    "spear":"stone-spear",
+    "greataxe":"battle-axe",
+    "halberd":"halberd",
+    "pipes of the sewers":"flute",
+    "pole of angling":"fishing-pole",
+    "pole of collapsing":"bo",
+    "portable hole":"folded-paper",
+    "pot of awakening":"amphora",
+    "feather token":"feather",
+    "rope of climbing":"rope-coil",
+    "rope of entanglement":"lasso",
+    "rope of mending":"knot",
+    "ruby of":"rupee",
+    "saddle of the cavalier":"saddle",
+    "scarab of protection":"scarab-beetle",
+    "slippers of spider climbing":"sticky-boot",
+    "sovereign glue":"spill",
+    "sphere of annihilation":"extraction-orb",
+    "talisman of pure good":"necklace",
+    "talisman of the sphere":"pearl-necklace",
+    "talisman of ultimate evil":"tribal-pendant",
+    "talking doll":"sensuousness",
+    "tankard of sobriety":"beer-stein",
+    "universal solvent":"square-bottle",
+    "weird tank":"oil-drum",
+    "well of":"well",
+    "wind fan":"paper-windmill",
+    "alchemist's ":"hand-bag",
+    "arcane ":"newspaper",
+
+//    "copper":"two-coins",
+}
+var DamageMap = {
+    "P": "Piercing",
+    "B": "Bludgeoning",
+    "S": "Slashing",
+}
+var TypeMap = {
+    "$":"Generic",
+    "G":"Generic",
+    "A":"Generic",
+    "R":"Weapon",
+    "M":"Weapon",
+    "S":"Shield",
+    "HA":"Armor",
+    "LA":"Armor",
+    "MA":"Armor",
+    "P":"Generic",
+    "WD":"Spellcasting",
+    "RD":"Spellcasting",
+    "ST":"Spellcasting",
+    "SC":"Spellcasting",
+    "W":"Generic",
+    "RG":"Generic",
+}
+var PropertyMap = {
+    "2H": "twohanded",
+    "LD": "loading",
+    "H": "heavy",
+    "R": "ranged",
+    "L": "light",
+    "T": "thrown",
+    "F": "finesse",
+    "V": "versatile",
+    "A": "ammunition",
+}
+
+function findIcon(name)
+{
+    name = name.toLowerCase();
+    for(var k in itemToIcon)
+    {
+        if(name.indexOf(k)>-1)
+        {
+            return itemToIcon[k];
+        }
+    }
+}
+
+
+let parseItems = function(json)
+{
+    let elements = {};
+    let rawElements = json.item;
+    for(let raw in rawElements)
+    {
+        raw = rawElements[raw];
+        if(!Array.isArray(raw.text))
+        {
+            raw.text = [raw.text];
+        }
+        raw.text =  raw.text.join("<br>")+"<br>";
+        let element = new FFElement({_type:"Item"});
+        
+        element.info.name.current = raw.name;
+        element.info.notes.current = parseNotes(raw.text);
+
+        element.attributes.price.current = raw.value;
+        element.attributes.quantity.current = 1;
+        element.attributes.weight.current = raw.weight;
+        element.attributes.itemType.current = TypeMap[raw.type];
+        element.attributes.rarity.current = raw.detail;
+
+        var ico = findIcon(raw.name);
+        if(ico)
+        {
+            element.info.img = genProp("Image","content/5Extended/icons/"+ico+".svg");
+        }
+        else
+        {
+            console.log("Icon not found:"+raw.name);
+            element.info.img = genProp("Image","content/5Extended/icons/swap-bag.svg");
+        }
+
+
+        if (raw.property) {
+            var tags = raw.property.split(",");
+            for (var tag in tags) {
+                tag = tags[tag].trim();
+                itemtag = PropertyMap[tag]
+                if (itemtag) {
+                    element.attributes[itemtag].current = 1;
+                } else {
+                    console.log("Unknown property '" + tag + "' on item" + raw.name);
+                }
+            }
+        }
+        if(raw.type=="R")
+        {
+            element.attributes.ranged.current = 1;
+        }
+
+        if(raw.dmg1!=undefined)
+        {
+            element.attributes.range.current = raw.range || "5 ft.";
+            element.attributes.damage.current = raw.dmg1;
+            element.attributes.damage2.current = raw.dmg2;
+
+            if (raw.dmgType) {
+                var dmgs = raw.dmgType.split(",");
+                element.attributes.damageType.current = DamageMap[dmgs[0]];
+                if(dmgs.length > 1)
+                {
+                    element.attributes.damageType2.current = DamageMap[dmgs[2]];
+                }
+
+            }
+        }
+
+        raw.modifier = raw.modifier||"";
+        if(!Array.isArray(raw.modifier))
+        {
+            raw.modifier = [raw.modifier]
+        }
+        for(var k=0;k<raw.modifier.length;k++)
+        {
+            var mod = raw.modifier[k].toLowerCase();
+            if(mod.indexOf("melee attacks") >=0)
+            {
+                element.attributes.attackBonus.current.push(
+                {
+                    name:mod,
+                    value:mod.replace("melee attacks",""),
+                    enabled:1,
+                })
+            }
+            if(mod.indexOf("ranged attacks") >=0)
+            {
+                element.attributes.attackBonus.current.push(
+                {
+                    name:mod,
+                    value:mod.replace("ranged attacks",""),
+                    enabled:1,
+                })
+            }
+
+
+            if(mod.indexOf("melee damage") >=0)
+            {
+                element.attributes.damageBonus.current.push(
+                {
+                    name:mod,
+                    value:mod.replace("melee damage",""),
+                    enabled:1,
+                })
+
+            }
+            if(mod.indexOf("ranged damage") >=0)
+            {
+                element.attributes.damageBonus.current.push(
+                {
+                    name:mod,
+                    value:mod.replace("ranged damage",""),
+                    enabled:1,
+                })
+            }
+        }
+
+        elements[element.info.name.current] = element;
+    }
+    return elements;
+}
 /*
     Trait Parser
 */
@@ -177,7 +483,7 @@ let parseTraits = function(json)
         }
         let element = new FFElement({_type:"Trait"});
         element.info.name.current = raw.name;
-        element.info.notes.current = raw.text;
+        element.info.notes.current = parseNotes(raw.text);
 
         element.attributes.source.current = raw.source;
 
@@ -238,6 +544,7 @@ FiveForge.registerUI("xmlConverter", function(obj, app, scope)
         var json = xmlToJson(jQuery.parseXML(text)).compendium;
         dropZone.text(scope.outputText);
         createConverter("Trait", parseTraits, json)
+        createConverter("Item", parseItems, json)
     });
 
 
