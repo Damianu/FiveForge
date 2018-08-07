@@ -255,7 +255,15 @@
                                             <div><input style="width:20px" class="line center"/></div>
                                         </div>
                                     </loop>
+                                    <div class="cSpellcastingSelect">
+                                        <br>
+                                        Spellcasting Ability:
+                                        <br>
+                                        <select id="spellAbilitySelect"></select>
+                                        <br>
+                                    </div>
                                 </div>
+
                             </div>
                             <div class="tabBio cTabContent display_eval{@counters.tab == 2}">
                                 <ui dui_name="ui_rawNotes" class="cNotes flex flexcolumn">
@@ -269,7 +277,10 @@
 
 </div>
 <style>
-
+    .cSpellcastingSelect
+    {
+        text-align:center;
+    }
     .fforge_characterSheet .cImage {
         max-width: 100px;
         min-width: 100px;

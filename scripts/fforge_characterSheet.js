@@ -1,3 +1,11 @@
+FiveForge.Abilities = {
+    "Str":"Strength",
+    "Dex":"Dexterity",
+    "Con":"Constitution",
+    "Int":"Int",
+    "Wis":"Wisdom",
+    "Cha":"Charisma",
+}
 FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj,app,scope)
 {
     var forceUpdate = false;
@@ -41,8 +49,18 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
         });
         app.attr("sizeFixed",true)
     }
-    sheet.find(".cTrait").click(function(ev){
-        $(this).find(".cTraitText").toggle();
-        ev.stopPropagation();
-    });
+    var selectAbility = sheet.find("#spellAbilitySelect")
+    selectAbility.attr("id",null);
+    for(var val in FiveForge.Abilities)
+    {
+        let name = FiveForge.Abilities[val];
+        var option = $("<option>");
+        option.val(val).text(name)
+        option.appendTo(selectAbility);
+    }
+    selectAbility.val(obj.data.info.spellcastingAbility.current)
+    selectAbility.change(function(){
+        obj.data.info.spellcastingAbility.current = selectAbility.val();;
+        obj.sync("updateAsset");
+    })
 });
