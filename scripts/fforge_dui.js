@@ -243,6 +243,7 @@ function processHTML(obj, app, scope, context, html,main)
         var keyonly = $(this).data("dkeyonly")
         var count = $(this).data("dcount");
         var target = $(this).data("dlookup")
+        var newElements = [];
         if(count)
         {
             var start = $(this).data("dstart")||0;
@@ -251,7 +252,8 @@ function processHTML(obj, app, scope, context, html,main)
             {
                 var re = new RegExp(escapeRegExp("%"+key+"%"), "g");
                 var newHTML = entryHTML.replace(re,i);
-                var newElement = $(newHTML).appendTo(parent);
+                var newElement = $(newHTML)
+                newElements.push(newElement);
                 newHTML = newElement.html();
                 processHTML(obj, app, scope, context, newHTML,newElement);
             }
@@ -270,12 +272,13 @@ function processHTML(obj, app, scope, context, html,main)
                 newHTML = newHTML.replace(re,k);
 
 
-                var newElement = $(newHTML).appendTo(parent);
+                var newElement = $(newHTML);
+                newElements.push(newElement);
                 newHTML = newElement.html();
                 processHTML(obj, app, scope, context, newHTML,newElement);
             }
         }
-        element.remove();
+        element.replaceWith(newElements);
     });
     html = main.html();
     html = html.replace(/traverse{([^}]+)}/g,function(off,m) {return sync.traverse(context,m);})
