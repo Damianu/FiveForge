@@ -239,6 +239,21 @@ FiveForge.registerUI("modifierEdit",function(obj,app,scope){
     return list;
 })
 
-sync.render("ui_renderItemv22",function(obj, app, scope){
-    console.log(obj,app,scope);
+sync.render("ui_renderItemv2",function(obj, app, scope)
+{
+    scope = scope || {viewOnly: (app.attr("viewOnly") == "true")};
+    scope.cref = scope.cref || app.attr("char-ref") || null;
+    scope.mode = app.attr("mode") || "notes";
+    scope.local = scope.local || (app.attr("local") == "true");
+    scope.homebrew = scope.homebrew || (app.attr("homebrew") == "true");
+    scope.path = app.attr("path");
+    scope.index = app.attr("index");
+
+    var data = scope.itemData || obj.data;
+    FiveForge.createElementEditor(data,function(data) {
+        obj.data = data;
+        obj.sync("updateAsset");
+    })
+    app.parent().parent().parent().remove();
+    return $("<div>Closing...</div>");
 });
