@@ -269,6 +269,350 @@
 
 </div>
 <style>
+
+    .fforge_characterSheet .cImage {
+        max-width: 100px;
+        min-width: 100px;
+        height: 100px;
+        margin-left:8px;
+        box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.75);
+        border-radius:2px;
+        }
+    .fforge_characterSheet .cName {
+        font-size: 3em;
+        flex:5 !important;
+        font-weight: normal;
+        font-family: "Nodesto Caps Condensed";
+        margin-bottom:10px;
+    }
+    .fforge_characterSheet {
+        font-family: "mr._eaves_small_capsregular";
+        font-weight:700;
+        text-shadow: 0px 0px 6px rgba(30,30,30,0.2);
+        color: black;
+    }
+    .fforge_characterSheet .cBio
+    {
+        justify-content:space-around;
+    }
+    .fforge_characterSheet .cBio > div {
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        max-width:24%;
+    }
+    .fforge_characterSheet .cBio > div > input {
+        text-align:center;
+        max-width:100%;
+    }
+    .fforge_characterSheet .cTop {
+        margin-left: 10px;
+        max-width:83%;
+    }
+    .fforge_characterSheet .cLvl
+    {
+        font-size:2em;
+    }
+    .fforge_characterSheet .cLvlXP
+    {
+        margin-right:20px;
+        align-items:center;
+        align-self:flex-start;
+        flex-grow:0;
+    }
+    .fforge_characterSheet .cXP input
+    {
+        max-width:40px;
+        text-align: center;
+    }
+    .fforge_characterSheet .center
+    {
+        text-align: center;
+    }
+    .fforge_characterSheet .cStat
+    {
+        background:white;
+        border-radius:4px;
+        display:flex;
+        flex:1;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        font-size:0.8em;
+        position:relative;
+    }
+    .fforge_characterSheet .cStats
+    {
+        justify-content:space-around;
+        margin-left:3px;
+        margin-top:2px;
+        width:8em;
+    }
+    .cStats > div{
+        flex:1;
+        max-height:15%;
+    }
+    .cStat .cStatName
+    {
+        font-size: 1.4em;
+        color: rgb(30,30,30);
+        text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.9);
+    }
+    .cStat .cStatValue
+    {
+        font-size:1.7em;
+    }
+    .cStat .cStatBonus > span
+    {
+        color: rgba(30,30,30,0.75)
+    }
+    .cStat .cStatSave > span
+    {
+        color: rgba(30,30,30,0.75)
+    }
+    .cStat .cStatSave 
+    {
+        font-size:1.5em;
+    }
+    .cStat .cStatBonus 
+    {
+        font-size:1.5em;
+    }
+    .cStat .cStatIMGHack {
+        position: absolute;
+        left: -3px;
+        top: 5px;
+        right: 5px;
+        opacity: 0.1;
+        height: 99%;
+        pointer-events:none;
+    }
+    .cStat .cStatIMG {
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        opacity: 0.1;
+        height: 100%;
+        width: 100%;
+        pointer-events:none;
+    }
+    .fforge_characterSheet .cCounters
+    {
+        justify-content:center;
+        justify-content:space-around;
+        margin-top:10px;
+    }
+    .fforge_characterSheet .cCounter
+    {
+        background:white;
+        border-radius:4px;
+        display:flex;
+        flex:1;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        max-width:13.5%;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        font-size:0.9em;
+        position:relative;
+    }
+    .fforge_characterSheet .cCounter .cCounterValue
+    {
+        font-size:1.4em;
+    }
+    .fforge_characterSheet .cCounter .cCounterValue2
+    {
+        font-size:1em;
+        max-height:15%;
+        margin-top:-5px;
+    }
+    .fforge_characterSheet .cCounter .cCounterAddition > span
+    {
+        color: rgba(30,30,30,0.75)
+    }
+    .fforge_characterSheet .cCounter .cCounterAddition2
+    {
+        font-size:0.9em;
+    }
+    .cAbilities
+    {
+        flex:1;
+        align-self:center;
+        padding-left:1em;
+        font-size: 0.95em;
+    }
+    .cAbilities > div {
+        border-bottom:1px solid rgba(30, 30, 30, 0.3);
+        margin-bottom:2px;
+        text-align: center;
+    }
+    .cLeftPanel {
+        width:10em;
+    }
+    .cTrait{
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        border-radius:5px;
+        padding:5px;
+    }
+    .cTrait .cTraitName
+    {
+        font-size:1.2em;
+        cursor:pointer;
+        user-select: none;
+    }
+    .cTrait .cTraitText
+    {
+        color: rgba(30,30,30,0.75);
+        padding-left:1em;
+    }
+    .cTrait .cTraitIcons
+    {
+        margin-right:10px;
+    }
+    .cTrait .cTraitIcons > span 
+    {
+        cursor:pointer;
+        user-select: none;
+    }
+    .cTabButtons
+    {
+        display:flex;
+        flex-direction:row;
+        justify-content:space-around;
+        font-size:1.5em;
+    }
+    .cLeftPanel > div
+    {
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        border-radius:5px;
+        padding:5px;
+    }
+    .prof1, .prof1 > *
+    {
+        color: #e74c3c !important;
+        font-weight:bold;
+    }
+    .cAbilities .glyphicon
+    {
+        align-self:center;
+    }
+    .cAbilities > div 
+    {
+        flex-direction:row;
+        display:flex;
+    }
+    .cAbility
+    {
+        display:block;
+        flex:1;
+    }
+    .secondLeft
+    {
+        width:15em;
+        padding-right:0;
+        margin-left:8px;
+        margin-top:8px;
+    }
+    .cTracker
+    {
+        display:flex;
+        flex-direction:column;
+        text-align:center;
+    }
+    .cTrackerName
+    {
+        border-bottom: 1px solid rgba(0,0,0,0.5);
+        flex:1;
+    }
+    .cTrackerValue
+    {
+        flex:2;
+    }
+    .cSkills, .cTracker
+    {
+        font-weight:600;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        padding:2px;
+        border-radius:4px;
+        margin-right:0;
+        margin-bottom:10px;
+    }
+    .cSkills > div:last-child 
+    {
+        border-bottom: none !important;
+        margin-bottom:0px;
+    }
+    .cSkills > div
+    {
+        border-bottom:1px solid rgba(30, 30, 30, 0.3);
+        margin-bottom:2px;
+        text-align: left;
+        padding-left:2px;
+    }
+    .proficient1
+    {
+        color:rgb(0,0,0) !important;
+        font-weight:bold !important;
+    }
+    .proficient1 .glyphicon
+    {
+        opacity:1 !important;
+    }
+    .cSkill .glyphicon:hover
+    {
+        opacity:1 !important;
+    }
+    .cSkill
+    {
+        color:rgba(0,0,0,0.65);
+        flex-direction:row;
+        display:flex;
+        padding-right:4px;
+    }
+    .cSkill .glyphicon
+    {
+        font-weight:normal;
+        opacity:0.3;
+    }
+    .cSkill > div
+    {
+        flex:1;
+    }
+    .cTabSelected_true
+    {
+        border-bottom:2px dashed rgba(255, 30, 30, 0.6);
+    }
+    .cTabSelected_false
+    {
+        border-bottom:2px dashed rgba(255, 30, 30, 0.2);
+    }
+    .cTabSelected_false:hover
+    {
+        border-bottom:2px dashed rgba(255, 30, 30, 0.4);
+    }
+    .display_0, .display_false
+    {
+        display:none !important;
+    }
+    .display_true, .display_1
+    {
+    }
+    .cTabContent
+    {
+        flex:1;
+        display:flex;
+        flex-direction:column;
+    }
+    .cNotes
+    {
+        box-shadow: inset 0px 0px 2px 2px rgba(0,0,0,0.75);
+    }
+
+
     .cInventory{
         margin-top:5px;
         padding-right:5px;
