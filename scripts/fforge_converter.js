@@ -562,6 +562,17 @@ let parseSpells = function(json)
         element.attributes.classes.current = raw.classes;
         element.attributes.ritual.current = (raw.ritual == "YES");
         element.attributes.spellType.current = "Cast"
+
+        element.tags[schoolMap[raw.school]] = true;
+        element.tags.Ritual = (raw.ritual == "YES");
+
+        var classes = raw.classes.split(",");
+        for(let i = 0; i< classes.length; i++)
+        {
+            classes[i] = classes[i].replace(/\(.+\)/g, "");
+            element.tags[classes[i]] = true;
+        }
+
         if(raw.roll)
         {
             if(!Array.isArray(raw.roll))
