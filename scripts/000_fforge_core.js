@@ -264,6 +264,7 @@ FiveForge.includeTemplate("manager");
 FiveForge.includeTemplate("characterSheet");
 FiveForge.includeTemplate("elementEditor");
 FiveForge.includeTemplate("roll");
+FiveForge.includeTemplate("installer");
 
 //Elements
 FiveForge.includeTemplate("elements/item");
