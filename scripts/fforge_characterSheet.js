@@ -40,7 +40,6 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
         console.log("Enhanced, updating");
         obj.sync("updateAsset");
     }
-    console.log(obj);
     if(!app.attr("sizeFixed"))
     {
         setTimeout(function(){

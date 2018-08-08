@@ -249,10 +249,14 @@
                                     <loop dui_count="9" dui_start="1" dui_key="lvl">
                                         <div class="cSpellLevel flexrow">
                                             <div style="margin-right:10px;padding-top:2px;">LVL. %lvl%</div>
-                                            <div><span class="centerglyph glyphicon glyphicon-menu-down"></span></div>
-                                            <div><input style="width:20px" class="line center"/></div>
+                                            <div><span class="centerglyph glyphicon glyphicon-menu-down">
+                                                <click>
+                                                    <setAttr dui_name="counters.spell%lvl%" dui_value="eval{@counters.spell%lvl% -1}" />
+                                                </click>
+                                            </span></div>
+                                            <div><input style="width:20px" class="line center" dui_edit="counters.spell%lvl%" /></div>
                                             <div>/</div>
-                                            <div><input style="width:20px" class="line center"/></div>
+                                            <div><input style="width:20px" class="line center" dui_edit="counters.spell%lvl%" dui_editval="max"/></div>
                                         </div>
                                     </loop>
                                     <div class="cSpellcastingSelect">

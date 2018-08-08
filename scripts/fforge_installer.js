@@ -1237,35 +1237,41 @@ _baseTemplate.actors["Character"] = {
         "tab": {
             "current": 1
         },
-        "svStr": {
-            "modifiers": {
-                "Stat-Bonus": -1
-            }
+        "spell1": {
+            "current": 0,
+            "max": 0,
         },
-        "svDex": {
-            "modifiers": {
-                "Stat-Bonus": 1
-            }
+        "spell2": {
+            "current": 0,
+            "max": 0,
         },
-        "svCon": {
-            "modifiers": {
-                "Stat-Bonus": 1
-            }
+        "spell3": {
+            "current": 0,
+            "max": 0,
         },
-        "svInt": {
-            "modifiers": {
-                "Stat-Bonus": 5
-            }
+        "spell4": {
+            "current": 0,
+            "max": 0,
         },
-        "svWis": {
-            "modifiers": {
-                "Stat-Bonus": 5
-            }
+        "spell5": {
+            "current": 0,
+            "max": 0,
         },
-        "svCha": {
-            "modifiers": {
-                "Stat-Bonus": 2
-            }
+        "spell6": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell7": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell8": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell9": {
+            "current": 0,
+            "max": 0,
         }
     },
     "tags": {},
@@ -1517,5 +1523,5 @@ _baseTemplate.actors["Character"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "testing_1",
+    VERSION: "testing_2",
 }

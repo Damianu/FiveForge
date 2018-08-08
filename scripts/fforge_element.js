@@ -179,7 +179,6 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
     scope.type = scope.type || "Item";
     scope.path = scope.path || "elements."+scope.type;
     var elements = sync.traverse(obj.data, scope.path);
-    console.log(scope.path, "<elements", elements);
     for(var i = 0; i<elements.length;i++)
     {
         let e = elements[i];
@@ -209,9 +208,7 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
         var name = addName.val();
         var compItem = FiveForge.Compendium[scope.type][name]||{};
         compItem._type = scope.type;
-        console.log("HERE >>",compItem);
         var item = new FFElement(compItem);
-        console.log("HERE >>",item);
         item.info.name.current = name;
         elements.push(item);
         obj.sync("updateAsset");
