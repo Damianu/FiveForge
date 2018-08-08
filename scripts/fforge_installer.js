@@ -1,5 +1,12 @@
 FiveForge.registerHTMLUI("installer","installer",function(handle, obj,app,scope) {
-    handle.find("button").click(function(){
+    handle.find("#backup").click(function(){
+        let world = game.config.data.name;
+        let a = document.createElement("a");
+        a.href = 'http://localhost:30000/core/worlds/'+world;
+        a.download = 'backup_'+world;
+        a.click();
+    })
+    handle.find("#install").click(function(){
         game.templates = _baseTemplate
         runCommand("updateTemplate", duplicate(game.templates));
         setTimeout(function(){
@@ -27,7 +34,7 @@ FiveForge.addHook("Initialize",function()
         maximize : true,
         minimize : true,
         title: "FiveForge Installer",
-        style : {"width" : "700px", "height" : "200px"}
+        style : {"width" : "700px", "height" : "250px"}
       }, newApp);
     obj.popout = pop;
     obj.update();
