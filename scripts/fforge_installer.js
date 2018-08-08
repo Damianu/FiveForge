@@ -26,12 +26,14 @@ FiveForge.addHook("Initialize",function()
 
     var newApp = FiveForge.renderUI("installer",obj, null, {});
 
-    var pop = ui_popOut({
+    var pop;
+    pop = ui_popOut({
         target : $("body"),
         align : "center",
         id : "edit-item",
         maximize : true,
         minimize : true,
+        close: function(){ pop.hide(); return false; },
         title: "FiveForge Installer",
         style : {"width" : "700px", "height" : "250px"}
       }, newApp);
@@ -1284,6 +1286,11 @@ _baseTemplate.actors["Character"] = {
         "spell9": {
             "current": 0,
             "max": 0,
+        },
+        "tracker": {
+            "name":"Tracker",
+            "current": 0,
+            "max":0,
         }
     },
     "tags": {},
@@ -1535,5 +1542,5 @@ _baseTemplate.actors["Character"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "testing_2",
+    VERSION: "testing_3",
 }
