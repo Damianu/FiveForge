@@ -14,7 +14,7 @@ FiveForge.registerHTMLUI("installer","installer",function(handle, obj,app,scope)
         },1)
     })
 })
-
+let update_popup = undefined;
 FiveForge.addHook("Initialize",function()
 {
     game.locals["fforge_installer"] = game.locals["fforge_installer"] || sync.obj("fforge_installer");
@@ -23,7 +23,6 @@ FiveForge.addHook("Initialize",function()
     obj.currentTemplateVersion = (game.templates.FiveForge || {}).VERSION;
     obj.latestTemplateVersion = _baseTemplate.FiveForge.VERSION;
     obj.modVersion = FiveForge.VERSION;
-
 
     var newApp = FiveForge.renderUI("installer",obj, null, {});
 
@@ -39,8 +38,21 @@ FiveForge.addHook("Initialize",function()
     obj.popout = pop;
     obj.update();
     pop.resizable();
-})
 
+    if(obj.currentTemplateVersion != obj.latestTemplateVersion)
+    {
+        pop.show();
+    }
+    else
+    {
+        pop.hide();
+    }
+    update_popup = pop;
+
+})
+FiveForge.registerGlobalAction("Show Installer",function(){
+    update_popup.show();
+});
 
 
 /**
