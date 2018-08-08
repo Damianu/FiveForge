@@ -175,6 +175,19 @@ const FiveForge = {
         })
     }
 }
+FiveForge.saveData = (function () {
+    let a = document.createElement("a");
+    a.style = "display: none";
+    return function (data, fileName) {
+        let blob = new Blob([data], {type: "octet/stream"});
+        let url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+}());
+
 $('<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.7.1/less.min.js" ></script>').appendTo($("head"))
 
 FiveForge.registerHTMLUI("core","manager",function(handle, obj,app,scope) {

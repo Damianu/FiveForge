@@ -254,6 +254,9 @@ sync.render("ui_renderItemv2",function(obj, app, scope)
         obj.data = data;
         obj.sync("updateAsset");
     })
-    app.parent().parent().parent().remove();
+    app.parent().parent().parent().hide();
+    setTimeout(function(){
+        app.parent().parent().parent().remove();
+    })
     return $("<div>Closing...</div>");
 });
