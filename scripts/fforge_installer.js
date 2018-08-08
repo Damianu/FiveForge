@@ -1534,7 +1534,8 @@ _baseTemplate.actors["Character"] = {
     ],
     "_flags": {},
     "damageModifiers": [],
-    "attackModifiers": []
+    "attackModifiers": [],
+    "elements":{},
 }
 
 /*
@@ -1542,5 +1543,5 @@ _baseTemplate.actors["Character"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "testing_3",
+    VERSION: "testing_4",
 }

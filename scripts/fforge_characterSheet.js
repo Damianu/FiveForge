@@ -9,24 +9,15 @@ FiveForge.Abilities = {
 FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj,app,scope)
 {
     var forceUpdate = false;
-    if(obj.data.damageModifiers == undefined)
-    {
-        obj.data.damageModifiers = obj.data.damageModifiers || [];
-        forceUpdate = true;
 
-    }
-    if(obj.data.attackModifiers == undefined)
+    if(obj.data._version!=game.templates.FiveForge.VERSION)
     {
-        obj.data.attackModifiers = obj.data.attackModifiers || [];
-        forceUpdate = true;
-
-    }
-
-    if(obj.data.elements === undefined)
-    {
-        obj.data.elements = {};
+        obj.data = $.extend(true, {}, game.templates.actors["Character"], obj.data);
+        obj.data._version = game.templates.FiveForge.VERSION;
+        console.log("Updated data on character "+obj.data.info.name.current)
         forceUpdate = true;
     }
+
     for(var k in FFElement.types)
     {
         if(obj.data.elements[k]===undefined)
