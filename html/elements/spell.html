@@ -7,6 +7,13 @@
             </div>
         </div>
         <img src="traverse{info.img.current}" class="iImage">
+        <div>
+            <span class="glyphicon glyphicon-certificate checked_traverse{attributes.prepared.current}" style="line-height:21px;margin-right:5px;">
+                <click>
+                    <setAttr dui_name="attributes.prepared" dui_value="eval{@attributes.prepared?0:1}"></setAttr>
+                </click>
+            </span>
+        </div>
         <div class="flex iName">traverse{info.name.current}
             <click dui_cond="@expanded == 1">
                 <setAttr dui_name="expanded" dui_value="0"></setAttr>
@@ -28,6 +35,14 @@
     </div>
 </div>
 <style>
+    .checked_0
+    {
+        opacity: 0.2;
+    }
+    .checked_1
+    {
+        color:#377C54;
+    }
     .noBold
     {
         font-weight:normal;
