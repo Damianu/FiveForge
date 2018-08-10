@@ -19,6 +19,7 @@ class FFMonsterTrait extends FFElement
             button.click(function(){
                 FiveForge.sendCharacterRoll(obj, action.value, "Attack for " + action.name)
             })
+            button.tooltip({title:action.value.replace(/ /g, "&nbsp;"),html:true, container: 'body'});
             button.appendTo(actionsRow);
         }
 
@@ -29,6 +30,7 @@ class FFMonsterTrait extends FFElement
             button.click(function(){
                 FiveForge.sendCharacterRoll(obj, action.value, "Damage for " + action.name)
             })
+            button.tooltip({title:action.value.replace(/ /g, "&nbsp;"),html:true, container: 'body'});
             button.appendTo(actionsRow);
         }
 
