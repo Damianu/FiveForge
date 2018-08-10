@@ -10,7 +10,7 @@ FiveForge.registerHTMLUI("installer","installer",function(handle, obj,app,scope)
         game.templates = _baseTemplate
         runCommand("updateTemplate", duplicate(game.templates));
         setTimeout(function(){
-            location.reload(); 
+            location.reload();
         },1)
     })
 })
@@ -181,6 +181,9 @@ var _baseTemplate = {
         "actors": {
             "Character": {
                 "content": "<ui name='fforge_characterSheet' />"
+            },
+            "Monster": {
+                "content": "<ui name='fforge_monsterSheet' />"
             },
         },
         "elements": {
@@ -1057,7 +1060,7 @@ var _baseTemplate = {
 */
 
 _baseTemplate.actors["Character"] = {
-
+    "_type": "Character",
     "_t": "c",
     "info": {
         "name": {
@@ -1094,9 +1097,6 @@ _baseTemplate.actors["Character"] = {
         "alignment": {
             "name": "Alignment",
             "current": ""
-        },
-        "cr": {
-            "name": "Challenge Rating"
         },
         "spellcastingAbility": {
             "name": "Spellcasting Ability",
@@ -1172,59 +1172,59 @@ _baseTemplate.actors["Character"] = {
             "name": "Level",
             "current": "1",
             "min": 0,
-            "modifiers": {}
+
         },
         "exp": {
             "name": "Experience",
             "current": 0,
             "min": 0,
-            "modifiers": {}
+
         },
         "hp": {
             "name": "Hit Points",
             "current": 10,
             "min": 0,
             "max": 10,
-            "modifiers": {}
+
         },
         "speed": {
             "name": "Speed",
             "current": "30",
-            "modifiers": {}
+
         },
         "ac": {
             "name": "Armor",
             "current": 0,
-            "modifiers": {}
+
         },
         "proficiency": {
             "name": "Proficiency",
             "current": "2",
             "min": 0,
-            "modifiers": {}
+
         },
         "inspiration": {
             "name": "Inspiration",
             "current": "10",
             "min": 0,
-            "modifiers": {}
+
         },
         "svDeath": {
             "name": "Death Save",
             "current": 1,
             "min": 0,
-            "modifiers": {}
+
         },
         "svLife": {
             "name": "Life Save",
             "current": 0,
             "min": 0,
-            "modifiers": {}
+
         },
         "spellAbility": {
             "name": "Spellcasting Ability",
             "current": 0,
-            "modifiers": {}
+
         },
         "baseAC": {
             "name": "Base Armor Class",
@@ -1246,7 +1246,451 @@ _baseTemplate.actors["Character"] = {
         },
         "tempHP": {
             "name": "Temporary Hit Points",
+            "current": "0"
+        },
+        "tab": {
+            "current": 1
+        },
+        "spell1": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell2": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell3": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell4": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell5": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell6": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell7": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell8": {
+            "current": 0,
+            "max": 0,
+        },
+        "spell9": {
+            "current": 0,
+            "max": 0,
+        },
+        "tracker": {
+            "name":"Tracker",
+            "current": 0,
+            "max":0,
+        }
+    },
+    "tags": {},
+    "skills": {
+        "acr": {
+            "name": "Acrobatics (Dex)",
+            "current": 3,
+            "prof": 0
+        },
+        "ani": {
+            "name": "Animal Handling (Wis)",
+            "current": 5,
+            "prof": 0
+        },
+        "arc": {
+            "name": "Arcana (Int)",
+            "current": 5,
+            "prof": 0
+        },
+        "ath": {
+            "name": "Athletics (Str)",
+            "current": -1,
+            "prof": 0,
+        },
+        "dec": {
+            "name": "Deception (Cha)",
+            "current": 2,
+            "prof": 0
+        },
+        "his": {
+            "name": "History (Int)",
+            "current": 5,
+            "prof": 0
+        },
+        "ins": {
+            "name": "Insight (Wis)",
+            "current": 5,
+            "prof": 0
+        },
+        "int": {
+            "name": "Intimidation (Cha)",
+            "current": 2,
+            "prof": 0
+        },
+        "inv": {
+            "name": "Investigation (Int)",
+            "current": 5,
+            "prof": 0
+        },
+        "med": {
+            "name": "Medicine (Wis)",
+            "current": 5,
+            "prof": 0
+        },
+        "nat": {
+            "name": "Nature (Int)",
+            "current": 5,
+            "prof": 0
+        },
+        "per": {
+            "name": "Perception (Wis)",
+            "current": 5,
+            "prof": 0
+        },
+        "pfm": {
+            "name": "Performance (Cha)",
+            "current": 2,
+            "prof": 0
+        },
+        "prs": {
+            "name": "Persuasion (Cha)",
+            "current": 2,
+            "prof": 0
+        },
+        "rel": {
+            "name": "Religion (Int)",
+            "current": 5,
+            "prof": 0
+        },
+        "sle": {
+            "name": "Sleight of Hand (Dex)",
+            "current": 1,
+            "prof": 0
+        },
+        "ste": {
+            "name": "Stealth (Dex)",
+            "current": 1,
+            "prof": 0
+        },
+        "sur": {
+            "name": "Survival (Wis)",
+            "current": 5,
+            "prof": 0
+        }
+    },
+    "_calc": [
+        {
+            "name": "Stat-Bonuses",
+            "target": "stats.Str.bonus",
+            "eq": "(R@c.stats.Str/30*15)f-5"
+        },
+        {
+            "target": "stats.Dex.bonus",
+            "eq": "(R@c.stats.Dex/30*15)f-5"
+        },
+        {
+            "target": "stats.Con.bonus",
+            "eq": "(R@c.stats.Con/30*15)f-5"
+        },
+        {
+            "target": "stats.Int.bonus",
+            "eq": "(R@c.stats.Int/30*15)f-5"
+        },
+        {
+            "target": "stats.Wis.bonus",
+            "eq": "(R@c.stats.Wis/30*15)f-5"
+        },
+        {
+            "target": "stats.Cha.bonus",
+            "eq": "(R@c.stats.Cha/30*15)f-5"
+        },
+        {
+            "name": "Saving Bonuses",
+            "target": "stats.Str.save",
+            "eq": "@c.stats.Str.bonus + (@c.stats.Str.saveProf?@proficiency:0)"
+        },
+        {
+            "target": "stats.Dex.save",
+            "eq": "@c.stats.Dex.bonus + (@c.stats.Dex.saveProf?@proficiency:0)"
+        },
+        {
+            "target": "stats.Con.save",
+            "eq": "@c.stats.Con.bonus + (@c.stats.Con.saveProf?@proficiency:0)"
+        },
+        {
+            "target": "stats.Int.save",
+            "eq": "@c.stats.Int.bonus + (@c.stats.Int.saveProf?@proficiency:0)"
+        },
+        {
+            "target": "stats.Wis.save",
+            "eq": "@c.stats.Wis.bonus + (@c.stats.Wis.saveProf?@proficiency:0)"
+        },
+        {
+            "target": "stats.Cha.save",
+            "eq": "@c.stats.Cha.bonus +(@c.stats.Cha.saveProf?@proficiency:0)"
+        },
+        {
+            "target": "counters.ac",
+            "eq": "0"
+        },
+        {
+            "target": "",
+            "cond": "",
+            "eq": ""
+        },
+        {
+            "target": "skills.ath",
+            "cond": "",
+            "eq": "#:Str + (@c.skills.ath.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.acr",
+            "cond": "",
+            "eq": "#:Dex + (@c.skills.acr.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.ste",
+            "cond": "",
+            "eq": "#:Dex + (@c.skills.ste.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.sle",
+            "cond": "",
+            "eq": "#:Dex + (@c.skills.sle.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.ani",
+            "cond": "",
+            "eq": "#:Wis + (@c.skills.ani.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.med",
+            "cond": "",
+            "eq": "#:Wis + (@c.skills.med.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.per",
+            "cond": "",
+            "eq": "#:Wis + (@c.skills.per.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.sur",
+            "cond": "",
+            "eq": "#:Wis + (@c.skills.sur.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.int",
+            "cond": "",
+            "eq": "#:Cha + (@c.skills.int.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.pfm",
+            "cond": "",
+            "eq": "#:Cha + (@c.skills.pfm.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.prs",
+            "cond": "",
+            "eq": "#:Cha + (@c.skills.prs.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.dec",
+            "cond": "",
+            "eq": "#:Cha + (@c.skills.dec.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.his",
+            "cond": "",
+            "eq": "#:Int + (@c.skills.his.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.nat",
+            "cond": "",
+            "eq": "#:Int + (@c.skills.nat.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.rel",
+            "cond": "",
+            "eq": "#:Int + (@c.skills.rel.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.arc",
+            "cond": "",
+            "eq": "#:Int + (@c.skills.arc.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.inv",
+            "cond": "",
+            "eq": "#:Wis + (@c.skills.inv.prof?@proficiency:0) "
+        }
+    ],
+    "_flags": {},
+    "damageModifiers": [],
+    "attackModifiers": [],
+    "elements":{},
+}
+/*
+    Monster Template
+*/
+
+_baseTemplate.actors["Monster"] = {
+    "_type": "Monster",
+    "_t": "c",
+    "info": {
+        "name": {
+            "name": "Name",
+            "current": "Miranda Stonehenge :)"
+        },
+        "img": {
+            "name": "Character Art",
+            "current": ""
+        },
+        "notes": {
+            "name": "Notes",
+            "current": ""
+        },
+        "race": {
+            "name": "Race",
+            "current": ""
+        },
+        "size": {
+            "name": "Size",
+            "current": ""
+        },
+        "source": {
+            "name": "Source"
+        },
+        "alignment": {
+            "name": "Alignment",
+            "current": ""
+        },
+        "spellcastingAbility": {
+            "name": "Spellcasting Ability",
+            "current": "Cha"
+        }
+    },
+    "stats": {
+        "Str": {
+            "name": "Strength",
+            "current": "10",
+            "min": 0,
+            "modifiers": {
+                "Stat-Bonus": -1
+            },
+            "bonus": -1,
+            "save": -1,
+            "saveProf": 0
+        },
+        "Dex": {
+            "name": "Dexterity",
+            "current": "10",
+            "min": 0,
+            "modifiers": {
+                "Stat-Bonus": 1
+            },
+            "bonus": 1,
+            "save": 1
+        },
+        "Con": {
+            "name": "Constitution",
+            "current": "10",
+            "min": 0,
+            "modifiers": {
+                "Stat-Bonus": 1
+            },
+            "bonus": 1,
+            "save": 1
+        },
+        "Int": {
+            "name": "Intelligence",
+            "current": "10",
+            "min": 0,
+            "modifiers": {
+                "Stat-Bonus": 5
+            },
+            "bonus": 5,
+            "save": 5
+        },
+        "Wis": {
+            "name": "Wisdom",
+            "current": "10",
+            "min": 0,
+            "modifiers": {
+                "Stat-Bonus": 5
+            },
+            "bonus": 5,
+            "save": 5,
+            "saveProf": 0
+        },
+        "Cha": {
+            "name": "Charisma",
+            "current": "10",
+            "min": 0,
+            "modifiers": {
+                "Stat-Bonus": 2
+            },
+            "bonus": 2,
+            "save": 2
+        }
+    },
+    "counters": {
+        "cr": {
+            "name": "Challenge Rating",
+            "current": "1",
+            "min": 0,
+
+        },
+        "hp": {
+            "name": "Hit Points",
+            "current": 10,
+            "min": 0,
+            "max": 10,
+        },
+        "hpDice": {
+            "name": "Hit Points Dice",
+            "current": 10,
+        },
+        "speed": {
+            "name": "Speed",
+            "current": "30",
+        },
+        "proficiency": {
+            "name": "Proficiency",
+            "current": "2",
+            "min": 0,
+        },
+        "svDeath": {
+            "name": "Death Save",
+            "current": 1,
+            "min": 0,
+
+        },
+        "svLife": {
+            "name": "Life Save",
+            "current": 0,
+            "min": 0,
+
+        },
+        "spellAbility": {
+            "name": "Spellcasting Ability",
+            "current": 0,
+
+        },
+        "baseAC": {
+            "name": "Base Armor Class",
             "current": "10"
+        },
+        "tempHP": {
+            "name": "Temporary Hit Points",
+            "current": "0"
         },
         "tab": {
             "current": 1
@@ -1538,10 +1982,11 @@ _baseTemplate.actors["Character"] = {
     "elements":{},
 }
 
+
 /*
     FiveForge Data
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "testing_4",
+    VERSION: "testing_8",
 }

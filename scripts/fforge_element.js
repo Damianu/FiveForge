@@ -33,6 +33,11 @@ class FFElement
     {
         if(data)
         {
+            if(data._fillWith)
+            {
+                $.extend(data, FiveForge.Compendium[data._fillWith][data.info.name.current]);
+                delete data["_fillWith"]
+            }
             if(data instanceof FFElement)
             {
                 return data;

@@ -8,13 +8,30 @@ function generateCompendium()
         let category  = {}
         let c = FiveForge.Compendium[name];
         let item = c[Object.keys(c)[0]];
-
+        if(Object.keys(c).length < 1){continue;}
         Categories[name] = category;
         category._t = item._t;
         let items = [];
         for(let k in c)
         {
-            items.push(duplicate(c[k]))
+            let element = c[k];
+            items.push({
+                info:{
+                    name:{
+                        current:element.info.name.current,
+                    },
+                    img: {
+                        current:element.info.img.current,
+                    },
+                    notes:
+                    {
+                        current:"_fillWith failed!",
+                    }
+                },
+                _fillWith: name,
+                _t: element._t,
+                _type: element._type,
+            });
         }
         category.data = items;
     }

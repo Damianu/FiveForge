@@ -63,6 +63,19 @@ var EditFields = {
 
 FiveForge.registerHTMLUI("elementEditor", "elementEditor", function(handle, obj,app,scope)
 {
+    if(game.debug)
+    {
+        console.log("Debug inserted!!!");
+        let debugPrint = $("<button>Debug > Console</button>");
+        debugPrint.appendTo(handle);
+        debugPrint.css({
+            "position":"absolute",
+            "right":0,
+            "top":0,
+        })
+        handle.css("position","relative");
+        debugPrint.click(function(){FiveForge.log(obj.data)})
+    }
     let properties = handle.find(".eProperties");
     let data = new FFElement(obj.data);
     let checkboxes = [];

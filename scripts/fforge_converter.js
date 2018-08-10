@@ -293,7 +293,7 @@ let parseItems = function(json)
         }
         raw.text =  raw.text.join("<br>")+"<br>";
         let element = new FFElement({_type:"Item"});
-        
+
         element.info.name.current = raw.name;
         element.info.notes.current = parseNotes(raw.text);
 
@@ -306,12 +306,12 @@ let parseItems = function(json)
         var ico = findIcon(raw.name);
         if(ico)
         {
-            element.info.img = genProp("Image","content/5Extended/icons/"+ico+".svg");
+            element.info.img = genProp("Image","content/FiveForge/icons/"+ico+".svg");
         }
         else
         {
             console.log("Icon not found:"+raw.name);
-            element.info.img = genProp("Image","content/5Extended/icons/swap-bag.svg");
+            element.info.img = genProp("Image","content/FiveForge/icons/swap-bag.svg");
         }
 
 
@@ -402,6 +402,243 @@ let parseItems = function(json)
     }
     return elements;
 }
+
+/*
+    Monster Parser
+*/
+
+var sizeMap = {
+    "t": "Tiny",
+    "s": "Small",
+    "m": "Medium",
+    "l": "Large",
+    "h": "Huge",
+    "g": "Gargantuan",
+}
+var skillMap = {
+    "Acrobatics": "acr",
+    "Animal Handling":"ani",
+    "Arcana": "arc",
+    "Deception": "dec",
+    "History": "his",
+    "Insight": "ins",
+    "Intimidation": "int",
+    "Investigation": "inv",
+    "Medicine": "med",
+    "Nature": "nat",
+    "Perception": "per",
+    "Performance": "pfm",
+    "Persuasion": "prs",
+    "Religion": "rel",
+    "Sleight of Hand": "sle",
+    "Stealth": "ste",
+    "Survival": "sur",
+
+}
+let parseMonsters = function(json)
+{
+    let elements = {};
+    let rawElements = json.monster;
+    for(let raw in rawElements)
+    {
+        raw = rawElements[raw];
+        if(!Array.isArray(raw.text))
+        {
+            raw.text = [raw.text];
+        }
+        raw.text =  raw.text.join("<br>")+"<br>";
+        let element = duplicate(game.templates.actors.Monster)
+        element.info.name.current = raw.name;
+        element.info.notes.current = parseNotes(raw.text);
+
+        element.info.race.current = raw.type;
+        element.info.size.current = sizeMap[raw.size];
+        element.info.alignment.current = raw.alignment;
+        element.counters.cr.current = raw.cr
+
+        element.stats.Str.current = raw.str
+        element.stats.Dex.current = raw.dex
+        element.stats.Con.current = raw.con
+        element.stats.Int.current = raw.int
+        element.stats.Wis.current = raw.wis
+        element.stats.Cha.current = raw.cha
+
+        let skills = raw.skill.toLowerCase();
+        for(let skill in skillMap)
+        {
+            if(skills.indexOf(skill.toLowerCase()) >= 0)
+            {
+                element.skills[skillMap[skill]].prof = 1;
+            }
+        }
+
+        try {
+            element.counters.proficiency.current = Math.floor(eval(raw.cr) / 4 + 2)
+        } catch (e) {
+            console.log(raw, raw.cr);
+        }
+
+        element.counters.hp.current = raw.hp.replace(/\(.+\)/g,"");
+        element.counters.hp.max = raw.hp.replace(/\(.+\)/g, function(m){
+            element.counters.hpDice.current = m.replace("(","").replace(")","")
+            return "";
+        });
+        element.counters.baseAC.current = raw.ac.replace(/\(.+\)/g,"");
+        element.counters.speed.current = raw.speed;
+
+
+        var token_name = raw.name.toLowerCase().replace(/[^a-zA-Z0-9]/g, "_")
+        if (TOKEN_MAP[token_name]) {
+            element.info.img.current = "/content/FiveForge/monster_tokens/" + TOKEN_MAP[token_name]
+        } else {
+            //console.log("Token missing for " + m.name, " - ", token_name);
+        }
+        element.info.notes.current = ""
+        if(raw.trait == undefined){
+            raw.trait = [];
+        }
+        if(!Array.isArray(raw.trait))
+        {
+            raw.trait = [raw.trait];
+        }
+        if (raw.languages) {
+            raw.trait.push({
+                name:"Known Languages",
+                text:raw.languages
+            })
+        }
+        if (raw.senses) {
+            raw.trait.push({
+                name:"Senses",
+                text:raw.senses
+            })
+        }
+        if (raw.immune) {
+            raw.trait.push({
+                name:"Damage immunities",
+                text:raw.immune
+            })
+
+        }
+        if (raw.conditionImmune) {
+            raw.trait.push({
+                name:"Condition immunities",
+                text:raw.conditionImmune
+            })
+        }
+        if (raw.resist) {
+            raw.trait.push({
+                name:"Damage resistance",
+                text:raw.resist
+            })
+        }
+        if (raw.vulnerable) {
+            raw.trait.push({
+                name:"Vulnerabilities",
+                text:raw.vulnerable
+            })
+        }
+
+        let actions = [];
+
+        element.elements["MonsterTrait"] = []
+
+        if(!Array.isArray(raw.reaction)&&raw.reaction)
+        {
+            raw.reaction = [raw.reaction];
+        }
+        if(!Array.isArray(raw.legendary)&&raw.legendary)
+        {
+            raw.legendary = [raw.legendary];
+        }
+
+        if(raw.legendary)
+        {
+            for(let k in raw.legendary)
+            {
+                k = raw.legendary[k];
+                k.legendary = true;
+            }
+        }
+        if(raw.reaction)
+        {
+            for(let z in raw.reaction)
+            {
+                raw.reaction[z].name = "Reaction: "+raw.reaction[z].name;
+                raw.reaction[z].reaction = true;
+            }
+        }
+        actions = actions.concat(raw.legendary)
+        actions = actions.concat(raw.reaction)
+
+        actions = actions.concat(raw.action)
+        actions = actions.concat(raw.trait)
+        for(let i = 0; i< actions.length; i++)
+        {
+            let r = actions[i];
+            if(!r){continue;}
+
+            let action = new FFElement({_type:"MonsterTrait"});
+            if(!Array.isArray(r.text))
+            {
+                r.text = [r.text];
+            }
+            r.text =  r.text.join("<br>")+"<br>";
+            if(r.reaction)
+            {
+                action.attributes.reaction.current = 1;
+            }
+            if(r.legendary)
+            {
+                action.attributes.legendary.current = 1;
+            }
+            if(r.attack)
+            {
+                if(!Array.isArray(r.attack))
+                {
+                    r.attack = [r.attack]
+                }
+                for(let a in r.attack)
+                {
+                    a = r.attack[a];
+                    let attack = a.split("|");
+                    let name = attack[0];
+                    if (!name) {
+                        name = r.name;
+                    } else if (name != "" && name != r.name) {
+                        name = r.name + " (" + name + ")";
+                    }
+                    let hit = attack[1];
+                    let dmg = attack[2];
+                    if(hit)
+                    {
+                        action.attributes.attacks.current.push({
+                            name: name,
+                            value: "d20 +" + hit,
+                            enabled: 1,
+                        })
+                    }
+                    if(dmg)
+                    {
+                        action.attributes.damages.current.push({
+                            name: name,
+                            value: dmg,
+                            enabled: 1,
+                        })
+                    }
+
+                }
+            }
+            action.info.name.current = r.name;
+            action.info.notes.current = parseNotes(r.text);
+            element.elements["MonsterTrait"].push(action);
+        }
+        elements[element.info.name.current] = element;
+    }
+    return elements;
+}
+
+
 /*
     Trait Parser
 */
@@ -652,6 +889,7 @@ FiveForge.registerUI("xmlConverter", function(obj, app, scope)
         createConverter("Trait", parseTraits, json)
         createConverter("Item", parseItems, json)
         createConverter("Spell", parseSpells, json)
+        createConverter("Monster", parseMonsters, json)
     });
 
 

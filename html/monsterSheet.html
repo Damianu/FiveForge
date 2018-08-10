@@ -1,0 +1,687 @@
+<div class="flex flexcolumn fforge_characterSheet">
+    <img src="traverse{info.img.current}" class="backIMG">
+    <div class="flexrow">
+        <div class="flex flexcolumn cTop">
+            <div class="flexrow">
+                <div class="cName" dui_edit="info.name">
+                    Name
+                </div>
+                <div class="flexcolumn cLvlXP">
+                    <div class = "cLvl flex">CR <span dui_edit="counters.cr"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cCounters flexrow flexwrap">
+        <div class="cCounter">
+                <img src="/content/FiveForge/icons/juggler.svg" class="cCounterIMG"/>
+                <div class = "cCounterName">Proficiency</div>
+                <div class = "cCounterValue" dui_edit="counters.proficiency"></div>
+        </div>
+        <div class="cCounter">
+                <div class = "cCounterName">Death Saves</div>
+                <img src="/content/FiveForge/icons/death-skull.svg" class="cCounterIMG"/>
+                <div class = "cCounterValue flexrow">
+                    <span class="glyphicon glyphicon-heart flex save_eval{(@counters.svLife >= 1)?1:0}">
+                        <click dui_cond="@counters.svLife == 1">
+                            <setAttr dui_name="counters.svLife" dui_value="0" />
+                        </click>
+                        <click dui_cond="@counters.svLife != 1">
+                            <setAttr dui_name="counters.svLife" dui_value="1" />
+                        </click>
+                    </span>
+                    <span class="glyphicon glyphicon-heart flex save_eval{(@counters.svLife >= 2)?1:0}">
+                        <click dui_cond="@counters.svLife == 2">
+                            <setAttr dui_name="counters.svLife" dui_value="0" />
+                        </click>
+                        <click dui_cond="@counters.svLife != 2">
+                            <setAttr dui_name="counters.svLife" dui_value="2" />
+                        </click>
+                    </span>
+                    <span class="glyphicon glyphicon-heart flex save_eval{(@counters.svLife >= 3)?1:0}">
+                        <click dui_cond="@counters.svLife == 3">
+                            <setAttr dui_name="counters.svLife" dui_value="0" />
+                        </click>
+                        <click dui_cond="@counters.svLife != 3">
+                            <setAttr dui_name="counters.svLife" dui_value="3" />
+                        </click>
+                    </span>
+                </div>
+                <div class = "cCounterValue flexrow">
+                    <span class="glyphicon glyphicon-remove flex save_eval{(@counters.svDeath >= 1)?1:0}">
+                        <click dui_cond="@counters.svDeath == 1">
+                            <setAttr dui_name="counters.svDeath" dui_value="0" />
+                        </click>
+                        <click dui_cond="@counters.svDeath != 1">
+                            <setAttr dui_name="counters.svDeath" dui_value="1" />
+                        </click>
+                    </span>
+                    <span class="glyphicon glyphicon-remove flex save_eval{(@counters.svDeath >= 2)?1:0}">
+                        <click dui_cond="@counters.svDeath == 2">
+                            <setAttr dui_name="counters.svDeath" dui_value="0" />
+                        </click>
+                        <click dui_cond="@counters.svDeath != 2">
+                            <setAttr dui_name="counters.svDeath" dui_value="2" />
+                        </click>
+                    </span>
+                    <span class="glyphicon glyphicon-remove flex save_eval{(@counters.svDeath >= 3)?1:0}">
+                        <click dui_cond="@counters.svDeath == 3">
+                            <setAttr dui_name="counters.svDeath" dui_value="0" />
+                        </click>
+                        <click dui_cond="@counters.svDeath != 3">
+                            <setAttr dui_name="counters.svDeath" dui_value="3" />
+                        </click>
+                    </span>
+                </div>
+        </div>
+        <div class="cCounter">
+                <img src="/content/FiveForge/icons/health-normal.svg" class="cCounterIMG"/>
+            <div class = "cCounterName">Hit Points</div>
+            <div class = "cCounterValue"><span dui_edit="counters.hp"></span> / <span dui_edit="counters.hp" dui_editval="max"></span></div>
+            <div class = "cCounterAddition"><span>Temp.</span> <span dui_edit="counters.tempHP">_tempHP</span></div>
+        </div>
+        <div class="cCounter">
+            <img src="/content/FiveForge/icons/leather-armor.svg" class="cCounterIMG"/>
+
+            <div class = "cCounterName">Armor Class</div>
+            <div class = "cCounterValue" dui_edit="counters.baseAC">_AC</div>
+        </div>
+        <div class="cCounter">
+                <img src="/content/FiveForge/icons/sprint.svg" class="cCounterIMG"/>
+                <div class = "cCounterName">Speed</div>
+                <div class = "cCounterValue" style="font-size:1.1em" dui_edit="counters.speed">Speed</div>
+        </div>
+
+        <div class="cCounter">
+                <img src="/content/FiveForge/icons/walking-boot.svg" class="cCounterIMG"/>
+                <div class = "cCounterName">Initiative</div>
+                <div class = "cCounterValue">traverse{stats.Dex.bonus}</div>
+        </div>
+
+        <div class="cCounter">
+                <div class = "cCounterName">Type</div>
+                <div class = "cCounterValue" style="font-size:1.1em" dui_edit="info.race">Type</div>
+        </div>
+        <div class="cCounter">
+                <div class = "cCounterName">Alignment</div>
+                <div class = "cCounterValue" style="font-size:1.1em" dui_edit="info.alignment">Alignment</div>
+        </div>
+    </div>
+    <div class="flex flexrow">
+        <div class="cStats flexcolumn flexwrap cLeftPanel">
+            <loop dui_lookup="stats" dui_key="target">
+
+                <div class="cStat">
+                    <img class="cStatIMG" src="/content/FiveForge/icons/traverse{%target%.name}.svg">
+                    <div class = "cStatName">traverse{%target%.name}</div>
+                    <div class = "cStatValue" dui_edit="%target%"></div>
+                    <div class = "cStatBonus">
+                        <span>Bonus</span> <span dui_cond="traverse{%target%.bonus} >= 0">+</span>traverse{%target%.bonus}
+                        <click>
+                            <roll dui_roll="d20 + traverse{%target%.bonus}"dui_flavor="traverse{%target%.name} check" />
+                        </click>
+                    </div>
+                    <div class = "cStatSave">
+                        <span class="glyphicon glyphicon-ok subtitle" dui_cond="@%target%.saveProf">
+                            <click>
+                                <setAttr dui_name="%target%" dui_tgtval="saveProf" dui_value="0"></setAttr>
+                            </click>
+                        </span>
+                        <span class="glyphicon glyphicon-remove subtitle" dui_cond="@%target%.saveProf == 0">
+                            <click>
+                                <setAttr dui_name="%target%" dui_tgtval="saveProf" dui_value="1"></setAttr>
+                            </click>
+                        </span>
+                        <span>
+                            <span>Save</span>
+                            <span dui_cond="@%target%.save >= 0">+</span>traverse{%target%.save}
+                            <click>
+                                <roll dui_roll="d20 + traverse{%target%.save}"dui_flavor="traverse{%target%.name} save" />
+                            </click>
+                        </span>
+                    </div>
+                </div> 
+
+            </loop>
+
+        </div>
+        <div class="secondLeft flexcolumn">
+            <div class="cSkills">
+                <loop dui_lookup="skills" dui_key="target">
+                    <div dui_cond="traverse{%target%.min}!=-1" class="cSkill proficienttraverse{%target%.prof}">
+                        <div>
+                            traverse{%target%.name} <span dui_cond="@%target%>=0">+</span>traverse{%target%.current}
+                            <click>
+                                <roll dui_roll="d20 + traverse{%target%.current}" dui_flavor="traverse{%target%.name} check"></roll>
+                            </click>
+                        </div>
+                        <span class="glyphicon glyphicon-ok" dui_cond="@%target%.prof">
+                            <click>
+                                <setAttr dui_name="%target%" dui_tgtval="prof" dui_value='0'></setAttr>
+                            </click>
+                        </span>
+                        <span class="glyphicon glyphicon-remove" dui_cond="@%target%.prof == 0">
+                            <click>
+                                <setAttr dui_name="%target%" dui_tgtval="prof" dui_value='1'></setAttr>
+                            </click>
+                        </span>
+                    </div>
+                </loop>
+            </div>
+            <div></div>
+            <div class = "cTracker">
+                <div class="cTrackerName" dui_edit="counters.tracker" dui_editval="name"></div>
+                <div class="cTrackerValue"><span dui_edit="counters.tracker"></span>&nbsp;/&nbsp;<span dui_edit="counters.tracker" dui_editval="max"></span></div>
+            </div>
+            <div class = "cTracker" style="overflow-y:auto">
+                <div class="cTrackerName">Attack Modifiers</div>
+                <ui dui_name="fforge_modifierEdit">
+                    <scope dui_name="path" dui_value="attackModifiers"></scope>
+                </ui>
+            </div>
+            <div class = "cTracker" style="overflow-y:auto">
+                <div class="cTrackerName">Damage Modifiers</div>
+                <ui dui_name="fforge_modifierEdit">
+                        <scope dui_name="path" dui_value="damageModifiers"></scope>
+                    </ui>
+                </div>
+        </div>
+        <div class="flex flexcolumn rightPanel" dui_scroll="rightPanel">
+            <ui dui_name="fforge_elementList">
+                <scope dui_name="type" dui_value="MonsterTrait"></scope>
+            </ui>
+        </div>
+    </div>
+
+</div>
+<style>
+    .cLvlXP
+    {
+        position:absolute;
+        right:0;
+        top:0;
+    }
+    .rightPanel
+    {
+        text-shadow: 0px 0px 1px rgba(30, 30, 30, 0.8);
+        padding-right:2px;
+    }
+    .fforge_characterSheet > div
+    {
+        z-index:100;
+    }
+    .cAddElement
+    {
+        background:white;
+    }
+    .noBold
+    {
+        font-weight:normal !important;
+    }
+    .cSpellcastingSelect
+    {
+        text-align:center;
+    }
+    .backIMG
+    {
+        z-index:0;
+        position:absolute;
+        right: 0;
+        bottom: 0; 
+        width:60%;
+        opacity: 0.15;
+        pointer-events:none;
+    }
+    .fforge_characterSheet .cImage {
+        position:relative;
+        max-width: 100px;
+        min-width: 100px;
+        height: 100px;
+        margin-left:8px;
+        margin-top:8px;
+        box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.75);
+        border-radius:2px;
+        }
+    .fforge_characterSheet .cName {
+        font-size: 4em;
+        flex:5 !important;
+        font-weight: normal;
+        font-family: "Nodesto Caps Condensed";
+    }
+    .fforge_characterSheet {
+        font-family: "mr._eaves_small_capsregular";
+        font-weight:700;
+        text-shadow: 0px 0px 6px rgba(30,30,30,0.2);
+        color: black;
+    }
+    .fforge_characterSheet .cBio
+    {
+        justify-content:space-around;
+    }
+    .fforge_characterSheet .cBio > div {
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        max-width:24%;
+    }
+    .fforge_characterSheet .cBio > div > input {
+        text-align:center;
+        max-width:100%;
+    }
+    .fforge_characterSheet .cTop {
+        margin-left: 10px;
+        max-width:83%;
+    }
+    .fforge_characterSheet .cLvl
+    {
+        font-size:2em;
+    }
+    .fforge_characterSheet .cLvlXP
+    {
+        margin-right:20px;
+        align-items:center;
+        align-self:flex-start;
+        flex-grow:0;
+    }
+    .fforge_characterSheet .cXP input
+    {
+        max-width:40px;
+        text-align: center;
+    }
+    .fforge_characterSheet .center
+    {
+        text-align: center;
+    }
+    .fforge_characterSheet .cStat
+    {
+        background:white;
+        border-radius:4px;
+        display:flex;
+        flex:1;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        font-size:0.8em;
+        position:relative;
+    }
+    .fforge_characterSheet .cStats
+    {
+        justify-content:space-around;
+        margin-left:3px;
+        margin-top:2px;
+        width:8em;
+    }
+    .cStats > div{
+        flex:1;
+        max-height:15%;
+    }
+    .cStat .cStatName
+    {
+        font-size: 1.4em;
+        color: rgb(30,30,30);
+        text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.9);
+    }
+    .cStat .cStatValue
+    {
+        font-size:1.7em;
+    }
+    .cStat .cStatBonus > span
+    {
+        color: rgba(30,30,30,0.75)
+    }
+    .cStat .cStatSave > span
+    {
+        color: rgba(30,30,30,0.75)
+    }
+    .cStat .cStatSave 
+    {
+        font-size:1.5em;
+    }
+    .cStat .cStatBonus 
+    {
+        font-size:1.5em;
+    }
+    .cStat .cStatIMGHack {
+        position: absolute;
+        left: -3px;
+        top: 5px;
+        right: 5px;
+        opacity: 0.1;
+        height: 99%;
+        pointer-events:none;
+    }
+    .cStat .cStatIMG {
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        opacity: 0.1;
+        height: 100%;
+        width: 100%;
+        pointer-events:none;
+    }
+    .fforge_characterSheet .cCounters
+    {
+        justify-content:center;
+        justify-content:space-around;
+        margin-top:10px;
+        max-height:64px;
+    }
+    .fforge_characterSheet .cCounter
+    {
+        background:white;
+        border-radius:4px;
+        display:flex;
+        flex:1;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        max-width:11.5%;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        font-size:0.9em;
+        position:relative;
+    }
+    .fforge_characterSheet .cCounter .cCounterValue
+    {
+        font-size:1.4em;
+    }
+    .fforge_characterSheet .cCounter .cCounterValue2
+    {
+        font-size:1em;
+        max-height:15%;
+        margin-top:-5px;
+    }
+    .fforge_characterSheet .cCounter .cCounterAddition > span
+    {
+        color: rgba(30,30,30,0.75)
+    }
+    .fforge_characterSheet .cCounter .cCounterAddition2
+    {
+        font-size:0.9em;
+    }
+    .cAbilities
+    {
+        flex:1;
+        align-self:center;
+        padding-left:1em;
+        font-size: 0.95em;
+    }
+    .cAbilities > div {
+        border-bottom:1px solid rgba(30, 30, 30, 0.3);
+        margin-bottom:2px;
+        text-align: center;
+    }
+    .cLeftPanel {
+        width:10em;
+    }
+    .cTrait{
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        border-radius:5px;
+        padding:5px;
+    }
+    .cTrait .cTraitName
+    {
+        font-size:1.2em;
+        cursor:pointer;
+        user-select: none;
+    }
+    .cTrait .cTraitText
+    {
+        color: rgba(30,30,30,0.75);
+        padding-left:1em;
+    }
+    .cTrait .cTraitIcons
+    {
+        margin-right:10px;
+    }
+    .cTrait .cTraitIcons > span 
+    {
+        cursor:pointer;
+        user-select: none;
+    }
+    .cTabButtons
+    {
+        display:flex;
+        flex-direction:row;
+        justify-content:space-around;
+        font-size:1.5em;
+    }
+    .cLeftPanel > div
+    {
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        border-radius:5px;
+        padding:5px;
+    }
+    .prof1, .prof1 > *
+    {
+        color: #e74c3c !important;
+        font-weight:bold;
+    }
+    .cAbilities .glyphicon
+    {
+        align-self:center;
+    }
+    .cAbilities > div 
+    {
+        flex-direction:row;
+        display:flex;
+    }
+    .cAbility
+    {
+        display:block;
+        flex:1;
+    }
+    .secondLeft
+    {
+        width:15em;
+        padding-right:0;
+        margin-left:8px;
+        margin-top:8px;
+    }
+    .cTracker
+    {
+        display:flex;
+        flex-direction:column;
+        text-align:center;
+    }
+    .cTrackerName
+    {
+        border-bottom: 1px solid rgba(0,0,0,0.5);
+        flex:1;
+    }
+    .cTrackerValue
+    {
+        flex:2;
+    }
+    .cSkills, .cTracker
+    {
+        font-weight:600;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
+        padding:2px;
+        border-radius:4px;
+        margin-right:0;
+        margin-bottom:10px;
+    }
+    .cSkills > div:last-child 
+    {
+        border-bottom: none !important;
+        margin-bottom:0px;
+    }
+    .cSkills > div
+    {
+        border-bottom:1px solid rgba(30, 30, 30, 0.3);
+        margin-bottom:2px;
+        text-align: left;
+        padding-left:2px;
+    }
+    .proficient1
+    {
+        color:rgb(0,0,0) !important;
+        font-weight:bold !important;
+    }
+    .proficient1 .glyphicon
+    {
+        opacity:1 !important;
+    }
+    .cSkill .glyphicon:hover
+    {
+        opacity:1 !important;
+    }
+    .cSkill
+    {
+        color:rgba(0,0,0,0.65);
+        flex-direction:row;
+        display:flex;
+        padding-right:4px;
+    }
+    .cSkill .glyphicon
+    {
+        font-weight:normal;
+        opacity:0.3;
+    }
+    .cSkill > div
+    {
+        flex:1;
+    }
+    .cTabSelected_true
+    {
+        border-bottom:2px dashed rgba(255, 30, 30, 0.6);
+    }
+    .cTabSelected_false
+    {
+        border-bottom:2px dashed rgba(255, 30, 30, 0.2);
+    }
+    .cTabSelected_false:hover
+    {
+        border-bottom:2px dashed rgba(255, 30, 30, 0.4);
+    }
+    .display_0, .display_false
+    {
+        display:none !important;
+    }
+    .display_true, .display_1
+    {
+    }
+    .cTabContent
+    {
+        flex:1;
+        display:flex;
+        flex-direction:column;
+    }
+    .cNotes
+    {
+        margin-top:10px;
+        box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.1);
+    }
+
+
+    .cInventory{
+        margin-top:5px;
+        padding-right:5px;
+        padding-left:5px;
+        padding-bottom:5px;
+    }
+    .centerglyph
+    {
+        color:red;
+        display: inline-block;
+        vertical-align: sub;
+    }
+    .rightPanel
+    {
+        margin-left:10px;
+        overflow-y: auto;
+        margin-top: 8px;
+    }
+    .flexrow_force
+    {
+        flex-direction:row !important;
+    }
+    .cSpellTracker
+    {
+        margin-top:10px;
+        width:8em;
+    }
+    .cInventory > div
+    {
+        margin-top:2px;
+    }
+    .cTraits
+    {
+        border-bottom:1px solid rgba(0,0,0,0.1);
+        height:40%;
+    }
+    .cTabContent{
+        display:flex;
+        flex-direction:column;
+    }
+    .secondLeft
+    {
+        bottom:0;
+    }
+    .nephritis
+    {
+        color:#27ae60;
+    }
+    * {
+        flex-shrink:0;
+    }
+    .cStats
+    {
+        min-height:690px;
+    }
+    .cAddElement
+    {
+        background:white;
+        border: 1px solid #333;
+        flex:0.01;
+    }
+    .cCounter
+    {
+        position:relative;
+        overflow:hidden;
+    }
+    .cCounterIMG
+    {
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        opacity: 0.1;
+        height: 115%;
+        width: 100%;
+        pointer-events:none;
+        -webkit-mask-image:linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 60%, rgba(0,0,0,0) 100%);
+        mask-image:linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 60%, rgba(0,0,0,0) 100%);
+    }
+    .cStatIMG
+    {
+        -webkit-mask-image: radial-gradient(ellipse at center, #ffffff 0%, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0) 100%);
+        mask-image: radial-gradient(ellipse at center, #ffffff 0%, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0) 100%);
+    }
+    .save_1, .save_0:hover
+    {
+        color: rgb(231, 76, 60);
+        text-shadow: 0px 0px 1px rgba(0, 0, 0, 1);
+    }
+    .save_0
+    {
+        text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.6);
+        color: rgb(251, 136, 120);
+    }
+
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.5); 
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.5); 
+    }
+</style>

@@ -275,6 +275,7 @@ FiveForge.addHook("Initialize",checkLoad)
 
 FiveForge.includeTemplate("manager");
 FiveForge.includeTemplate("characterSheet");
+FiveForge.includeTemplate("monsterSheet");
 FiveForge.includeTemplate("elementEditor");
 FiveForge.includeTemplate("roll");
 FiveForge.includeTemplate("installer");
@@ -283,6 +284,7 @@ FiveForge.includeTemplate("installer");
 FiveForge.includeTemplate("elements/item");
 FiveForge.includeTemplate("elements/trait");
 FiveForge.includeTemplate("elements/spell");
+FiveForge.includeTemplate("elements/monsterTrait");
 
 FiveForge.includeTemplate("elements/itemCard");
 FiveForge.includeTemplate("elements/spellCard");
