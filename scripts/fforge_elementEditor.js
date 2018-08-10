@@ -65,7 +65,6 @@ FiveForge.registerHTMLUI("elementEditor", "elementEditor", function(handle, obj,
 {
     if(game.debug)
     {
-        console.log("Debug inserted!!!");
         let debugPrint = $("<button>Debug > Console</button>");
         debugPrint.appendTo(handle);
         debugPrint.css({

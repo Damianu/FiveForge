@@ -12,7 +12,6 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
     if(game.debug)
     {
         let handle = sheet;
-        console.log("Debug inserted!!!");
         let debugPrint = $("<button>Debug > Console</button>");
         debugPrint.appendTo(handle);
         debugPrint.css({
@@ -89,7 +88,6 @@ FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app
     if(game.debug)
     {
         let handle = sheet;
-        console.log("Debug inserted!!!");
         let debugPrint = $("<button>Debug > Console</button>");
         debugPrint.appendTo(handle);
         debugPrint.css({
