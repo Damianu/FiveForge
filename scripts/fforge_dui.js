@@ -137,6 +137,10 @@ function processEvents(obj, app, scope, context, main)
             newScope[$(this).data('dname')] = $(this).data("dvalue");
         })
         var newElement = sync.render(element.data("dname"))(obj, app, newScope);
+        if(!newElement)
+        {
+            newElement = $("<div> No app :( </div>")
+        }
         newElement.attr("class", element.attr("class"))
         newElement.attr("id", element.attr("id"))
         newElement.attr("style", element.attr("style"))

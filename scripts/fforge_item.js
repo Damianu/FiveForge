@@ -383,6 +383,10 @@ $.extend(true, FiveForge.ItemEditableAttributes["Armor"], FiveForge.ItemEditable
 
 
 FiveForge.registerUI("weightBar", function(obj, app, scope){
+    if(!obj.data.elements||!obj.data.elements.Item)
+    {
+        return
+    }
     let div = $("<div class='flexrow'>")
     let barOut = $("<div class='flex'>").appendTo(div);
 

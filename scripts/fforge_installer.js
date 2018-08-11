@@ -8,7 +8,19 @@ FiveForge.registerHTMLUI("installer","installer",function(handle, obj,app,scope)
     })
     handle.find("#install").click(function(){
         game.templates = _baseTemplate
+        let ents = game.entities.data;
+        for(let i in ents)
+        {
+            let entData = ents[i].data;
+            console.log("Updating "+entData.info.name.current)
+            if(!entData._type)
+            {
+                entData._type = "Character";
+                ents[i].sync("updateAsset");
+            }
+        }
         runCommand("updateTemplate", duplicate(game.templates));
+
         setTimeout(function(){
             location.reload();
         },1)
@@ -1060,6 +1072,7 @@ var _baseTemplate = {
 */
 
 _baseTemplate.actors["Character"] = {
+    "_version": "NEW_CHARACTER",
     "_type": "Character",
     "_t": "c",
     "info": {
@@ -1538,6 +1551,7 @@ _baseTemplate.actors["Character"] = {
 */
 
 _baseTemplate.actors["Monster"] = {
+    "_version": "NEW_CHARACTER",
     "_type": "Monster",
     "_t": "c",
     "info": {
@@ -1980,5 +1994,5 @@ _baseTemplate.actors["Monster"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "1.0 Beta",
+    VERSION: "1.0.1 Beta",
 }

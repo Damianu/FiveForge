@@ -36,13 +36,18 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
         forceUpdate = true;
     }
 
+    if(obj.data._version == "NEW_CHARACTER")
+    {
+        obj.data._version = game.templates.FiveForge.VERSION;
+    }
     if(obj.data._version!=game.templates.FiveForge.VERSION)
     {
         var cp = duplicate(obj.data);
-        $.extend(true, obj.data, game.templates.actors["Character"], cp);
+        $.extend(obj.data, game.templates.actors["Character"], cp);
         obj.data._version = game.templates.FiveForge.VERSION;
         console.log("Updated data on character "+obj.data.info.name.current)
-        forceUpdate = true;
+        sheet.replaceWith($("<div>Character updated, please reopen the sheet</div>"));
+        obj.sync("updateAsset");
     }
 
     for(var k in FFElement.types)
@@ -60,7 +65,6 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
             sheet.replaceWith(FiveForge.renderUI("characterSheet", obj, app, scope));
             obj.sync("updateAsset");
         },0)
-        obj.sync("updateAsset");
     }
     if(!app.attr("sizeFixed"))
     {
@@ -115,14 +119,18 @@ FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app
         forceUpdate = true;
     }
 
-
+    if(obj.data._version == "NEW_CHARACTER")
+    {
+        obj.data._version = game.templates.FiveForge.VERSION;
+    }
     if(obj.data._version!=game.templates.FiveForge.VERSION)
     {
         var cp = duplicate(obj.data);
-        $.extend(true, obj.data, game.templates.actors["Character"], cp);
+        $.extend(obj.data, game.templates.actors["Monster"], cp);
         obj.data._version = game.templates.FiveForge.VERSION;
         console.log("Updated data on character "+obj.data.info.name.current)
-        forceUpdate = true;
+        sheet.replaceWith($("<div>Character updated, please reopen the sheet</div>"));
+        obj.sync("updateAsset");
     }
 
     for(var k in FFElement.types)
