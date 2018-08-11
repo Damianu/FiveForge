@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 /*
     Locals
@@ -11,7 +11,7 @@ let _globalActions = [];
 */
 let MOD_PATH = "/workshop/FiveForge"
 const FiveForge = {
-    VERSION:"indev",
+    VERSION:"1.0 Beta",
     PREFIX:"fforge_",
     IDENTIFIER:"FiveForge",
     CSS_PATH:MOD_PATH+"/css",
@@ -201,7 +201,13 @@ FiveForge.registerHTMLUI("core","manager",function(handle, obj,app,scope) {
         button.text(action.name);
         button.click(action.func);
     }
-
+    var loadingDiv = $("<div>Loading monsters...</div>").appendTo(handle);
+    if(hasSecurity(getCookie("UserID"), "Assistant Master"))
+    {
+        $.getScript( "/scripts/lazy/fforge_compendium_Monster.js", function( data, textStatus, jqxhr ) {
+            FiveForge.log("Loaded monster compendium.")
+        })
+    }
     var icons = $("<div>").appendTo(handle);
 /*    for( var k in FiveForge.icons)
     {

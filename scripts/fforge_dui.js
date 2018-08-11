@@ -70,14 +70,7 @@ function buildEvent(obj, app, scope, context, main)
         var val = $(this).data("dvalue");
         var tgtval = $(this).data("dtgtval")||"current";
         funcArray.push(function(){
-            if(tgtval=="direct")
-            {
-                sync.traverse(context,name) = val;
-            }
-            else
-            {
-                sync.traverse(context,name)[tgtval] = val;
-            }
+            sync.traverse(context,name)[tgtval] = val;
             obj.sync("updateAsset");
         });
     });

@@ -1438,10 +1438,6 @@ _baseTemplate.actors["Character"] = {
             "eq": "@c.stats.Cha.bonus +(@c.stats.Cha.saveProf?@proficiency:0)"
         },
         {
-            "target": "counters.ac",
-            "eq": "0"
-        },
-        {
             "target": "",
             "cond": "",
             "eq": ""
@@ -1882,10 +1878,6 @@ _baseTemplate.actors["Monster"] = {
             "eq": "@c.stats.Cha.bonus +(@c.stats.Cha.saveProf?@proficiency:0)"
         },
         {
-            "target": "counters.ac",
-            "eq": "0"
-        },
-        {
             "target": "",
             "cond": "",
             "eq": ""
@@ -1988,5 +1980,5 @@ _baseTemplate.actors["Monster"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "testing_8",
+    VERSION: "1.0 Beta",
 }
