@@ -178,12 +178,17 @@ FiveForge.registerUI("elementCard", function(obj,app,scope)
 
 FiveForge.registerUI("elementList", function(obj,app,scope)
 {
-
-    var list = $("<div class='flexcolumn'>");
-
+    var div = $("<div class='flexcolumn'>");
+    var list = $("<div class='flexcolumn'>").appendTo(div);
+    if(scope.container)
+    {
+        list.css({
+            "min-height":"20px",
+        })
+    }
     scope.type = scope.type || "Item";
     scope.path = scope.path || "elements."+scope.type;
-    var elements = sync.traverse(obj.data, scope.path);
+    let elements = sync.traverse(obj.data, scope.path);
     for(var i = 0; i<elements.length;i++)
     {
         let e = elements[i];
@@ -191,33 +196,63 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
         e = new FFElement(e);
         elements[i] = e;
         e.expanded = e.expanded||{name:"",current:0}
-        var render = e.render(obj);
+        var render = e.render(obj, scope);
         list.append(render);
         render.data("element", e);
-        render.find(".editElement").click(function(){
+        render.find(".editElement").first().click(function(){
             FiveForge.createElementEditor(e, function(newData){
                 e._data = newData;
                 obj.sync("updateAsset");
             })
         });
-        render.find(".removeElement").click(function(){
+        render.find(".removeElement").first().click(function(){
             elements.splice(elements.indexOf(e),1)
             obj.sync("updateAsset");
         });
+        render.addClass("fforge_elementData");
     }
-    var spacer = $("<div class='flex' style='margin-top:15px'>").appendTo(list)
-    var addDiv = $("<div class='flexrow'>").appendTo(list)
-    var addName = $("<input class='flex' list= 'fforge_"+scope.type+"'>").appendTo(addDiv)
-    var addButton = $("<button class='cAddElement'>+"+scope.type+"</button>").appendTo(addDiv);
-    addButton.click(function(){
-        var name = addName.val();
-        var compItem = FiveForge.Compendium[scope.type][name]||{};
-        compItem._type = scope.type;
-        var item = new FFElement(compItem);
-        item.info.name.current = name;
-        elements.push(item);
-        obj.sync("updateAsset");
-    });
+    if(!scope.container)
+    {
+        var spacer = $("<div class='flex' style='margin-top:15px'>").appendTo(div)
+        var addDiv = $("<div class='flexrow'>").appendTo(div)
+        var addName = $("<input class='flex' list= 'fforge_"+scope.type+"'>").appendTo(addDiv)
+        var addButton = $("<button class='cAddElement'>+"+scope.type+"</button>").appendTo(addDiv);
+        addButton.click(function(){
+            var name = addName.val();
+            var compItem = FiveForge.Compendium[scope.type][name]||{};
+            compItem._type = scope.type;
+            var item = new FFElement(compItem);
+            item.info.name.current = name;
+            elements.push(item);
+            obj.sync("updateAsset");
+        });
+    }
+    let className = "elementList_"+scope.type+"_"+obj.id();
+    list.addClass(className);
+    list.sortable({
+        handle: ".handle",
+        connectWith:"."+className,
+        appendTo: "body",
+        //containment:list,
+        update:function()
+        {
+            var newElements = [];
+            list.children().each(function(){
+                newElements.push($(this).data("element"));
+            });
+            elements.length = 0;
+            $.merge(elements,newElements);
+            if(scope.container)
+            {
 
-    return list;
+            }
+            else
+            {
+                setTimeout(function(){
+                    obj.sync("updateAsset");
+                })
+            }
+        }
+      });
+    return div;
 });

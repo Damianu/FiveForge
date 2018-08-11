@@ -1,15 +1,36 @@
 <div class="flex flexcolumn fforge_characterSheet">
-    <img src="traverse{info.img.current}" class="backIMG">
     <div class="flexrow">
+        <ui id="image" class="cImage" dui_name="ui_image"></ui>
         <div class="flex flexcolumn cTop">
             <div class="flexrow">
                 <div class="cName" dui_edit="info.name">
                     Name
                 </div>
                 <div class="flexcolumn cLvlXP">
-                    <div class = "cLvl flex">CR <span dui_edit="counters.cr"></span></div>
+                    <div class = "cLvl flex">Level <span dui_edit="counters.level"></span></div>
+                    <div class = "cXP flexrow flex"><input class="line flex"> / <input class="line flex"> XP</div>
                 </div>
             </div>
+            <div class="flex"></div>
+            <div class="flexrow cBio">
+                <div>
+                    <div>Class</div>
+                    <input dui_edit="info.class" class="line">
+                </div>
+                <div>
+                    <div>Race</div>
+                    <input dui_edit="info.race" class="line">
+                </div>
+                <div>
+                    <div>Background</div>
+                    <input dui_edit="info.back" class="line">
+                </div>
+                <div>
+                    <div>Alignment</div>
+                    <input dui_edit="info.alignment" class="line">
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="cCounters flexrow flexwrap">
@@ -75,6 +96,12 @@
                 </div>
         </div>
         <div class="cCounter">
+                <img src="/content/FiveForge/icons/dice-twenty-faces-twenty.svg" class="cCounterIMG"/>
+                <div class = "cCounterName">Hit Dice</div>
+                <div class = "cCounterValue"><span dui_edit="counters.hitDiceAmount"></span> / <span dui_edit="counters.hitDiceAmount" dui_editval="max"></span></div>
+                <div class = "cCounterAddition" dui_edit="counters.hitDice">_hitDice</div>
+        </div>
+        <div class="cCounter">
                 <img src="/content/FiveForge/icons/health-normal.svg" class="cCounterIMG"/>
             <div class = "cCounterName">Hit Points</div>
             <div class = "cCounterValue"><span dui_edit="counters.hp"></span> / <span dui_edit="counters.hp" dui_editval="max"></span></div>
@@ -84,27 +111,20 @@
             <img src="/content/FiveForge/icons/leather-armor.svg" class="cCounterIMG"/>
 
             <div class = "cCounterName">Armor Class</div>
-            <div class = "cCounterValue" dui_edit="counters.baseAC">_AC</div>
+            <div class = "cCounterValue" dui_edit="counters.ac">_AC</div>
+            <div class = "cCounterAddition"><span>Base</span> <span dui_edit="counters.baseAC">_BaseAC</span></div>
         </div>
         <div class="cCounter">
                 <img src="/content/FiveForge/icons/sprint.svg" class="cCounterIMG"/>
                 <div class = "cCounterName">Speed</div>
-                <div class = "cCounterValue" style="font-size:1.1em" dui_edit="counters.speed">Speed</div>
+                <div class = "cCounterValue" dui_edit="counters.speed">Speed</div>
         </div>
 
         <div class="cCounter">
                 <img src="/content/FiveForge/icons/walking-boot.svg" class="cCounterIMG"/>
+                
                 <div class = "cCounterName">Initiative</div>
-                <div class = "cCounterValue">traverse{stats.Dex.bonus}</div>
-        </div>
-
-        <div class="cCounter">
-                <div class = "cCounterName">Type</div>
-                <div class = "cCounterValue" style="font-size:1.1em" dui_edit="info.race">Type</div>
-        </div>
-        <div class="cCounter">
-                <div class = "cCounterName">Alignment</div>
-                <div class = "cCounterValue" style="font-size:1.1em" dui_edit="info.alignment">Alignment</div>
+                <div class = "cCounterValue" dui_edit="counters.initiative"></div>
         </div>
     </div>
     <div class="flex flexrow">
@@ -186,71 +206,100 @@
                     </ui>
                 </div>
         </div>
-        <div class="flex flexcolumn rightPanel" dui_scroll="rightPanel">
-            <ui dui_name="fforge_elementList">
-                <scope dui_name="type" dui_value="MonsterTrait"></scope>
-            </ui>
+        <div class="flex flexcolumn rightPanel">
+            <div class="cTraits flexcolumn" dui_resizable="s" dui_keepheight="traits">
+                    <ui dui_name="fforge_elementList" class="flex cInventory" style="height:500px;overflow-y:auto;" dui_scroll="traits">
+                        <scope dui_name="type" dui_value="Trait" />
+                    </ui>
+            </div>
+            <div class="flex2 flex flexcolumn cTabulator">
+                <div class="cTabs flex flexcolumn">
+                    <div class="cTabButtons">
+                        <div class="cTabSelected_eval{@counters.tab == 0}">
+                            Inventory
+                            <click>
+                                <setAttr dui_name="counters.tab" dui_value = "0"></setAttr>
+                            </click>
+                        </div>
+                        <div class="cTabSelected_eval{@counters.tab == 1}">
+                            Spells
+                            <click>
+                                <setAttr dui_name="counters.tab" dui_value = "1"></setAttr>
+                            </click>
+                        </div>
+                        <div class="cTabSelected_eval{@counters.tab == 2}">
+                            Biography
+                            <click>
+                                <setAttr dui_name="counters.tab" dui_value = "2"></setAttr>
+                            </click>
+                        </div>
+                    </div>
+                    <div class="cTabContents flex flex flexcolumn">
+                        <div class="flex flexcolumn">
+                            <div class="tabInventory cTabContent display_eval{@counters.tab == 0}">
+                                <ui dui_name="fforge_elementList" class="flex cInventory" style="height:500px;overflow-y:auto;" dui_scroll="items" />
+                            </div>
+                            <div class="tabSpells cTabContent display_eval{@counters.tab == 1} flexrow_force">
+                                <div class="flex">
+                                    <ui dui_name="fforge_elementList" class="flex cInventory" style="max-height:95%;margin:10px;overflow-y:auto;" dui_scroll="spells">
+                                        <scope dui_name="type" dui_value="Spell" />
+                                    </ui>
+                                </div>
+                                <div class="cSpellTracker flexcolumn">
+                                    <loop dui_count="9" dui_start="1" dui_key="lvl">
+                                        <div class="cSpellLevel flexrow">
+                                            <div style="margin-right:10px;padding-top:2px;">LVL. %lvl%</div>
+                                            <div><span class="centerglyph glyphicon glyphicon-menu-down">
+                                                <click>
+                                                    <setAttr dui_name="counters.spell%lvl%" dui_value="eval{@counters.spell%lvl% -1}" />
+                                                </click>
+                                            </span></div>
+                                            <div><input style="width:20px" class="line center" dui_edit="counters.spell%lvl%" /></div>
+                                            <div>/</div>
+                                            <div><input style="width:20px" class="line center" dui_edit="counters.spell%lvl%" dui_editval="max"/></div>
+                                        </div>
+                                    </loop>
+                                    <div class="cSpellcastingSelect">
+                                        <br>
+                                        Spellcasting Ability:
+                                        <br>
+                                        <select id="spellAbilitySelect"></select>
+                                        <br>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tabBio cTabContent display_eval{@counters.tab == 2}">
+                                <ui dui_name="ui_rawNotes" class="cNotes flex flexcolumn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 </div>
 <style>
-    .general_border()
-    {
-        box-shadow: 0px 0px 5px rgba(30, 30, 30, 0.8)
-    }
-    .cLvlXP
-    {
-        position:absolute;
-        right:0;
-        top:0;
-    }
-    .rightPanel
-    {
-        text-shadow: 0px 0px 1px rgba(30, 30, 30, 0.8);
-        padding-right:2px;
-    }
-    .fforge_characterSheet > div
-    {
-        z-index:100;
-    }
-    .cAddElement
-    {
-        background:white;
-    }
-    .noBold
-    {
-        font-weight:normal !important;
-    }
     .cSpellcastingSelect
     {
         text-align:center;
     }
-    .backIMG
-    {
-        z-index:0;
-        position:absolute;
-        right: 0;
-        bottom: 0; 
-        width:60%;
-        opacity: 0.15;
-        pointer-events:none;
-    }
     .fforge_characterSheet .cImage {
-        position:relative;
         max-width: 100px;
         min-width: 100px;
         height: 100px;
         margin-left:8px;
         margin-top:8px;
-        .general_border();
+        box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.75);
         border-radius:2px;
         }
     .fforge_characterSheet .cName {
-        font-size: 4em;
+        font-size: 3em;
         flex:5 !important;
         font-weight: normal;
         font-family: "Nodesto Caps Condensed";
+        margin-bottom:10px;
     }
     .fforge_characterSheet {
         font-family: "mr._eaves_small_capsregular";
@@ -306,7 +355,7 @@
         flex-direction:column;
         align-items:center;
         text-align:center;
-        .general_border();
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
         font-size:0.8em;
         position:relative;
     }
@@ -372,7 +421,6 @@
         justify-content:center;
         justify-content:space-around;
         margin-top:10px;
-        max-height:64px;
     }
     .fforge_characterSheet .cCounter
     {
@@ -383,8 +431,8 @@
         flex-direction:column;
         align-items:center;
         text-align:center;
-        max-width:11.5%;
-        .general_border();
+        max-width:13.5%;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
         font-size:0.9em;
         position:relative;
     }
@@ -422,7 +470,7 @@
         width:10em;
     }
     .cTrait{
-        .general_border();
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
         border-radius:5px;
         padding:5px;
     }
@@ -455,7 +503,7 @@
     }
     .cLeftPanel > div
     {
-        .general_border();
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
         border-radius:5px;
         padding:5px;
     }
@@ -503,7 +551,7 @@
     .cSkills, .cTracker
     {
         font-weight:600;
-        .general_border();
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.5);
         padding:2px;
         border-radius:4px;
         margin-right:0;
@@ -587,6 +635,8 @@
         padding-right:5px;
         padding-left:5px;
         padding-bottom:5px;
+        display:flex;
+        flex-direction:column;
     }
     .centerglyph
     {
@@ -596,9 +646,8 @@
     }
     .rightPanel
     {
-        margin-left:10px;
-        overflow-y: auto;
-        margin-top: 8px;
+        margin-left:5px;
+        margin-top:2px;
     }
     .flexrow_force
     {
@@ -606,8 +655,10 @@
     }
     .cSpellTracker
     {
+        border-left: 1px solid rgba(30, 30, 30, 0.2);
+        padding-left:5px;
         margin-top:10px;
-        width:8em;
+        width:8.1em;
     }
     .cInventory > div
     {

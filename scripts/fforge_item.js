@@ -18,6 +18,26 @@ class FFItem extends FFElement
     }
     calcData()
     {
+        if(this.subtype=="Container")
+        {
+            if(this._data.inventory)
+            {
+                let weight = 0;
+                this._data.attributes.baseWeight.current = Number(this._data.attributes.baseWeight.current) || 0;
+                for(let i = 0; i < this._data.inventory.length; i++)
+                {
+                    let el = new FFElement(this._data.inventory[i])
+                    weight += Number(el.attributes.weight.current) * Number(el.attributes.quantity.current) || 0;
+
+                }
+                this._data.attributes.weight.current = this._data.attributes.baseWeight.current + weight
+
+            }
+            else
+            {
+                this._data.attributes.weight.current = Number(this._data.attributes.baseWeight.current)
+            }
+        }
     }
     getActions(obj)
     {
@@ -129,7 +149,7 @@ class FFItem extends FFElement
                 var damage2 = this.getProp("damage2");
                 var hasAddDamage = 1;
                 actions.push({
-                    name:"Dex Attack",
+                    name:"Dex",
                     attack: dexAttack,
                     damage: dmg,
                     damageType: this.getProp("damageType"),
@@ -139,7 +159,7 @@ class FFItem extends FFElement
                 if(!(damage2=="0"||damage2==undefined||damage2==""))
                 {
                     actions.push({
-                        name:"Dex Attack 2",
+                        name:"Dex 2",
                         attack: dexAttack,
                         damage: dmg2,
                         damageType: this.getProp("damageType2"),
@@ -166,7 +186,7 @@ class FFItem extends FFElement
                 })
                 var damage2 = this.getProp("damage2");
                 actions.push({
-                    name:"Str Attack",
+                    name:"Str",
                     attack: strAttack,
                     damage: dmg,
                     damageType: this.getProp("damageType"),
@@ -175,7 +195,7 @@ class FFItem extends FFElement
                 if(!(damage2=="0"||damage2==undefined||damage2==""))
                 {
                     actions.push({
-                        name:"Str Attack 2",
+                        name:"Str 2",
                         attack: strAttack,
                         damage: dmg2,
                         damageType: this.getProp("damageType2"),
@@ -191,15 +211,31 @@ class FFItem extends FFElement
     {
         return FiveForge.ItemEditableAttributes[this.subtype]
     }
-    render(obj)
+    render(obj, scope)
     {
         var render = super.render(obj);
         var detailDiv = render.find(".iExpandable");
+        var actionDiv = render.find("#actions");
+        actionDiv.attr("id","")
         var actions = this.getActions(obj);
         let item = this;
+        if(this.subtype == "Container")
+        {
+            this._data.inventory = this._data.inventory || [];
+            let path = scope.path||"Elements.Item";
+            let ind = sync.traverse(obj.data,path).indexOf(this);
+            path+="."+ind+".inventory";
+            let newScope = {
+                path:path,
+                type:"Item",
+                container:true,
+            }
+            let inv = sync.render("fforge_elementList")(obj,null,newScope);
+            inv.addClass("flex");
+            detailDiv.append(inv);
+        }
         if(actions.length > 0)
         {
-            var actionDiv = $("<div class='iActions'>").appendTo(detailDiv);
             for(let i =0; i < actions.length; i++)
             {
                 let button = $("<button>").appendTo(actionDiv);
@@ -344,3 +380,39 @@ $.extend(true, FiveForge.ItemEditableAttributes["Armor"], FiveForge.ItemEditable
     armorType:true,
     equipped:true,
 });
+
+
+FiveForge.registerUI("weightBar", function(obj, app, scope){
+    let div = $("<div class='flexrow'>")
+    let barOut = $("<div class='flex'>").appendTo(div);
+
+    let maxWeight = obj.data.stats.Str.current * 15;
+    let curWeight = 0;
+    for(var i = 0;i< obj.data.elements.Item.length; i++)
+    {
+        curWeight += Number(obj.data.elements.Item[i].attributes.weight.current) * Number(obj.data.elements.Item[i].attributes.quantity.current)
+    }
+    let perc = Math.floor(curWeight/maxWeight * 100);
+    barOut.css({
+        "border-radius":"5px",
+        "border":"1px solid",
+        "position":"relative",
+        "background":"white",
+    })
+    let textDiv = $("<div>"+perc+"% ("+curWeight+" / "+maxWeight+"lb)</div>").appendTo(div);
+    textDiv.css({
+        "line-height": "10px",
+        "font-size": "10px",
+        "margin-left": "5px",
+    })
+    let bar = $("<div>").appendTo(barOut);
+    bar.css({
+        "position":"absolute",
+        "top":0,
+        "left":0,
+        "width":perc+"%",
+        "height":"100%",
+        "background":"#333"
+    })
+    return div;
+})

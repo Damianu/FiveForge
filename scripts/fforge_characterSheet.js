@@ -62,7 +62,7 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
     {
         setTimeout(function(){
             app.parent().parent().parent().height("950px");
-            app.parent().parent().parent().width("850px");
+            app.parent().parent().parent().width("800px");
         });
         app.attr("sizeFixed",true)
     }

@@ -1,7 +1,9 @@
 <div class="fforge_item flexcolumn flex">
     <div class="iMain flexrow">
-        <div class="flex iName iReaction_traverse{attributes.reaction.current} iLegendary_traverse{attributes.legendary.current}">traverse{info.name.current}
+        <div>
+            <span class="glyphicon glyphicon-move handle"></span>
         </div>
+        <div class="flex iName iReaction_traverse{attributes.reaction.current} iLegendary_traverse{attributes.legendary.current}">traverse{info.name.current}</div>
         <div class="iButtons">
             <span class="glyphicon glyphicon-comment printElement"></span>
             <span class="glyphicon glyphicon-edit editElement"></span>
@@ -19,6 +21,14 @@
     </div>
 </div>
 <style>
+    .fforge_item .handle
+    {
+        opacity:0;
+    }
+    .fforge_item:hover .handle
+    {
+        opacity:1;
+    }
     .iReaction_1
     {
         text-shadow: 0px 0px 30px rgba(0, 0, 255, 0.9) !important;

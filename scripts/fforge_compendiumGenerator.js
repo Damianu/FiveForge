@@ -28,6 +28,7 @@ function generateCompendium()
                         current:"_fillWith failed!",
                     }
                 },
+                _drop: "elements."+element._type,
                 _fillWith: name,
                 _t: element._t,
                 _type: element._type,
