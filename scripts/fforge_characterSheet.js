@@ -30,7 +30,7 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
         $.extend(data, FiveForge.Compendium[data._fillWith][data.info.name.current]);
         delete data["_fillWith"]
         setTimeout(function(){
-            sheet.replaceWith(FiveForge.renderUI("monsterSheet", obj, app, scope));
+            sheet.replaceWith(FiveForge.renderUI("characterSheet", obj, app, scope));
             console.log("Compendium hack :(")
         },0)
         forceUpdate = true;
@@ -56,6 +56,10 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
     if(forceUpdate)
     {
         console.log("Enhanced, updating");
+        setTimeout(function(){
+            sheet.replaceWith(FiveForge.renderUI("characterSheet", obj, app, scope));
+            obj.sync("updateAsset");
+        },0)
         obj.sync("updateAsset");
     }
     if(!app.attr("sizeFixed"))
@@ -108,10 +112,6 @@ FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app
         $.extend(data, FiveForge.Compendium[data._fillWith][data.info.name.current]);
         data._flags = flags;
         delete data["_fillWith"]
-        setTimeout(function(){
-            sheet.replaceWith(FiveForge.renderUI("monsterSheet", obj, app, scope));
-            console.log("Compendium hack :(")
-        },0)
         forceUpdate = true;
     }
 
@@ -136,7 +136,10 @@ FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app
     if(forceUpdate)
     {
         console.log("Enhanced, updating");
-        obj.sync("updateAsset");
+        setTimeout(function(){
+            sheet.replaceWith(FiveForge.renderUI("monsterSheet", obj, app, scope));
+            obj.sync("updateAsset");
+        },0)
     }
     if(!app.attr("sizeFixed"))
     {

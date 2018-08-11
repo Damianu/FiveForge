@@ -201,9 +201,9 @@ FiveForge.registerHTMLUI("core","manager",function(handle, obj,app,scope) {
         button.text(action.name);
         button.click(action.func);
     }
-    var loadingDiv = $("<div>Loading monsters...</div>").appendTo(handle);
-    if(hasSecurity(getCookie("UserID"), "Assistant Master"))
+    if(hasSecurity(getCookie("UserID"), "Assistant Master")&&FiveForge.lazyLoadDone != true)
     {
+        FiveForge.lazyLoadDone = true;
         $.getScript( "/scripts/lazy/fforge_compendium_Monster.js", function( data, textStatus, jqxhr ) {
             FiveForge.log("Loaded monster compendium.")
         })

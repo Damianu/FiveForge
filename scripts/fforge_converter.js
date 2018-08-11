@@ -306,12 +306,12 @@ let parseItems = function(json)
         var ico = findIcon(raw.name);
         if(ico)
         {
-            element.info.img = genProp("Image","content/FiveForge/icons/"+ico+".svg");
+            element.info.img.current = "content/FiveForge/icons/"+ico+".svg"
         }
         else
         {
             console.log("Icon not found:"+raw.name);
-            element.info.img = genProp("Image","content/FiveForge/icons/swap-bag.svg");
+            element.info.img.current = "content/FiveForge/icons/swap-bag.svg"
         }
 
 
@@ -435,6 +435,14 @@ var skillMap = {
     "Survival": "sur",
 
 }
+var abilityMap = {
+    "Str": "Str",
+    "Dex": "Dex",
+    "Con": "Con",
+    "Int": "Int",
+    "Wis": "Wis",
+    "Cha": "Cha",
+}
 let parseMonsters = function(json)
 {
     let elements = {};
@@ -469,6 +477,14 @@ let parseMonsters = function(json)
             if(skills.indexOf(skill.toLowerCase()) >= 0)
             {
                 element.skills[skillMap[skill]].prof = 1;
+            }
+        }
+        let saves = raw.save.toLowerCase();
+        for(let stat in abilityMap)
+        {
+            if(saves.indexOf(stat.toLowerCase()) >= 0)
+            {
+                element.stats[abilityMap[stat]].saveProf = 1;
             }
         }
 
