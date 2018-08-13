@@ -27,7 +27,7 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
     var data = obj.data;
     if(data._fillWith)
     {
-        $.extend(data, FiveForge.Compendium[data._fillWith][data.info.name.current]);
+        $.extend(true, data, FiveForge.Compendium[data._fillWith][data.info.name.current]);
         delete data["_fillWith"]
         setTimeout(function(){
             sheet.replaceWith(FiveForge.renderUI("characterSheet", obj, app, scope));
@@ -126,7 +126,7 @@ FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app
     if(obj.data._version!=game.templates.FiveForge.VERSION)
     {
         var cp = duplicate(obj.data);
-        $.extend(obj.data, game.templates.actors["Monster"], cp);
+        $.extend(true, obj.data, game.templates.actors["Monster"], cp);
         obj.data._version = game.templates.FiveForge.VERSION;
         console.log("Updated data on character "+obj.data.info.name.current)
         sheet.replaceWith($("<div>Character updated, please reopen the sheet</div>"));

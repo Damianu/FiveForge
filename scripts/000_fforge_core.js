@@ -173,6 +173,24 @@ const FiveForge = {
             name: name,
             func: func,
         })
+    },
+    getSelectedCharacters: function()
+    {
+        let list = [];
+        for(var k in boardApi.selections)
+        {
+            var ent = this.tokenToCharacter(boardApi.selections[k])
+            if(ent&&ent.data._t == "c")
+            {
+                list.push(ent)
+            }
+        }
+        return list;
+    },
+    tokenToCharacter: function(token)
+    {
+        var board = getEnt(token.board);
+        return game.entities.data[board.data.layers[token.layer].p[token.index].eID];
     }
 }
 FiveForge.saveData = (function () {
@@ -282,6 +300,7 @@ FiveForge.addHook("Initialize",checkLoad)
 FiveForge.includeTemplate("manager");
 FiveForge.includeTemplate("characterSheet");
 FiveForge.includeTemplate("monsterSheet");
+FiveForge.includeTemplate("miniSheet");
 FiveForge.includeTemplate("elementEditor");
 FiveForge.includeTemplate("roll");
 FiveForge.includeTemplate("installer");

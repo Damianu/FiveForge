@@ -1458,87 +1458,87 @@ _baseTemplate.actors["Character"] = {
         {
             "target": "skills.ath",
             "cond": "",
-            "eq": "#:Str + (@c.skills.ath.prof?@proficiency:0) "
+            "eq": "@c.stats.Str.bonus + (@c.skills.ath.prof?@proficiency:0) "
         },
         {
             "target": "skills.acr",
             "cond": "",
-            "eq": "#:Dex + (@c.skills.acr.prof?@proficiency:0) "
+            "eq": "@c.stats.Dex.bonus + (@c.skills.acr.prof?@proficiency:0) "
         },
         {
             "target": "skills.ste",
             "cond": "",
-            "eq": "#:Dex + (@c.skills.ste.prof?@proficiency:0) "
+            "eq": "@c.stats.Dex.bonus + (@c.skills.ste.prof?@proficiency:0) "
         },
         {
             "target": "skills.sle",
             "cond": "",
-            "eq": "#:Dex + (@c.skills.sle.prof?@proficiency:0) "
+            "eq": "@c.stats.Dex.bonus + (@c.skills.sle.prof?@proficiency:0) "
         },
         {
             "target": "skills.ani",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.ani.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.ani.prof?@proficiency:0) "
         },
         {
             "target": "skills.med",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.med.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.med.prof?@proficiency:0) "
         },
         {
             "target": "skills.per",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.per.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.per.prof?@proficiency:0) "
         },
         {
             "target": "skills.sur",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.sur.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.sur.prof?@proficiency:0) "
         },
         {
             "target": "skills.int",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.int.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.int.prof?@proficiency:0) "
         },
         {
             "target": "skills.pfm",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.pfm.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.pfm.prof?@proficiency:0) "
         },
         {
             "target": "skills.prs",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.prs.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.prs.prof?@proficiency:0) "
         },
         {
             "target": "skills.dec",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.dec.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.dec.prof?@proficiency:0) "
         },
         {
             "target": "skills.his",
             "cond": "",
-            "eq": "#:Int + (@c.skills.his.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.his.prof?@proficiency:0) "
         },
         {
             "target": "skills.nat",
             "cond": "",
-            "eq": "#:Int + (@c.skills.nat.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.nat.prof?@proficiency:0) "
         },
         {
             "target": "skills.rel",
             "cond": "",
-            "eq": "#:Int + (@c.skills.rel.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.rel.prof?@proficiency:0) "
         },
         {
             "target": "skills.arc",
             "cond": "",
-            "eq": "#:Int + (@c.skills.arc.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.arc.prof?@proficiency:0) "
         },
         {
             "target": "skills.inv",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.inv.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.inv.prof?@proficiency:0) "
         }
     ],
     "_flags": {},
@@ -1899,87 +1899,87 @@ _baseTemplate.actors["Monster"] = {
         {
             "target": "skills.ath",
             "cond": "",
-            "eq": "#:Str + (@c.skills.ath.prof?@proficiency:0) "
+            "eq": "@c.stats.Str.bonus + (@c.skills.ath.prof?@proficiency:0) "
         },
         {
             "target": "skills.acr",
             "cond": "",
-            "eq": "#:Dex + (@c.skills.acr.prof?@proficiency:0) "
+            "eq": "@c.stats.Dex.bonus + (@c.skills.acr.prof?@proficiency:0) "
         },
         {
             "target": "skills.ste",
             "cond": "",
-            "eq": "#:Dex + (@c.skills.ste.prof?@proficiency:0) "
+            "eq": "@c.stats.Dex.bonus + (@c.skills.ste.prof?@proficiency:0) "
         },
         {
             "target": "skills.sle",
             "cond": "",
-            "eq": "#:Dex + (@c.skills.sle.prof?@proficiency:0) "
+            "eq": "@c.stats.Dex.bonus + (@c.skills.sle.prof?@proficiency:0) "
         },
         {
             "target": "skills.ani",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.ani.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.ani.prof?@proficiency:0) "
         },
         {
             "target": "skills.med",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.med.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.med.prof?@proficiency:0) "
         },
         {
             "target": "skills.per",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.per.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.per.prof?@proficiency:0) "
         },
         {
             "target": "skills.sur",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.sur.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.sur.prof?@proficiency:0) "
         },
         {
             "target": "skills.int",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.int.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.int.prof?@proficiency:0) "
         },
         {
             "target": "skills.pfm",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.pfm.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.pfm.prof?@proficiency:0) "
         },
         {
             "target": "skills.prs",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.prs.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.prs.prof?@proficiency:0) "
         },
         {
             "target": "skills.dec",
             "cond": "",
-            "eq": "#:Cha + (@c.skills.dec.prof?@proficiency:0) "
+            "eq": "@c.stats.Cha.bonus + (@c.skills.dec.prof?@proficiency:0) "
         },
         {
             "target": "skills.his",
             "cond": "",
-            "eq": "#:Int + (@c.skills.his.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.his.prof?@proficiency:0) "
         },
         {
             "target": "skills.nat",
             "cond": "",
-            "eq": "#:Int + (@c.skills.nat.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.nat.prof?@proficiency:0) "
         },
         {
             "target": "skills.rel",
             "cond": "",
-            "eq": "#:Int + (@c.skills.rel.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.rel.prof?@proficiency:0) "
         },
         {
             "target": "skills.arc",
             "cond": "",
-            "eq": "#:Int + (@c.skills.arc.prof?@proficiency:0) "
+            "eq": "@c.stats.Int.bonus + (@c.skills.arc.prof?@proficiency:0) "
         },
         {
             "target": "skills.inv",
             "cond": "",
-            "eq": "#:Wis + (@c.skills.inv.prof?@proficiency:0) "
+            "eq": "@c.stats.Wis.bonus + (@c.skills.inv.prof?@proficiency:0) "
         }
     ],
     "_flags": {},
@@ -1994,5 +1994,5 @@ _baseTemplate.actors["Monster"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "1.0.1 Beta",
+    VERSION: "1.0.2 Beta",
 }

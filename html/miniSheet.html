@@ -1,0 +1,121 @@
+<div class="cMain flex flexrow">
+    <div class="flex">
+        <img src="traverse{info.img.current}" class="cBackground">
+        <div class="cTop flexrow">
+            <div class="flexcolumn">
+                <div class="cInfoName">Health:</div>
+                <div><input dui_edit="counters.hp" class="line center" style="width:30px">/&nbsp;traverse{counters.hp.max}</div>
+            </div>
+            <div class="flexcolumn">
+                <div class="cInfoName">AC:</div>
+                <div>traverse{counters.baseAC.current}</div>
+            </div>
+            <div class="flexcolumn">
+                <div class="cInfoName">Speed:</div>
+                <div>traverse{counters.speed.current}</div>
+            </div>
+        </div>
+        <div class="cStats flexrow">
+            <loop dui_lookup="stats" dui_key="target" dui_keyonly="name">
+                <div class="cStat flexcolumn">
+                    <div class="bold">
+                        %name%
+                        <click>
+                            <roll dui_roll="d20 + traverse{%target%.bonus}"dui_flavor="traverse{%target%.name} check" />
+                        </click>
+                    </div>
+                    <div>
+                        traverse{%target%.current} <span>(<span dui_cond="@%target%.bonus >=0">+</span>traverse{%target%.bonus})</span>
+                    </div>
+                    <div class="bold">
+                        Save
+                        <click>
+                            <roll dui_roll="d20 + traverse{%target%.save}"dui_flavor="traverse{%target%.name} save" />
+                        </click>
+                    </div>
+                </div>
+            </loop>
+        </div>
+        <div id="actions" class="cActions flexrow flexwrap">
+
+        </div>
+    </div>
+    <div class="flexcolum cSkills">
+        <loop dui_lookup="skills" dui_key="target" dui_keyonly="name">
+            <div class="flex flexrow">
+                <div class="flex">traverse{%target%.name}</div>
+                <div style="padding-left:2px"><span dui_cond="@%target%.current >=0">+</span>traverse{%target%.current}</div>
+                <click>
+                    <roll dui_roll="d20 + traverse{%target%.current}" dui_flavor="traverse{%target%.name} check"></roll>
+                </click>
+            </div>
+        </loop>
+    </div>
+</div>
+<style>
+    .center
+    {
+        text-align: center;
+    }
+    .cActions
+    {
+        padding:10px;
+        width:100%;
+        justify-content:center;
+    }
+    .cActions > button
+    {
+        margin-right:2px;
+        margin-top:2px;
+    }
+    .cSkills
+    {
+        font-size: 0.8em;
+        font-weight:bold;
+        margin-right:5px;
+        border-left: 1px solid rgba(30, 30, 30, 0.1);
+        padding-left:2px;
+    }
+    .cInfoName
+    {
+        font-weight:bold;
+    }
+    .cTop
+    {
+        text-align:center;
+        padding:5px;
+        margin-bottom:2px;
+    }
+    .cTop > div
+    {
+        padding-left:5px;
+        padding-right:5px;
+    }
+    .cTop > div > div
+    {
+        padding-left:5px;
+        padding-right:5px;
+    }
+    .cStat
+    {
+        justify-content:center;
+        min-width:16.66666%;
+        text-align:center;
+        border-right: 1px solid rgba(30, 30, 30, 0.1);
+        border-bottom: 1px solid rgba(30, 30, 30, 0.1);
+
+    }
+    .cMain
+    {
+        position:relative;
+    }
+    .cBackground
+    {
+        position:absolute;
+        left:0;
+        top:0;
+        pointer-events:none;
+        width:100%;
+        opacity:0.1;
+    }
+</style>
