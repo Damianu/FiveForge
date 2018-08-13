@@ -24,10 +24,17 @@
 
         </div>
     </div>
-    <div class="iExpandable flexrow" dui_cond="@expanded == 1">
+    <div class="iExpandable flexcolumn" dui_cond="@expanded == 1">
+        <div class="iDescription">
+            traverse{info.notes.current}
+        </div>
     </div>
 </div>
 <style>
+    .iDescription
+    {
+        font-weight:normal;
+    }
     .iRight
     {
         min-width:10%;

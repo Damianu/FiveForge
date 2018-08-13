@@ -232,7 +232,8 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
     list.sortable({
         handle: ".handle",
         connectWith:"."+className,
-        appendTo: "body",
+        appendTo: document.body,
+        "helper": "clone",
         //containment:list,
         update:function()
         {
