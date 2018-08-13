@@ -44,8 +44,8 @@ class FFItem extends FFElement
         let item = this;
         function genDamage(stat, type)
         {
-            var dexMod = obj.data.stats.Dex.modifiers["Stat-Bonus"];
-            var strMod = obj.data.stats.Str.modifiers["Stat-Bonus"];
+            var dexMod = obj.data.stats.Dex.bonus;
+            var strMod = obj.data.stats.Str.bonus;
             if(dexMod >= 0)
             {
                 dexMod = " + "+ dexMod;
@@ -87,8 +87,8 @@ class FFItem extends FFElement
         function genAttack(stat)
         {
             var rollText = "D20";
-            var dexMod = obj.data.stats.Dex.modifiers["Stat-Bonus"];
-            var strMod = obj.data.stats.Str.modifiers["Stat-Bonus"];
+            var dexMod = obj.data.stats.Dex.bonus;
+            var strMod = obj.data.stats.Str.bonus;
             if(dexMod >= 0)
             {
                 dexMod = " + "+ dexMod;
