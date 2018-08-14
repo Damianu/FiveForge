@@ -9,14 +9,20 @@ FiveForge.registerHTMLUI("installer","installer",function(handle, obj,app,scope)
     handle.find("#install").click(function(){
         game.templates = _baseTemplate
         let ents = game.entities.data;
+        var tempDiv = $("<div>");
         for(let i in ents)
         {
             let entData = ents[i].data;
             console.log("Updating "+entData.info.name.current)
-            if(!entData._type)
+            if(entData._t == "c")
             {
-                entData._type = "Character";
+                if(!entData._type)
+                {
+                    entData._type = "Character";
+                }
+                charClick(null,tempDiv,ents[i]);
                 ents[i].sync("updateAsset");
+
             }
         }
         runCommand("updateTemplate", duplicate(game.templates));
