@@ -48,6 +48,7 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
         console.log("Updated data on character "+obj.data.info.name.current)
         sheet.replaceWith($("<div>Character updated, please reopen the sheet</div>"));
         obj.sync("updateAsset");
+        return $("<div>Working..</div>");
     }
 
     for(var k in FFElement.types)
@@ -65,6 +66,7 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
             sheet.replaceWith(FiveForge.renderUI("characterSheet", obj, app, scope));
             obj.sync("updateAsset");
         },0)
+        return $("<div>Working..</div>");
     }
     if(!app.attr("sizeFixed"))
     {
@@ -131,6 +133,7 @@ FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app
         console.log("Updated data on character "+obj.data.info.name.current)
         sheet.replaceWith($("<div>Character updated, please reopen the sheet</div>"));
         obj.sync("updateAsset");
+        return $("<div>Working..</div>");
     }
 
     for(var k in FFElement.types)
@@ -148,6 +151,7 @@ FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app
             sheet.replaceWith(FiveForge.renderUI("monsterSheet", obj, app, scope));
             obj.sync("updateAsset");
         },0)
+        return $("<div>Working..</div>");
     }
     if(!app.attr("sizeFixed"))
     {
