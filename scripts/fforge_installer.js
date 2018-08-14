@@ -1539,7 +1539,13 @@ _baseTemplate.actors["Character"] = {
             "target": "skills.inv",
             "cond": "",
             "eq": "@c.stats.Wis.bonus + (@c.skills.inv.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.ins",
+            "cond": "",
+            "eq": "@c.stats.Wis.bonus + (@c.skills.ins.prof?@proficiency:0) "
         }
+
     ],
     "_flags": {},
     "damageModifiers": [],
@@ -1980,7 +1986,13 @@ _baseTemplate.actors["Monster"] = {
             "target": "skills.inv",
             "cond": "",
             "eq": "@c.stats.Wis.bonus + (@c.skills.inv.prof?@proficiency:0) "
+        },
+        {
+            "target": "skills.ins",
+            "cond": "",
+            "eq": "@c.stats.Wis.bonus + (@c.skills.ins.prof?@proficiency:0) "
         }
+
     ],
     "_flags": {},
     "damageModifiers": [],
@@ -1994,5 +2006,5 @@ _baseTemplate.actors["Monster"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "1.0.2 Beta",
+    VERSION: "1.0.3 Beta",
 }
