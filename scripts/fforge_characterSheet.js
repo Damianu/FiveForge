@@ -9,22 +9,27 @@ FiveForge.Abilities = {
 FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj,app,scope)
 {
 
+    var data = obj.data;
     if(game.debug)
     {
-        let handle = sheet;
+        let debugContainer = $("<div class='flexcolumn'>").appendTo(sheet);
         let debugPrint = $("<button>Debug > Console</button>");
-        debugPrint.appendTo(handle);
-        debugPrint.css({
+        debugPrint.appendTo(debugContainer);
+        debugContainer.css({
             "position":"absolute",
             "right":0,
             "top":0,
         })
-        handle.css("position","relative");
+        sheet.css("position","relative");
         debugPrint.click(function(){FiveForge.log(obj.data)})
+        var resetVersion = $("<button>Force update</div>").appendTo(debugContainer);
+        resetVersion.click(function(){
+            obj.data._version = "FORCE_UPDATE";
+            obj.sync("updateAsset")
+        })
     }
     var forceUpdate = false;
 
-    var data = obj.data;
     if(data._fillWith)
     {
         $.extend(true, data, FiveForge.Compendium[data._fillWith][data.info.name.current]);
@@ -95,23 +100,27 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
 
 FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app,scope)
 {
+    var data = obj.data;
     if(game.debug)
     {
-        let handle = sheet;
+        let debugContainer = $("<div class='flexcolumn'>").appendTo(sheet);
         let debugPrint = $("<button>Debug > Console</button>");
-        debugPrint.appendTo(handle);
-        debugPrint.css({
+        debugPrint.appendTo(debugContainer);
+        debugContainer.css({
             "position":"absolute",
             "right":0,
             "top":0,
         })
-        handle.css("position","relative");
+        sheet.css("position","relative");
         debugPrint.click(function(){FiveForge.log(obj.data)})
+        var resetVersion = $("<button>Force update</div>").appendTo(debugContainer);
+        resetVersion.click(function(){
+            obj.data._version = "FORCE_UPDATE";
+            obj.sync("updateAsset")
+        })
     }
-
     var forceUpdate = false;
 
-    var data = obj.data;
     if(data._fillWith)
     {
         let flags = data._flags;
