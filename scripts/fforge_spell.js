@@ -55,7 +55,7 @@ class FFSpell extends FFElement
                 button.tooltip({title:action.roll, container: 'body'});
                 var uid = getCookie("UserID");
                 let spellData =  duplicate(spell._data);
-                spellData.attributes.classes.current = spellData.attributes.classes.current.replace(/,/g,",<br>");
+                spellData.attributes.classes.current = (spellData.attributes.classes.current || "").replace(/,/g,",<br>");
                 button.click(function(){
                     if(action.name == "Cast")
                     {
