@@ -180,7 +180,7 @@ FiveForge.registerUI("elementCard", function(obj,app,scope)
 FiveForge.registerUI("elementList", function(obj,app,scope)
 {
     var div = $("<div class='flexcolumn'>");
-    var list = $("<div class='flexcolumn'>").appendTo(div);
+    var list = $("<div class='flexcolumn flex'>").appendTo(div);
     if(scope.container)
     {
         list.css({
@@ -200,6 +200,8 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
         var render = e.render(obj, scope);
         list.append(render);
         render.data("element", e);
+        render.data("obj", obj);
+        render.removeClass("flex")
         render.find(".editElement").first().click(function(){
             FiveForge.createElementEditor(e, function(newData){
                 e._data = newData;
@@ -214,7 +216,7 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
     }
     if(!scope.container)
     {
-        var spacer = $("<div class='flex' style='margin-top:15px'>").appendTo(div)
+//        var spacer = $("<div class='flex' style='margin-top:15px'>").appendTo(div)
         var addDiv = $("<div class='flexrow'>").appendTo(div)
         var addName = $("<input class='flex' list= 'fforge_"+scope.type+"'>").appendTo(addDiv)
         var addButton = $("<button class='cAddElement'>+"+scope.type+"</button>").appendTo(addDiv);
@@ -228,7 +230,7 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
             obj.sync("updateAsset");
         });
     }
-    let className = "elementList_"+scope.type+"_"+obj.id();
+    let className = "elementList_"+scope.type
     list.addClass(className);
     list.sortable({
         handle: ".handle",
@@ -240,6 +242,12 @@ FiveForge.registerUI("elementList", function(obj,app,scope)
         {
             var newElements = [];
             list.children().each(function(){
+                if($(this).data("obj")!= obj)
+                {
+                    setTimeout(function(){
+                        obj.sync("updateAsset");
+                    })
+                }
                 newElements.push($(this).data("element"));
             });
             elements.length = 0;
