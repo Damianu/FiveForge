@@ -53,6 +53,7 @@ class FFElement
                 data.attributes[k].editType = undefined;
             }
             element._data = $.extend(true, {}, type.dataTemplate, data);
+            element._data._drop = "elements."+element._data._type;
             //console.log(element._data);
             return new Proxy(element, element);
         }
