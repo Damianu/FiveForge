@@ -106,9 +106,9 @@ const FiveForge = {
     /*
         Utils
     */
-    log:function(txt)
+    log:function(...txt)
     {
-        console.log("FiveForge:",txt);
+        console.log("FiveForge:", ...txt);
     },
     sendCharacterRoll(obj, query, flavor)
     {
@@ -191,6 +191,10 @@ const FiveForge = {
     {
         var board = getEnt(token.board);
         return game.entities.data[board.data.layers[token.layer].p[token.index].eID];
+    },
+    isDebugEnabled()
+    {
+        return FiveForge.Config["debugEnabled"] != false //force boolean return
     }
 }
 FiveForge.saveData = (function () {
@@ -316,3 +320,6 @@ FiveForge.includeTemplate("elements/spellCard");
 
 //Global styles
 FiveForge.includeStyle("fforge_fonts.less");
+
+//Alias
+FF = FiveForge
