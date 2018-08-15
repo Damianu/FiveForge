@@ -164,14 +164,15 @@ const FiveForge = {
             }
             datalist.appendTo(container);
         }
-
+        hook.call("fforge_Initialized");
         FiveForge.log("Initialized");
     },
-    registerGlobalAction: function(name, func)
+    registerGlobalAction: function(name, func, debugOnly = true)
     {
         _globalActions.push({
             name: name,
             func: func,
+            debugOnly: debugOnly,
         })
     },
     getSelectedCharacters: function()
@@ -195,6 +196,31 @@ const FiveForge = {
     isDebugEnabled()
     {
         return FiveForge.Config["debugEnabled"] != false //force boolean return
+    },
+
+    addDebugMenu: function(app, actions)
+    {
+        if(!FiveForge.isDebugEnabled())
+        {
+            return;
+        }
+        let icon = $("<span class='glyphicon glyphicon-wrench highlighted'>")
+        icon.css({
+            "position":"absolute",
+            "right":"5px",
+            "top":"5px",
+        });
+
+        icon.click(function(){
+            let actionList = [];
+            for(let k in actions)
+            {
+                actionList.push({name: k, click:actions[k]});
+            }
+            ui_dropMenu($(this), actionList, {});
+        })
+        app.css("position","relative");
+        app.append(icon);
     }
 }
 FiveForge.saveData = (function () {
@@ -219,6 +245,10 @@ FiveForge.registerHTMLUI("core","manager",function(handle, obj,app,scope) {
     for(var i =0; i< _globalActions.length; i++)
     {
         let action = _globalActions[i];
+        if(action.debugOnly && !FiveForge.isDebugEnabled())
+        {
+            continue;
+        }
         let button = $("<button>").appendTo(buttonMenu);
         button.text(action.name);
         button.click(action.func);
@@ -262,36 +292,38 @@ function checkLoad()
     {
         //return;
     }
-    let frame = $("<div>");
-    frame.addClass("flex flexcolumn");
-    game.locals["FiveForgeCore"] = sync.obj("FiveForgeCore");
-
-    let newApp = sync.newApp("fforge_core",game.locals["FiveForgeCore"]).appendTo(frame);
-    game.locals["FiveForgeCore"].addApp(newApp);
-
-    frame.appendTo("body");
-    frame.css({
-        "position":"fixed",
-        "right":"0",
-        "top":"30px",
-        "z-index":"1000",
-        "background":"white",
-        "border":"1px solid",
-        "border-top":"none",
-    });
-    let button = $("<button class='highlight'>FiveForge</button>").appendTo("body");
-    button.css({
-        "top":"0",
-        "right":"0",
-        "position":"fixed",
-        "color":"white",
-        "z-index":"1000",
-        "height":"30px",
+    setTimeout(function(){ // Wait for config
+        let frame = $("<div>");
+        frame.addClass("flex flexcolumn");
+        game.locals["FiveForgeCore"] = sync.obj("FiveForgeCore");
+    
+        let newApp = sync.newApp("fforge_core",game.locals["FiveForgeCore"]).appendTo(frame);
+        game.locals["FiveForgeCore"].addApp(newApp);
+    
+        frame.appendTo("body");
+        frame.css({
+            "position":"fixed",
+            "right":"0",
+            "top":"30px",
+            "z-index":"1000",
+            "background":"white",
+            "border":"1px solid",
+            "border-top":"none",
+        });
+        let button = $("<button class='highlight'>FiveForge</button>").appendTo("body");
+        button.css({
+            "top":"0",
+            "right":"0",
+            "position":"fixed",
+            "color":"white",
+            "z-index":"1000",
+            "height":"30px",
+        })
+        button.click(function(){
+            frame.toggle();
+        });
+        frame.hide();
     })
-    button.click(function(){
-        frame.toggle();
-    });
-    frame.hide();
 }
 
 
@@ -322,4 +354,4 @@ FiveForge.includeTemplate("elements/spellCard");
 FiveForge.includeStyle("fforge_fonts.less");
 
 //Alias
-FF = FiveForge
+const FF = FiveForge
