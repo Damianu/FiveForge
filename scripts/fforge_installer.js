@@ -20,7 +20,6 @@ FiveForge.registerHTMLUI("installer","installer",function(handle, obj,app,scope)
                 {
                     entData._type = "Character";
                 }
-                charClick(null,tempDiv,ents[i]);
                 ents[i].sync("updateAsset");
 
             }
