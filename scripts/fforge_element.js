@@ -19,9 +19,9 @@ FiveForge.DamageTypes = [
 FiveForge.ItemTypes = [
     "Generic",
     "Weapon",
-    "Armor",
+//    "Armor",
     "Container",
-    "Spellcasting",
+//    "Spellcasting",
 ]
 FiveForge.ItemEditableAttributes = {}
 FiveForge.ElementTemplates = {}
