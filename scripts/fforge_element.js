@@ -180,7 +180,8 @@ FiveForge.registerUI("elementCard", function(obj,app,scope)
 FiveForge.registerUI("elementList", function(obj,app,scope)
 {
     var div = $("<div class='flexcolumn'>");
-    var list = $("<div class='flexcolumn flex'>").appendTo(div);
+    var list = $("<div class='flexcolumn'>").appendTo(div);
+    var spacer = $("<div class='flex'></div>").appendTo(div);
     if(scope.container)
     {
         list.css({
