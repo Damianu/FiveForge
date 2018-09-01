@@ -61,8 +61,12 @@ const FiveForge = {
         }
         if(!templateCache[name])
         {
-            console.log("Invalid template:",name);
-            return $("<div>Invalid template ("+name+")!</div>");
+            FiveForge.includeTemplate(name);
+            if(!templateCache[name])
+            {
+                console.log("Invalid template:",name);
+                return $("<div>Invalid template ("+name+")!</div>");
+            }
         }
         return FiveForge.buildDUI(templateCache[name], obj, context, app);
 
@@ -80,8 +84,10 @@ const FiveForge = {
     },
     includeTemplate:function(name)
     {
-        templateCache[name] = "_LOADING_";
-        $.get(FiveForge.HTML_PATH+"/"+name+".html")
+        $.get({
+            url:FiveForge.HTML_PATH+"/"+name+".html",
+            async:false,
+        })
         .done(function(html) {
             templateCache[name] = html;
             FiveForge.log("Loaded template:"+name);
@@ -353,27 +359,6 @@ function checkLoad()
 
 
 FiveForge.addHook("Initialize",checkLoad)
-
-/*
-    Templates
-*/
-
-FiveForge.includeTemplate("manager");
-FiveForge.includeTemplate("characterSheet");
-FiveForge.includeTemplate("monsterSheet");
-FiveForge.includeTemplate("miniSheet");
-FiveForge.includeTemplate("elementEditor");
-FiveForge.includeTemplate("roll");
-FiveForge.includeTemplate("installer");
-
-//Elements
-FiveForge.includeTemplate("elements/item");
-FiveForge.includeTemplate("elements/trait");
-FiveForge.includeTemplate("elements/spell");
-FiveForge.includeTemplate("elements/monsterTrait");
-
-FiveForge.includeTemplate("elements/itemCard");
-FiveForge.includeTemplate("elements/spellCard");
 
 //Global styles
 FiveForge.includeStyle("fforge_fonts.less");
