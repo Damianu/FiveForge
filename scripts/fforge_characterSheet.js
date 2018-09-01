@@ -10,24 +10,16 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
 {
 
     var data = obj.data;
-    if(game.debug)
-    {
-        let debugContainer = $("<div class='flexcolumn'>").appendTo(sheet);
-        let debugPrint = $("<button>Debug > Console</button>");
-        debugPrint.appendTo(debugContainer);
-        debugContainer.css({
-            "position":"absolute",
-            "right":0,
-            "top":0,
-        })
-        sheet.css("position","relative");
-        debugPrint.click(function(){FiveForge.log(obj.data)})
-        var resetVersion = $("<button>Force update</div>").appendTo(debugContainer);
-        resetVersion.click(function(){
+    FF.addDebugMenu(sheet, {
+        "OBJ > Console": function(){
+            FiveForge.log(obj)
+        },
+        "Force Update": function(){
             obj.data._version = "FORCE_UPDATE";
             obj.sync("updateAsset")
-        })
-    }
+        },
+    })
+
     var forceUpdate = false;
 
     if(data._fillWith)
@@ -101,24 +93,15 @@ FiveForge.registerHTMLUI("characterSheet", "characterSheet", function(sheet, obj
 FiveForge.registerHTMLUI("monsterSheet", "monsterSheet", function(sheet, obj,app,scope)
 {
     var data = obj.data;
-    if(game.debug)
-    {
-        let debugContainer = $("<div class='flexcolumn'>").appendTo(sheet);
-        let debugPrint = $("<button>Debug > Console</button>");
-        debugPrint.appendTo(debugContainer);
-        debugContainer.css({
-            "position":"absolute",
-            "right":0,
-            "top":0,
-        })
-        sheet.css("position","relative");
-        debugPrint.click(function(){FiveForge.log(obj.data)})
-        var resetVersion = $("<button>Force update</div>").appendTo(debugContainer);
-        resetVersion.click(function(){
+    FF.addDebugMenu(sheet, {
+        "OBJ > Console": function(){
+            FiveForge.log(obj)
+        },
+        "Force Update": function(){
             obj.data._version = "FORCE_UPDATE";
             obj.sync("updateAsset")
-        })
-    }
+        },
+    })
     var forceUpdate = false;
 
     if(data._fillWith)

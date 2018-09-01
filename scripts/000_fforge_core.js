@@ -143,30 +143,7 @@ const FiveForge = {
         var full = sync.eval(query);
         return {diceOnly:diceOnly, total:full, dices:dices}
     },
-    /*
-        Events
-    */
-    init:function()
-    {
-        const less = {
-            env:"development",
-            errorReporting:"console",
 
-        }
-        var container = $("#fforge_hiddencontainer");
-        for(var k in FiveForge.Compendium)
-        {
-            var datalist = $("<datalist id='fforge_"+k+"'>");
-            for(var e in FiveForge.Compendium[k])
-            {
-                var option = $("<option>").appendTo(datalist);
-                option.val(e);
-            }
-            datalist.appendTo(container);
-        }
-        hook.call("fforge_Initialized");
-        FiveForge.log("Initialized");
-    },
     registerGlobalAction: function(name, func, debugOnly = true)
     {
         _globalActions.push({
@@ -221,7 +198,55 @@ const FiveForge = {
         })
         app.css("position","relative");
         app.append(icon);
-    }
+    },
+    wrap:function(obj)
+    {
+        let data;
+        if(obj.data)
+        {
+            data = obj.data;
+        }
+        else
+        {
+            data = obj;
+            obj = undefined;
+        }
+        if(data._t == "c")
+        {
+            return new FFActor(obj || data);
+        }
+        else if(data._t == "i")
+        {
+            return new FFElement(data);
+        }
+    },
+    /*
+        Events
+    */
+   init:function()
+   {
+       const less = {
+           env:"development",
+           errorReporting:"console",
+
+       }
+       var container = $("#fforge_hiddencontainer");
+       for(var k in FiveForge.Compendium)
+       {
+           var datalist = $("<datalist id='fforge_"+k+"'>");
+           for(var e in FiveForge.Compendium[k])
+           {
+               var option = $("<option>").appendTo(datalist);
+               option.val(e);
+           }
+           datalist.appendTo(container);
+       }
+       setTimeout(function(){
+            hook.call("fforge_Initialized");
+            FiveForge.log("Initialized");
+            game.debug = FF.Config["debugEnabled"];
+        })
+   },
 }
 FiveForge.saveData = (function () {
     let a = document.createElement("a");
