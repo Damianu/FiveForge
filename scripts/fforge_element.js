@@ -55,8 +55,12 @@ class FFElement
             element._data = $.extend(true, {}, type.dataTemplate, data);
             element._data._drop = "elements."+element._data._type;
             //console.log(element._data);
+            element.setup();
             return new Proxy(element, element);
         }
+    }
+    setup()
+    {
     }
     get (target, prop) {
         var p = this[prop]
