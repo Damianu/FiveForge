@@ -324,8 +324,14 @@ FiveForge.buildDUI = function(html, obj, context, app)
                 el.attr('contenteditable','false');
                 val[tgtval] = el.html();
                 obj.sync("updateAsset")
-                //alert("Saved!");
             };
+            el.keydown(function (ev) {
+                if (ev.keyCode == 13) {
+                    save();
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                }
+              });
             el.one('blur', save).focus();
         }
     });
