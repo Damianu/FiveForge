@@ -303,6 +303,18 @@ FiveForge.buildDUI = function(html, obj, context, app)
         var val = sync.traverse(context,tgt)
         var tgtval = el.data("deditval")||"current";
 
+        let mathMode = false;
+        if(_down[16])
+        {
+            let _oldBorder = el.css("border");
+            mathMode = true;
+            el.css("border", "1px dashed red")
+            el.one('blur', function() {
+                el.css("border",_oldBorder);
+            })
+        }
+
+
         if(el.is("input"))
         {
             el.change(function(){
@@ -313,7 +325,15 @@ FiveForge.buildDUI = function(html, obj, context, app)
                 }
                 else
                 {
-                    val[tgtval] = el.val();
+                    if(mathMode)
+                    {
+                        val[tgtval] = sync.eval(el.val(), context)
+
+                    }
+                    else
+                    {
+                        val[tgtval] = el.val();
+                    }
                     obj.sync("updateAsset")
                 }
             });
@@ -322,7 +342,15 @@ FiveForge.buildDUI = function(html, obj, context, app)
         {
             var save = function(){
                 el.attr('contenteditable','false');
-                val[tgtval] = el.html();
+                let newVal = el.html();
+                if(mathMode)
+                {
+                    val[tgtval] = sync.eval(newVal, context)
+                }
+                else
+                {
+                    val[tgtval] = newVal;
+                }
                 obj.sync("updateAsset")
             };
             el.keydown(function (ev) {
