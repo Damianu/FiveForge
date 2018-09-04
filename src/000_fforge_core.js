@@ -11,7 +11,7 @@ let _globalActions = [];
 */
 let MOD_PATH = "/workshop/FiveForge"
 const FiveForge = {
-    VERSION:"Beta 1.1.0",
+    VERSION:"Beta 1.1.6",
     PREFIX:"fforge_",
     IDENTIFIER:"FiveForge",
     CSS_PATH:MOD_PATH+"/css",
@@ -248,6 +248,37 @@ const FiveForge = {
            datalist.appendTo(container);
        }
        setTimeout(function(){
+
+            $.getScript( "/scripts/lazy/fforge_compendium_Player.js", function( data, textStatus, jqxhr ) {
+                FiveForge.log("Loaded player compendiums.")
+            })
+
+            if(hasSecurity(getCookie("UserID"), "Assistant Master"))
+            {
+                $.getScript( "/scripts/lazy/fforge_compendium_Monster.js", function( data, textStatus, jqxhr ) {
+                    FiveForge.log("Loaded monster compendium.")
+                    FiveForge.lazyLoadDone = true;
+                })
+                console.log("Updating curVersion!")
+                FF.Config["curVersion"] = FF.VERSION;
+
+            }
+            else if(FF.Config["curVersion"] != FF.VERSION)
+            {
+                let validVer = FF.Config["curVersion"];
+                console.log(">>>>>>>",validVer)
+                let warning = $(`<div>FiveForge version check failed, clear cache and refresh!<br>Your Version:${FF.VERSION}<br>Host Version:${validVer}</div>`);
+                warning.css({
+                    "position":"fixed",
+                    "width":"100%",
+                    "text-align":"center",
+                    "background":"red",
+                    "border":"2px black solid",
+                    "top":"0",
+                    "z-index":"99999"
+                })
+                warning.appendTo($("body"));
+            }
             hook.call("fforge_Initialized");
             FiveForge.log("Initialized");
             game.debug = FF.Config["debugEnabled"];
@@ -283,19 +314,6 @@ FiveForge.registerHTMLUI("core","manager",function(handle, obj,app,scope) {
         let button = $("<button>").appendTo(buttonMenu);
         button.text(action.name);
         button.click(action.func);
-    }
-
-
-    $.getScript( "/scripts/lazy/fforge_compendium_Player.js", function( data, textStatus, jqxhr ) {
-        FiveForge.log("Loaded player compendiums.")
-    })
-
-    if(hasSecurity(getCookie("UserID"), "Assistant Master")&&FiveForge.lazyLoadDone != true)
-    {
-        $.getScript( "/scripts/lazy/fforge_compendium_Monster.js", function( data, textStatus, jqxhr ) {
-            FiveForge.log("Loaded monster compendium.")
-            FiveForge.lazyLoadDone = true;
-        })
     }
     var icons = $("<div>").appendTo(handle);
 /*    for( var k in FiveForge.icons)
