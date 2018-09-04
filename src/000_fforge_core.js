@@ -11,7 +11,7 @@ let _globalActions = [];
 */
 let MOD_PATH = "/workshop/FiveForge"
 const FiveForge = {
-    VERSION:"Beta 1.1.6",
+    VERSION:"Beta 1.1.7",
     PREFIX:"fforge_",
     IDENTIFIER:"FiveForge",
     CSS_PATH:MOD_PATH+"/css",
@@ -237,20 +237,21 @@ const FiveForge = {
 
        }
        var container = $("#fforge_hiddencontainer");
-       for(var k in FiveForge.Compendium)
-       {
-           var datalist = $("<datalist id='fforge_"+k+"'>");
-           for(var e in FiveForge.Compendium[k])
-           {
-               var option = $("<option>").appendTo(datalist);
-               option.val(e);
-           }
-           datalist.appendTo(container);
-       }
+
        setTimeout(function(){
 
             $.getScript( "/scripts/lazy/fforge_compendium_Player.js", function( data, textStatus, jqxhr ) {
                 FiveForge.log("Loaded player compendiums.")
+                for(var k in FiveForge.Compendium)
+                {
+                    var datalist = $("<datalist id='fforge_"+k+"'>");
+                    for(var e in FiveForge.Compendium[k])
+                    {
+                        var option = $("<option>").appendTo(datalist);
+                        option.val(e);
+                    }
+                    datalist.appendTo(container);
+                }
             })
 
             if(hasSecurity(getCookie("UserID"), "Assistant Master"))
