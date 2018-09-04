@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-concat": "latest",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "latest",
+    "uglify-es": "latest"
+  }
+}
