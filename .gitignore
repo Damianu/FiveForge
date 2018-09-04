@@ -1,2 +1,5 @@
 node_modules/
 scripts/*.js
+script_maps/
+builds/
+build_temp/
