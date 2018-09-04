@@ -82,4 +82,6 @@ gulp.task('zip',function(){
 })
 
 gulp.task('all', ['version', 'scripts', 'compendiums'])
+gulp.task('dev', ['version', 'scripts'])
+
 gulp.task('build', ['scripts', 'compendiums'])
