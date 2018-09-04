@@ -13,7 +13,9 @@ FF.Config = {
     {
         let ent = getEnt(configID)
         ent.data.cfg[name] = val;
+        FF.log(`CFG: ${name} = ${val}`)
         ent.sync("updateAsset");
+        hook.call("fforge_OnConfigChange", name, val)
         return true;
     }
 }
