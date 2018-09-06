@@ -1,14 +1,14 @@
 <div class="flex flexrow flexaround">
-    <div class="dice rolltraverse{roll.dices.0.roll}" dui_tooltip="traverse{roll.diceOnly}">
-        traverse{roll.total}    
+    <div class="dice" id="result" dui_tooltip="scope{roll.diceOnly}">
+        scope{roll.total}    
     </div>
 </div>
 <style>
-.roll1
+.roll_critfail
 {
     color: #c0392b !important;
 }
-.roll20
+.roll_crit
 {
     color: #2ecc71 !important;
 }

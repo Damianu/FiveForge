@@ -134,8 +134,17 @@ function processEvents(obj, app, scope, context, main)
         var newScope = {}
         element.children("scope").each(function()
         {
-            newScope[$(this).data('dname')] = $(this).data("dvalue");
+            if($(this).data("dpass"))
+            {
+                newScope[$(this).data('dname')] = sync.traverse(context, $(this).data("dpass"));
+            }
+            else
+            {
+                newScope[$(this).data('dname')] = $(this).data("dvalue");
+            }
         })
+
+
         var newElement = sync.render(element.data("dname"))(obj, app, newScope);
         if(!newElement)
         {
@@ -279,6 +288,7 @@ function processHTML(obj, app, scope, context, html,main)
     });
     html = main.html();
     html = html.replace(/traverse{([^}]+)}/g,function(off,m) {return sync.traverse(context,m);})
+    html = html.replace(/scope{([^}]+)}/g,function(off,m) {return sync.traverse(scope,m);})
     html = html.replace(/eval{([^}]+)}/g,function(off,m) {return d_eval(m,context);})
     html = html.replace(/_temp_src/g,"src");
     main.html(html);
@@ -288,12 +298,12 @@ function processHTML(obj, app, scope, context, html,main)
 
 var scrolls = {};
 var heights = {};
-FiveForge.buildDUI = function(html, obj, context, app)
+FiveForge.buildDUI = function(html, obj, context, app, scope)
 {
     var main = $("<div>");
     main.css("position","relative");
     main.addClass("flex flexrow");
-    var scope = {}
+    var scope = scope || {}
     var mainClass = processHTML(obj, app, scope, context, html,main);
     processEvents(obj, app, scope, context, main)
     main.on('click', '[data-dedit]', function(){

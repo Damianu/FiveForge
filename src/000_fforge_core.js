@@ -11,7 +11,7 @@ let _globalActions = [];
 */
 let MOD_PATH = "/workshop/FiveForge"
 const FiveForge = {
-    VERSION:"Beta 1.1.7",
+    VERSION:"Beta 1.1.18",
     PREFIX:"fforge_",
     IDENTIFIER:"FiveForge",
     CSS_PATH:MOD_PATH+"/css",
@@ -38,7 +38,7 @@ const FiveForge = {
     {
         FiveForge.registerUI(name, function(obj, app, scope){
             var data = obj.data || obj;
-            var handle = FiveForge.renderTemplate(template, obj, data, app);
+            var handle = FiveForge.renderTemplate(template, obj, data, app, scope);
             $("body").append(handle);
             func(handle, obj, app, scope);
             return handle;
@@ -53,7 +53,7 @@ const FiveForge = {
         console.log(FiveForge.PREFIX+name)
         return sync.newApp(FiveForge.PREFIX+name,...args);
     },
-    renderTemplate:function(name, obj, context, app)
+    renderTemplate:function(name, obj, context, app, scope)
     {
         if(context === undefined)
         {
@@ -68,7 +68,7 @@ const FiveForge = {
                 return $("<div>Invalid template ("+name+")!</div>");
             }
         }
-        return FiveForge.buildDUI(templateCache[name], obj, context, app);
+        return FiveForge.buildDUI(templateCache[name], obj, context, app, scope);
 
     },
     includeStyle:function(name)
