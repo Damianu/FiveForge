@@ -2,7 +2,7 @@ FiveForge.Abilities = {
     "Str":"Strength",
     "Dex":"Dexterity",
     "Con":"Constitution",
-    "Int":"Int",
+    "Int":"Intelligence",
     "Wis":"Wisdom",
     "Cha":"Charisma",
 }
