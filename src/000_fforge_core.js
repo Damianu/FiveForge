@@ -11,7 +11,7 @@ let _globalActions = [];
 */
 let MOD_PATH = "/workshop/FiveForge"
 const FiveForge = {
-    VERSION:"Beta 1.1.69",
+    VERSION:"Beta 1.1.90",
     PREFIX:"fforge_",
     IDENTIFIER:"FiveForge",
     CSS_PATH:MOD_PATH+"/css",

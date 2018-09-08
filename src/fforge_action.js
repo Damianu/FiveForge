@@ -76,7 +76,7 @@ let _process = function(query, context)
 
     query = diceOnly.replace(/\[.*?\]/g,"");
     let full = sync.eval(query, context);
-    return {tooltip:tooltip, resultTooltip:diceOnly, result:full, dice:dice}
+    return {tooltip:tooltip, resultTooltip:diceOnly, result:full, dice:dice, bonuses:[], color:"inhereit"}
 }
 FF.buildAction = function(data, character, element)
 {
@@ -104,18 +104,81 @@ FF.buildAction = function(data, character, element)
 
     if(data.roll)
     {
-        console.log("Roll!")
         result.roll = _process(data.roll, context);
     }
-
+    let crit = false;
     if(data.attack)
     {
         result.attack = _process(data.attack, context);
+        if(result.attack.dice.length > 0)
+        {
+            if(result.attack.dice[0].rolled == 20)
+            {
+                crit = true;
+            }
+        }
+
+        var attackBonuses = character.data.attackModifiers.concat(element.attributes.attackBonus.current);
+        for(let i = 0; i < attackBonuses.length; i++)
+        {
+            let bonus = attackBonuses[i];
+            if(bonus.enabled)
+            {
+                let b = _process(bonus.value, context);
+                b.tooltip += `<br>[${bonus.name}]`;
+                b.resultTooltip += `<br>[${bonus.name}]`;
+                result.attack.bonuses.push(b);
+            }
+        }
+
     }
 
     if(data.damage)
     {
         result.damage = _process(data.damage, context);
+        if(crit)
+        {
+            let critBonus = ""
+            result.damage.tooltip.replace(window.diceRegex, function(d){
+                critBonus += ` + ${d}`;
+            })
+            if(critBonus)
+            {
+                let res = _process(critBonus, context);
+                res.tooltip+= "<br>[CRITICAL BONUS]"
+                res.resultTooltip+= "<br>[CRITICAL BONUS]"
+                res.color = "green"
+                result.damage.bonuses.push(res);
+            }
+        }
+        var damageBonuses = character.data.damageModifiers.concat(element.attributes.damageBonus.current);
+        result.damageBonuses = [];
+        for(let i = 0; i < damageBonuses.length; i++)
+        {
+            let bonus = damageBonuses[i];
+            if(bonus.enabled)
+            {
+                let b = _process(bonus.value, context);
+                b.subtext = bonus.name;
+                if(crit)
+                {
+                    let critBonus = ""
+                    b.tooltip.replace(window.diceRegex, function(d){
+                        critBonus += ` + ${d}`;
+                    })
+                    if(critBonus)
+                    {
+                        let res = _process(critBonus, context);
+                        res.tooltip+= "<br>[CRITICAL BONUS]"
+                        res.resultTooltip+= "<br>[CRITICAL BONUS]"
+                        res.color = "green"
+                        b.bonuses.push(res);
+                    }
+                }
+                result.damageBonuses.push(b);
+            }
+        }
+
     }
 
     if(data.save)

@@ -15,7 +15,7 @@ FF.registerHTMLUI("roll", "roll", function(handle, obj, app, scope){
         else if(roll.dice[0].rolled == 1)
         {
             dice.addClass("roll_critfail");
-        }    
+        }
     }
 });
 FF.registerUI("actionResult", function(obj,app,scope)
@@ -42,8 +42,19 @@ FF.registerUI("actionResult", function(obj,app,scope)
         dice.addClass("flexcenter")
         dice.appendTo(div);
     }
+    if(action.damageBonuses&&action.damageBonuses.length > 0)
+    {
+        for(let i = 0; i < action.damageBonuses.length; i++)
+        {
+            let bonus = action.damageBonuses[i];
 
-    div.append($("<div>"+JSON.stringify(scope.action, null, 2).replace(/\n/g,"<br>").replace(/ /g,"&nbsp;")+"</div>"))
+            let dice = FF.renderUI("roll", obj, app, {roll: bonus, noBackground: true, subtext:bonus.subtext})
+            dice.removeClass("flex")
+            dice.addClass("flexcenter")
+            dice.appendTo(div);
+        }
+    }
+    //div.append($("<div>"+JSON.stringify(scope.action, null, 2).replace(/\n/g,"<br>").replace(/ /g,"&nbsp;")+"</div>"))
 
     return div;
 });

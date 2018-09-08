@@ -287,12 +287,12 @@ function processHTML(obj, app, scope, context, html,main)
         }
         else if(target_scope)
         {
-            var loopin = sync.traverse(scope,target);
+            var loopin = sync.traverse(scope,target_scope);
             element.html("");
             for(k in loopin)
             {
                 var re = new RegExp(escapeRegExp("%"+key+"%"), "g");
-                var newHTML = entryHTML.replace(re,target+"."+k);
+                var newHTML = entryHTML.replace(re,target_scope+"."+k);
 
                 re = new RegExp(escapeRegExp("%"+keyonly+"%"), "g");
                 newHTML = newHTML.replace(re,k);

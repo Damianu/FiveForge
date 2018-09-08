@@ -1,12 +1,22 @@
 <div class="rollResult">
-    <div class="dice diceBackground" id="dice" dui_tooltip="scope{roll.resultTooltip}">
-        scope{roll.result}
+    <div class="flexrow">
+        <div class="dice diceBackground" id="dice" dui_tooltip="scope{roll.resultTooltip}">
+            scope{roll.result}
+        </div>
+        <div class="bonuses">
+            <loop dui_lookupscope="roll.bonuses" dui_key="bonus">
+                <div dui_tooltip="scope{%bonus%.resultTooltip}" style="color:scope{%bonus%.color};">
+                    + scope{%bonus%.result}
+                </div>
+            </loop>
+        </div>
     </div>
     <span class="subtext" dui_cond="scope{subtext}">
         scope{subtext}
     </span>
 </div>
 <style>
+@size: 48px;
 .roll_critfail
 {
     color: #c0392b !important;
@@ -21,17 +31,23 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     color:white;
+    width:@size;
 }
 .subtext
 {
     font-weight:bold;
 }
+.bonuses
+{
+    margin-left:2px;
+    font-weight:bold;
+    font-size:1.2em;
+    align-self: center;
+}
 .dice
 {
     background:none;
-    @size: 48px;
     height:@size;
-    width:@size;
     line-height:@size;
     text-align:center;
     font-size:1.5em;
