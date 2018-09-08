@@ -71,6 +71,8 @@ FiveForge.registerHTMLUI("elementEditor", "elementEditor", function(handle, obj,
 
     let properties = handle.find(".eProperties");
     let data = new FFElement(obj.data);
+    let actions = data.getActions();
+
     let checkboxes = [];
     var attrs = data.getEditableAttributes()
     for(var k in attrs)
@@ -176,6 +178,39 @@ FiveForge.registerHTMLUI("elementEditor", "elementEditor", function(handle, obj,
         obj.popout.remove();
         obj.callback(data._data);
     })
+
+
+    var macros = handle.find("#macros")
+    macros.attr("id","");
+    for(var k in actions)
+    {
+        var action = actions[k];
+        let macro = $("<div class='macro'>")
+
+        let name = $("<div><div>Name:</div></div>").appendTo(macro)
+        let nameEdit = $("<input>").appendTo(name);
+
+        let roll = $("<div><div>Roll:</div></div>").appendTo(macro)
+        let rollEdit = $("<input>").appendTo(roll);
+
+        let attack = $("<div><div>Attack:</div></div>").appendTo(macro)
+        let attackEdit = $("<input>").appendTo(attack);
+
+        let damage = $("<div><div>Damage:</div></div>").appendTo(macro)
+        let damageEdit = $("<input>").appendTo(damage);
+
+        let save = $("<div><div>Save:</div></div>").appendTo(macro)
+        let saveEdit = $("<input>").appendTo(save);
+        macro.find("input").attr("disabled","true");
+
+        nameEdit.val(action.name);
+        rollEdit.val(action.roll);
+        attackEdit.val(action.attack);
+        damageEdit.val(action.damage);
+        saveEdit.val(action.save);
+
+        macro.appendTo(macros);
+    }
 })
 
 FiveForge.registerUI("modifierEdit",function(obj,app,scope){

@@ -1,7 +1,10 @@
-<div class="flex flexrow flexaround">
-    <div class="dice" id="result" dui_tooltip="scope{roll.diceOnly}">
-        scope{roll.total}    
+<div class="rollResult">
+    <div class="dice diceBackground" id="dice" dui_tooltip="scope{roll.resultTooltip}">
+        scope{roll.result}
     </div>
+    <span class="subtext" dui_cond="scope{subtext}">
+        scope{subtext}
+    </span>
 </div>
 <style>
 .roll_critfail
@@ -12,21 +15,35 @@
 {
     color: #2ecc71 !important;
 }
+.diceBackground
+{
+    background: url(/content/d20.svg) !important;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color:white;
+}
+.subtext
+{
+    font-weight:bold;
+}
 .dice
 {
+    background:none;
     @size: 48px;
     height:@size;
     width:@size;
     line-height:@size;
     text-align:center;
-    background: url(/content/d20.svg);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    color:white;
-    margin-top:5px;
-    margin-bottom:5px;
     font-size:1.5em;
-    font-family: "mr._eaves_small_capsregular";
     font-weight: 700;
+}
+.rollResult
+{
+    align-items: center;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    font-family: "mr._eaves_small_capsregular";
+
 }
 </style>

@@ -13,6 +13,9 @@
             <div data-tab="props" class="eTabButton">
                 Properties
             </div>
+            <div data-tab="macros" class="eTabButton">
+                Macros(Advanced)
+            </div>
 
         </div>
         <div class="flex flexrow eTabContents">
@@ -45,6 +48,11 @@
             </div>
             <div class="flexcolumn eTab flex" data-tab="props">
                 <div class="eProperties flexcolumn" dui_scroll="props">
+                </div>
+            </div>
+            <div class="flexcolumn eTab flex" data-tab="macros">
+                <div class="macros" id="macros" dui_scroll="macros">
+                </div>
             </div>
         </div>
     </div>
@@ -206,5 +214,34 @@
     .ePropertyValue
     {
         text-align:center;
+    }
+    .macros
+    {
+        margin-top:5px;
+        margin-bottom:5px;
+        overflow-y: auto;
+    }
+    .macro
+    {
+        background-color: #ddd;
+        padding:5px;
+        margin-bottom:5px;
+        div
+        {
+            flex-direction:row;
+            display:flex;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            div, input 
+            {
+                flex:1;
+            }
+            input
+            {
+                background:none;
+                border-top:none;
+                border-left:none;
+                border-right:none;
+            }
+        }
     }
 </style>

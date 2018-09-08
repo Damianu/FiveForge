@@ -39,47 +39,28 @@ class FFItem extends FFElement
             }
         }
     }
-    getActions(obj)
+    getActions()
     {
         let item = this;
         function genDamage(stat, type)
         {
-            var dexMod = obj.data.stats.Dex.bonus;
-            var strMod = obj.data.stats.Str.bonus;
-            if(dexMod >= 0)
-            {
-                dexMod = " + "+ dexMod;
-            }
-            else
-            {
-                dexMod = " - " + String(dexMod).substr(1);
-            }
-            if(strMod >= 0)
-            {
-                strMod = " + "+ strMod;
-            }
-            else
-            {
-                strMod = " - " + String(strMod).substr(1);
-            }
-
             var rollText = "";
             if(type == "first")
             {
-                rollText = item.getProp("damage")
+                rollText = "@e.attributes.damage"
             }
             else if(type == "second")
             {
-                rollText = item.getProp("damage2");
+                rollText = "@e.attributes.damage2"
             }
 
             if(stat == "dex")
             {
-                rollText += dexMod + "[Dexterity]"
+                rollText += " + @c.stats.Dex.bonus"
             }
             else if(stat == "str")
             {
-                rollText += strMod + "[Strength]"
+                rollText += " + @c.stats.Str.bonus"
             }
 
             return rollText;
@@ -87,36 +68,18 @@ class FFItem extends FFElement
         function genAttack(stat)
         {
             var rollText = "D20";
-            var dexMod = obj.data.stats.Dex.bonus;
-            var strMod = obj.data.stats.Str.bonus;
-            if(dexMod >= 0)
-            {
-                dexMod = " + "+ dexMod;
-            }
-            else
-            {
-                dexMod = " - " + String(dexMod).substr(1);
-            }
-            if(strMod >= 0)
-            {
-                strMod = " + "+ strMod;
-            }
-            else
-            {
-                strMod = " - " + String(strMod).substr(1);
-            }
 
             if(stat == "dex")
             {
-                rollText += dexMod + "[Dexterity]"
+                rollText += " + @c.stats.Dex.bonus"
             }
             else if(stat == "str")
             {
-                rollText += strMod + "[Strength]"
+                rollText += " + @c.stats.Str.bonus"
             }
             if(item.getProp("proficient"))
             {
-                rollText += " + " + obj.data.counters.proficiency.current + "[Proficiency]"
+                rollText += " + @c.counters.proficiency"
             }
             return rollText
         }
@@ -125,7 +88,6 @@ class FFItem extends FFElement
         {
             var finesse = this.getProp("finesse")
             var ranged = this.getProp("ranged")
-            var versatile = this.getProp("versatile")
 
             var strAttack = genAttack("str");
             var dexAttack = genAttack("dex");
@@ -135,71 +97,44 @@ class FFItem extends FFElement
                 var dmg = genDamage("dex","first");
                 var dmg2 = genDamage("dex","second");
 
-                var critBonus = "";
-                dmg.replace(window.diceRegex,function(dice)
-                {
-                    critBonus += " + "+dice;
-                })
-
-                var critBonus2 = "";
-                dmg2.replace(window.diceRegex,function(dice)
-                {
-                    critBonus2 += " + "+dice;
-                })
                 var damage2 = this.getProp("damage2");
-                var hasAddDamage = 1;
+
                 actions.push({
                     name:"Dex",
                     attack: dexAttack,
                     damage: dmg,
                     damageType: this.getProp("damageType"),
-                    critBonus:critBonus,
                 });
 
-                if(!(damage2=="0"||damage2==undefined||damage2==""))
+                if(damage2)
                 {
                     actions.push({
                         name:"Dex 2",
                         attack: dexAttack,
                         damage: dmg2,
                         damageType: this.getProp("damageType2"),
-                        critBonus:critBonus2,
                     });
                 }
             }
             if(!ranged)
             {
-
                 var dmg = genDamage("str","first");
                 var dmg2 = genDamage("str","second");
 
-                var critBonus = "";
-                dmg.replace(window.diceRegex,function(dice)
-                {
-                    critBonus += " + "+dice;
-                })
-
-                var critBonus2 = "";
-                dmg2.replace(window.diceRegex,function(dice)
-                {
-                    critBonus2 += " + "+dice;
-                })
                 var damage2 = this.getProp("damage2");
                 actions.push({
                     name:"Str",
                     attack: strAttack,
                     damage: dmg,
                     damageType: this.getProp("damageType"),
-                    critBonus:critBonus,
                 });
-                if(!(damage2=="0"||damage2==undefined||damage2==""))
+                if(damage2)
                 {
                     actions.push({
                         name:"Str 2",
                         attack: strAttack,
                         damage: dmg2,
                         damageType: this.getProp("damageType2"),
-                        critBonus:critBonus2,
                     });
                 }
             }
@@ -243,6 +178,22 @@ class FFItem extends FFElement
                 button.text(action.name);
                 button.tooltip({title:action.attack.replace(/ /g, "&nbsp;"),html:true, container: 'body'});
                 button.click(function(){
+                    let act = FF.buildAction(action, obj, item);
+                    var uid = getCookie("UserID");
+                    runCommand("chatEvent",{
+                        ui:"fforge_elementCard",
+                        action: act,
+                        itemDescription: item._data.info.notes.current,
+                        itemIcon: item._data.info.img.current,
+                        itemName: item._data.info.name.current,
+                        element: duplicate(item._data),
+                        audio:FiveForge.getSound("sword"),
+                        person : obj.data.info.name.current,
+                        icon : obj.data.info.img.current,
+                        user : game.players.data[uid].displayName,
+                    })
+                });
+/*                button.click(function(){
 
                     var rolls = [];
                     for(var i=0;i<2;i++)
@@ -304,7 +255,7 @@ class FFItem extends FFElement
                         icon : obj.data.info.img.current,
                         user : game.players.data[uid].displayName,
                     })
-                });
+                });*/
             }
         }
 

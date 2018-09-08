@@ -249,6 +249,7 @@ function processHTML(obj, app, scope, context, html,main)
         var keyonly = $(this).data("dkeyonly")
         var count = $(this).data("dcount");
         var target = $(this).data("dlookup")
+        var target_scope = $(this).data("dlookupscope")
         var newElements = [];
         if(count)
         {
@@ -268,6 +269,25 @@ function processHTML(obj, app, scope, context, html,main)
         else if(target)
         {
             var loopin = sync.traverse(context,target);
+            element.html("");
+            for(k in loopin)
+            {
+                var re = new RegExp(escapeRegExp("%"+key+"%"), "g");
+                var newHTML = entryHTML.replace(re,target+"."+k);
+
+                re = new RegExp(escapeRegExp("%"+keyonly+"%"), "g");
+                newHTML = newHTML.replace(re,k);
+
+
+                var newElement = $(newHTML);
+                newElements.push(newElement);
+                newHTML = newElement.html();
+                processHTML(obj, app, scope, context, newHTML,newElement);
+            }
+        }
+        else if(target_scope)
+        {
+            var loopin = sync.traverse(scope,target);
             element.html("");
             for(k in loopin)
             {

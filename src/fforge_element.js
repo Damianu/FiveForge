@@ -118,6 +118,11 @@ class FFElement
         return this.attributes;
     }
 
+    getActions()
+    {
+        return [];
+    }
+
     static setupType(name, t)
     {
         t = t || this;

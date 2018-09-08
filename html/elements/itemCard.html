@@ -9,29 +9,11 @@
     <div class="eDetails">
            traverse{itemDescription}
     </div>
-    <div class="eRolls flexrow">
-        <loop dui_key="target" dui_lookup="rolls">
-            <div class="flexcolumn eRollGroup flex">
-                <div class="flex flexcenter flexrow">
-                    <div class="eAttackDice" dui_tooltip="traverse{%target%.attack.diceOnly}"><div class="rolltraverse{%target%.attack.dices.0.roll}">traverse{%target%.attack.total}</div></div>
-                    <loop dui_key="bonus" dui_lookup="%target%.attackBonuses">
-                        <div class="eAttackBonus" dui_tooltip="traverse{%bonus%.value.diceOnly}<br>traverse{%bonus%.name}"><span dui_cond="@%bonus%.value.total >= 0">+</span>traverse{%bonus%.value.total}</div>
-                    </loop>
-                </div>
-                <div class="eDamage flex flexcolumn">
-                    <div class="flex"><span dui_tooltip="traverse{%target%.damage.diceOnly}">traverse{%target%.damage.total}</span> <span class="eDMGBonus" dui_cond="@%target%.attack.dices.0.roll == 20" dui_tooltip="traverse{%target%.critBonus.diceOnly}"> + traverse{%target%.critBonus.total}</span></div>
-                    <div class="smallText">traverse{%target%.damageType}</div>
-                </div>
-                <loop dui_key="bonus" dui_lookup="%target%.damageBonuses">
-                    <div class="eDamage flex flexcolumn">
-                        <div class="flex"><span dui_tooltip="traverse{%bonus%.value.diceOnly}">traverse{%bonus%.value.total}</span></div>
-                        <div class="smallText">traverse{%bonus%.name}</div>
-                    </div>
-                </loop>
-            </div>
-        </loop>
+    <div class="eAction flexcolumn">
+        <ui dui_name="fforge_actionResult">
+            <scope dui_name="action" dui_pass="action"></scope>
+        </ui>
     </div>
-</div>
 <style>
 
 /*
