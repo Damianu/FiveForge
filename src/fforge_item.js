@@ -178,7 +178,7 @@ class FFItem extends FFElement
                 button.text(action.name);
                 button.tooltip({title:action.attack.replace(/ /g, "&nbsp;"),html:true, container: 'body'});
                 button.click(function(){
-                    let act = FF.buildAction(action, obj, item);
+                    let act = [FF.buildAction(action, obj, item),FF.buildAction(action, obj, item)];
                     var uid = getCookie("UserID");
                     runCommand("chatEvent",{
                         ui:"fforge_elementCard",
