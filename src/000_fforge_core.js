@@ -378,6 +378,9 @@ function checkLoad()
         button.click(function(){
             frame.toggle();
         });
+        button.contextmenu(function(){
+            button.hide();
+        });
         frame.hide();
     })
 }

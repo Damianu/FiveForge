@@ -1550,7 +1550,17 @@ _baseTemplate.actors["Character"] = {
             "target": "skills.ins",
             "cond": "",
             "eq": "@c.stats.Wis.bonus + (@c.skills.ins.prof?@proficiency:0) "
-        }
+        },
+        {
+            "target": "",
+            "cond": "",
+            "eq": ""
+        },
+        {
+            "name": "Proficiency",
+            "target": "counters.proficiency",
+            "eq": "((7+@c.counters.level)/4)f"
+        },
 
     ],
     "_flags": {},
