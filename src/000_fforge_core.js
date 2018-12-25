@@ -11,7 +11,7 @@ let _globalActions = [];
 */
 let MOD_PATH = "/workshop/FiveForge"
 const FiveForge = {
-    VERSION:"Beta 1.1.28",
+    VERSION:"Beta 1.1.31",
     PREFIX:"fforge_",
     IDENTIFIER:"FiveForge",
     CSS_PATH:MOD_PATH+"/css",
@@ -359,7 +359,7 @@ function checkLoad()
         frame.appendTo("body");
         frame.css({
             "position":"fixed",
-            "right":"0",
+            "right":"450px",
             "top":"30px",
             "z-index":"1000",
             "background":"white",
@@ -369,7 +369,7 @@ function checkLoad()
         let button = $("<button class='highlight'>FiveForge</button>").appendTo("body");
         button.css({
             "top":"0",
-            "right":"0",
+            "right":"450px",
             "position":"fixed",
             "color":"white",
             "z-index":"1000",

@@ -128,6 +128,7 @@ class FFElement
         t.dataTemplate = {
             _t: "i",
             _type: name,
+            _drop: "elements."+name,
             info:
             {
                 name:{

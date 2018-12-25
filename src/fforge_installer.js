@@ -95,7 +95,8 @@ var _baseTemplate = {
     "build": "v2",
     "version": 1,
     "initiative": {
-        "compare": "(@i1.i>@i2.i)?(1):(@i1.i==@i2.i?(0):(-1))"
+        "query": "d20+@initiative",
+        "compare": "(@i1.total>@i2.total)?(1):(@i1.total==@i2.total?(0):(-1))"
     },
     "actors": {
     },
@@ -2011,5 +2012,5 @@ _baseTemplate.actors["Monster"] = {
 */
 
 _baseTemplate.FiveForge  = {
-    VERSION: "1.0.3 Beta",
+    VERSION: "1.0.4 Beta",
 }
